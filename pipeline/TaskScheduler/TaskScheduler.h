@@ -25,7 +25,7 @@ public:
 
     void remove_cron_job(const std::string& cronJob);
 
-    void remove_all_jobs();
+    void remove_all_cron_jobs();
 
     void list_cron_jobs();
 };

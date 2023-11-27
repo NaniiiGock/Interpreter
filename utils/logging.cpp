@@ -4,10 +4,13 @@
 
 #include <cstdlib>
 #include <mach-o/dyld.h>
-
 #include <filesystem>
 
 #include "logging.h"
+
+const std::string ANSI_RESET = "\033[0m";          // Reset color
+const std::string ANSI_COLOR_CYAN = "\033[36m";    // Cyan text color
+const std::string ANSI_COLOR_MAGENTA = "\033[35m"; // Magenta text color
 
 
 std::string getExecutablePath() {
@@ -36,7 +39,10 @@ void show_logo(const std::string& exeDir) {
 std::string get_start_of_the_line() {
     std::string prompt_path = std::filesystem::current_path().string();
     prompt_path = contract_tilde(prompt_path);
-    return prompt_path + " $ ";
+
+    prompt_path = ANSI_COLOR_CYAN + prompt_path + ANSI_RESET; // adding colors
+    std::string dollar_sign = ANSI_COLOR_MAGENTA + " $ " + ANSI_RESET; // adding colors
+    return prompt_path + dollar_sign;
 }
 
 std::string contract_tilde(const std::string &path) {

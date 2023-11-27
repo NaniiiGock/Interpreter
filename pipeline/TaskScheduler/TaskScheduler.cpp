@@ -42,7 +42,7 @@ void TaskScheduler::list_cron_jobs() {
     }
 }
 
-void TaskScheduler::remove_all_jobs() {
+void TaskScheduler::remove_all_cron_jobs() {
     cronJobs.clear();
     updateCrontab();
     std::cout << "All cron jobs removed." << std::endl;
