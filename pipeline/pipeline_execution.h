@@ -6,8 +6,9 @@
 #define LOCAL_INTERPRETER_PIPELINE_EXECUTION_H
 
 #include "CommandHistoryManager.h"
+#include "TaskScheduler.h"
 
-int execute_pipeline(CommandHistoryManager& historyManager);
+int execute_pipeline(CommandHistoryManager& historyManager, TaskScheduler& task_scheduler);
 
 
 #endif //LOCAL_INTERPRETER_PIPELINE_EXECUTION_H
