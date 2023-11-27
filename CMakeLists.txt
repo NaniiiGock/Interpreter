@@ -60,6 +60,7 @@ add_executable(${PROJECT_NAME} main.cpp
         utils/logging.cpp
         utils/CommandHistoryManager.cpp
         pipeline/pipeline_execution.cpp
+        pipeline/TaskScheduler/TaskScheduler.cpp
         llm_model/model.cpp
         )
 
@@ -69,6 +70,7 @@ target_include_directories(${PROJECT_NAME}
         PRIVATE
         utils
         pipeline
+        pipeline/TaskScheduler
         llm_model)
 
 
