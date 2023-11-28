@@ -41,9 +41,10 @@ def write_to_file(content: str, extention: str, filename="generated_code"):
     :param filename: The name of the file.
     :return: filename: The name of the file with the extention.
     """
-    content = content.split("\n", 1)[1]
+
+    content = content.replace("<python>", "").replace("<shell>", "").replace("<applescript>", "")
     with open(f'{filename}.{extention}', "w") as f:
-        f.write("\n".join(content))
+        f.write(content)
     return f'{filename}.{extention}'
 
 
@@ -56,8 +57,8 @@ def execute_generated_code(filename: str, extent: str):
     :return: The output of the generated code.
     """
     if extent == "py":
-        output = subprocess.run([f'python {filename}'])
-        return output.stdout.decode("utf-8")
+        output = subprocess.run(['python', filename])
+        # return output.stdout.decode("utf-8")
     elif extent == "sh":
         output = subprocess.run([f'bash {filename}'])
         return output.stdout.decode("utf-8")
@@ -163,8 +164,9 @@ def generate_code_with_litellm(prompt):
 if __name__ == "__main__":
     prompt = "Play You drive my four wheel coffin song"  # Example prompt
     # language = "python"  # Can be 'python', 'shell', or 'applescript'
-    configure_env()
-    generated_code = generate_code_with_litellm(prompt)
+    # configure_env()
+    # generated_code = generate_code_with_litellm(prompt)
+    generated_code = "<python>\nprint('Hello World')\nprint('Hello World')"
     language = parse_chunk_language(generated_code)
     file_name = write_to_file(generated_code, language)
     print("Generated Code:\n", generated_code)
