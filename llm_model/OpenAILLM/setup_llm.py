@@ -65,7 +65,7 @@ def execute_generated_code(filename: str, extent: str):
         output = subprocess.run([f'osascript {filename}'])
         return output.stdout.decode("utf-8")
     else:
-        return "Error: Invalid extention"
+        return "Error: Invalid extension"
 
 
 def configure_env():
