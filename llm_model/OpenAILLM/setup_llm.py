@@ -1,64 +1,8 @@
 import os
-import subprocess
+
 import litellm
-import re
+
 from ..utils.debug_utils import print_basic_response_info, print_detailed_choices_info, calculate_and_update_cost
-
-def parse_chunk_language(chunk_text: str, expected_language: str):
-    """
-    Parses the language of a chunk of text.
-
-    :param chunk_text: A chunk of text.
-    :return: The language of the chunk of text, code in the chunk of text.
-    """
-
-    chunk_text = chunk_text.strip().lower()
-
-    python_chunks = re.findall(r'<python>', chunk_text, re.DOTALL)
-    shell_chunks = re.findall(r'<shell>', chunk_text, re.DOTALL)
-    applescript_chunk = re.findall(r'<applescript>', chunk_text, re.DOTALL)
-
-    if len(python_chunks) > 0:
-        return "py"
-    elif len(shell_chunks) > 0:
-        return "sh"
-    elif len(applescript_chunk) > 0:
-        return "applescript"
-    else:
-        return None
-
-def write_to_file(content: str, extention: str, filename="generated_code"):
-    """
-    Writes the generated code to a file.
-
-    :param content: The generated code.
-    :return: filename: The name of the file.
-    """
-    content = content.split(">")[1]
-
-    with open(f'{filename}.{extention}', "w") as f:
-        f.write("\n".join(content))
-
-    return f'{filename}.{extention}'
-
-def execute_generated_code(filename: str, extention: str):
-    """
-    Executes the generated code.
-
-    :param filename: The name of the file containing the generated code.
-    :return: The output of the generated code.
-    """
-    if extention == "py":
-        output = subprocess.run([f'python {filename}'])
-        return output.stdout.decode("utf-8")
-    elif extention == "sh":
-        output = subprocess.run([f'bash {filename}'])
-        return output.stdout.decode("utf-8")
-    elif extention == "applescript":
-        output = subprocess.run([f'osascript {filename}'])
-        return output.stdout.decode("utf-8")
-    else:
-        return "Error: Invalid extention"
 
 def configure_env():
     """
