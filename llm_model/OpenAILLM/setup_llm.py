@@ -21,6 +21,7 @@ def parse_chunk_language(chunk_text: str):
     else:
         return None
 
+
 def write_to_file(content: str, extention: str, filename="generated_code"):
     """
     Writes the generated code to a file.
@@ -31,10 +32,8 @@ def write_to_file(content: str, extention: str, filename="generated_code"):
     :return: filename: The name of the file with the extention.
     """
     content = content.split("\n", 1)[1]
-
     with open(f'{filename}.{extention}', "w") as f:
         f.write("\n".join(content))
-
     return f'{filename}.{extention}'
 
 
