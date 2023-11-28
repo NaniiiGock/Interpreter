@@ -6,61 +6,59 @@ from debug_utils import print_basic_response_info, print_detailed_choices_info, 
 import warnings
 warnings.filterwarnings('ignore')
 
-def parse_chunk_language(chunk_text: str, expected_language: str):
+
+def parse_chunk_language(chunk_text: str):
     """
     Parses the language of a chunk of text.
 
     :param chunk_text: A chunk of text.
-    :return: The language of the chunk of text, code in the chunk of text.
+    :return: extention.
     """
-
-    chunk_text = chunk_text.strip().lower()
-
-    python_chunks = re.findall(r'<python>', chunk_text, re.DOTALL)
-    shell_chunks = re.findall(r'<shell>', chunk_text, re.DOTALL)
-    applescript_chunk = re.findall(r'<applescript>', chunk_text, re.DOTALL)
-
-    if len(python_chunks) > 0:
+    if chunk_text.startswith("<python>") or chunk_text.startswith("python"):
         return "py"
-    elif len(shell_chunks) > 0:
+    elif chunk_text.startswith("<shell>") or chunk_text.startswith("shell"):
         return "sh"
-    elif len(applescript_chunk) > 0:
+    elif chunk_text.startswith("<applescript>") or chunk_text.startswith("applescript"):
         return "applescript"
     else:
         return None
+
 
 def write_to_file(content: str, extention: str, filename="generated_code"):
     """
     Writes the generated code to a file.
 
     :param content: The generated code.
-    :return: filename: The name of the file.
+    :param extention: The extention of the file.
+    :param filename: The name of the file.
+    :return: filename: The name of the file with the extention.
     """
-    content = content.split(">")[1]
-
+    content = content.split("\n", 1)[1]
     with open(f'{filename}.{extention}', "w") as f:
         f.write("\n".join(content))
-
     return f'{filename}.{extention}'
 
-def execute_generated_code(filename: str, extention: str):
+
+def execute_generated_code(filename: str, extent: str):
     """
     Executes the generated code.
 
     :param filename: The name of the file containing the generated code.
+    :param extent: The extention of the file.
     :return: The output of the generated code.
     """
-    if extention == "py":
+    if extent == "py":
         output = subprocess.run([f'python {filename}'])
         return output.stdout.decode("utf-8")
-    elif extention == "sh":
+    elif extent == "sh":
         output = subprocess.run([f'bash {filename}'])
         return output.stdout.decode("utf-8")
-    elif extention == "applescript":
+    elif extent == "applescript":
         output = subprocess.run([f'osascript {filename}'])
         return output.stdout.decode("utf-8")
     else:
         return "Error: Invalid extention"
+
 
 def configure_env():
     """
