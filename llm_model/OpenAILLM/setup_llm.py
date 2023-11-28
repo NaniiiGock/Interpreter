@@ -81,7 +81,8 @@ def prepare_messages_for_litellm(prompt):
     system_message = {
         "role": "system",
         "content": ("You are a code generation assistant. Generate code only in Python, Shell, "
-                    "or AppleScript for the following task. Provide the response in a code block "
+                    "or AppleScript for the following task. Write only code without explanation. Provide the response "
+                    "in a code block"
                     "with the language specified at the start, like so: "
                     "`<language>\\n<code>`")
     }

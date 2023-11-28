@@ -1,30 +1,41 @@
 from litellm import completion_cost
 
+import logging
+
+
+def setup_logger(log_file):
+    logging.basicConfig(
+        filename=log_file,
+        level=logging.DEBUG,
+        format='%(asctime)s %(levelname)s: %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+
+
+setup_logger('debug.log')
+
 
 def print_basic_response_info(response):
-    print("Model Used:", response.get('model', 'N/A'))
-    print("Response Created At:", response.get('created', 'N/A'))
-    print("Token Usage:", response.get('usage', {}))
+    logging.info("Model Used: %s", response.get('model', 'N/A'))
+    logging.info("Response Created At: %s", response.get('created', 'N/A'))
+    logging.info("Token Usage: %s", response.get('usage', {}))
 
 
 def print_detailed_choices_info(response):
     choices = response.get('choices', [])
     for i, choice in enumerate(choices):
-        print(f"Choice {i}:")
-        print("  Finish Reason:", choice.get('finish_reason', 'N/A'))
+        logging.info(f"Choice {i}:")
+        logging.info("  Finish Reason: %s", choice.get('finish_reason', 'N/A'))
         message = choice.get('message', {})
-        print("  Role:", message.get('role', 'N/A'))
-        print("  Content:", message.get('content', 'N/A'))
-        print()
+        logging.info("  Role: %s", message.get('role', 'N/A'))
+        logging.info("  Content: %s", message.get('content', 'N/A'))
 
 
 def update_and_save_overall_cost(new_cost, filename="total_cost.txt"):
     try:
         with open(filename, 'r') as file:
             total_cost = float(file.read())
-    except FileNotFoundError:
-        total_cost = 0.0
-    except ValueError:
+    except (FileNotFoundError, ValueError):
         total_cost = 0.0
 
     total_cost += new_cost
@@ -32,12 +43,10 @@ def update_and_save_overall_cost(new_cost, filename="total_cost.txt"):
     with open(filename, 'w') as file:
         file.write(f"{total_cost}")
 
-    print(f"Updated Total Cost: ${total_cost:.10f}")
+    logging.info(f"Updated Total Cost: ${total_cost:.10f}")
 
 
 def calculate_and_update_cost(response, filename="total_cost.txt"):
     cost = completion_cost(completion_response=response)
-    print("Cost for this completion call:", f"${float(cost):.10f}")
+    logging.info("Cost for this completion call: $%f", float(cost))
     update_and_save_overall_cost(cost, filename)
-
-
