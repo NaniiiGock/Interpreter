@@ -66,7 +66,7 @@ def execute_generated_code(filename: str, extent: str):
         output = subprocess.run([f'osascript {filename}'])
         return output.stdout.decode("utf-8")
     else:
-        return "Error: Invalid extention"
+        return "Error: Invalid extension"
 
 
 def configure_env():
@@ -111,7 +111,7 @@ def prepare_messages_for_litellm(prompt):
         tell application "Music"
             play track "Last Christmas"
         end tell
-        <code>"""
+        <\\code>"""
     }
     messages.append(example_response)
     # User message with the actual prompt
@@ -139,7 +139,7 @@ def generate_code_with_litellm(prompt):
 
     # Set up LiteLLM parameters
     params = {
-        "model": "gpt-3.5-turbo-instruct",  # or another suitable model
+        "model": "gpt-3.5-turbo",  # or another suitable model
         "messages": messages,
         "max_tokens": 250,
         "temperature": 0.8,
