@@ -12,14 +12,22 @@ def parse_chunk_language(chunk_text: str):
     :param chunk_text: A chunk of text.
     :return: extention.
     """
+
+    chunk_text = chunk_text.lower()
     if chunk_text.startswith("<python>") or chunk_text.startswith("python"):
         return "py"
     elif chunk_text.startswith("<shell>") or chunk_text.startswith("shell"):
         return "sh"
     elif chunk_text.startswith("<applescript>") or chunk_text.startswith("applescript"):
         return "applescript"
+    elif python_regex := re.search(r"python", chunk_text, re.DOTALL):
+        return "py"
+    elif shell_regex := re.search(r"shell", chunk_text, re.DOTALL):
+        return "sh"
+    elif applescript_regex := re.search(r"applescript", chunk_text, re.DOTALL):
+        return "applescript"
     else:
-        return None
+        return "txt"
 
 
 def write_to_file(content: str, extention: str, filename="generated_code"):
@@ -155,4 +163,9 @@ if __name__ == "__main__":
     # language = "python"  # Can be 'python', 'shell', or 'applescript'
     configure_env()
     generated_code = generate_code_with_litellm(prompt)
+    language = parse_chunk_language(generated_code)
+    file_name = write_to_file(generated_code, language)
     print("Generated Code:\n", generated_code)
+    output = execute_generated_code(file_name, language)
+    print("Output:\n", output)
+
