@@ -15,7 +15,7 @@ int execute_pipeline(CommandHistoryManager& historyManager, TaskScheduler& task_
 
     // TODO: now its predefined command to play song every minute -> needs to be rewritten after parsing model output
     // Play song every two minutes
-    std::string temp_command = R"(*/2 * * * * osascript -e 'tell application "Music" to play track "You Drive My Four Wheel Coffin"')";
+    std::string temp_command = R"(*/5 * * * * osascript -e 'tell application "Music" to play track "You Drive My Four Wheel Coffin"')";
 
     while (true) {
         std::string start_of_line = get_start_of_the_line();
