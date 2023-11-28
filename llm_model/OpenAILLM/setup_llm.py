@@ -2,7 +2,7 @@ import os
 import subprocess
 import litellm
 import re
-from debug_utils import print_basic_response_info, print_detailed_choices_info, calculate_and_update_cost
+from llm_model.OpenAILLM.debug_utils import print_basic_response_info, print_detailed_choices_info, calculate_and_update_cost
 import warnings
 warnings.filterwarnings('ignore')
 
