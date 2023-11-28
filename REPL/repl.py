@@ -36,7 +36,7 @@ def run_repl():
             break
         elif line == 'Play "You Drive My Four Wheel Coffin" every day at 7:00':
             os.system(
-                "task_sheduler 0 7 * * * osascript -e 'tell application Music to play track You Drive My Four Wheel Coffin'")
+                "./task_sheduler \"0 7 * * * osascript -e 'tell application Music to play track You Drive My Four Wheel Coffin'\"")
             continue
         llm_response = setup_llm.generate_code_with_litellm(line)
         extension = setup_llm.parse_chunk_language(llm_response)
