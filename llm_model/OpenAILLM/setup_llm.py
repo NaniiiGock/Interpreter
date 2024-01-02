@@ -1,76 +1,12 @@
 import os
-import subprocess
 import litellm
-import re
-from llm_model.OpenAILLM.debug_utils import print_basic_response_info, print_detailed_choices_info, \
+from llm_model.OpenAILLM.utils.debug_utils import print_basic_response_info, print_detailed_choices_info, \
     calculate_and_update_cost
 import warnings
 
 warnings.filterwarnings('ignore')
 
 # litellm.set_verbose = True
-
-
-def parse_chunk_language(chunk_text: str):
-    """
-    Parses the language of a chunk of text.
-
-    :param chunk_text: A chunk of text.
-    :return: extention.
-    """
-
-    chunk_text = chunk_text.lower()
-    if chunk_text.startswith("<python>") or chunk_text.startswith("python"):
-        return "py"
-    elif chunk_text.startswith("<shell>") or chunk_text.startswith("shell"):
-        return "sh"
-    elif chunk_text.startswith("<applescript>") or chunk_text.startswith("applescript"):
-        return "applescript"
-    elif python_regex := re.search(r"python", chunk_text, re.DOTALL):
-        return "py"
-    elif shell_regex := re.search(r"shell", chunk_text, re.DOTALL):
-        return "sh"
-    elif applescript_regex := re.search(r"applescript", chunk_text, re.DOTALL):
-        return "applescript"
-    else:
-        return "txt"
-
-
-def write_to_file(content: str, extention: str, filename="generated_code"):
-    """
-    Writes the generated code to a file.
-
-    :param content: The generated code.
-    :param extention: The extention of the file.
-    :param filename: The name of the file.
-    :return: filename: The name of the file with the extention.
-    """
-
-    content = content.replace("<python>", "").replace("<shell>", "").replace("<applescript>", "")
-    with open(f'{filename}.{extention}', "w") as f:
-        f.write(content)
-    return f'{filename}.{extention}'
-
-
-def execute_generated_code(filename: str, extent: str):
-    """
-    Executes the generated code.
-
-    :param filename: The name of the file containing the generated code.
-    :param extent: The extention of the file.
-    :return: The output of the generated code.
-    """
-    if extent == "py":
-        output = subprocess.run(['python', filename])
-        # return output.stdout.decode("utf-8")
-    elif extent == "sh":
-        output = subprocess.run([f'bash {filename}'])
-        return output.stdout.decode("utf-8")
-    elif extent == "applescript":
-        output = subprocess.run([f'osascript {filename}'])
-        return output.stdout.decode("utf-8")
-    else:
-        return "Error: Invalid extension"
 
 
 def configure_env():
@@ -115,6 +51,7 @@ def prepare_messages_for_litellm(prompt):
     #     <\code>"""
     # }
     # messages.append(example_response)
+
     # User message with the actual prompt
     user_message = {
         "role": "user",
@@ -189,17 +126,3 @@ def generate_code_with_litellm(prompt):
         return generated_content
     except Exception as e:
         return f"An error occurred: {str(e)}"
-
-
-# Example usage
-if __name__ == "__main__":
-    prompt = "Play You drive my four wheel coffin song"  # Example prompt
-    # language = "python"  # Can be 'python', 'shell', or 'applescript'
-    # configure_env()
-    # generated_code = generate_code_with_litellm(prompt)
-    # generated_code = "<python>\nprint('Hello World')\nprint('Hello World')"
-    # language = parse_chunk_language(generated_code)
-    # file_name = write_to_file(generated_code, language)
-    # print("Generated Code:\n", generated_code)
-    # output = execute_generated_code(file_name, language)
-    # print("Output:\n", output)

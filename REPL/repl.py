@@ -1,13 +1,12 @@
 import atexit
 import logging
 import os
-import json
 
 import readline
 
 import llm_model.OpenAILLM.setup_llm as setup_llm
 from REPL import REQUESTS_HISTORY_PATH
-from REPL.functional.music import turn_music
+from REPL.functional.functional_utils import get_funcs_responses
 
 
 def save_history():
@@ -41,15 +40,7 @@ def run_repl():
         tool_calls = llm_response.tool_calls
 
         if tool_calls:
-            available_functions = {
-                "turn_music": turn_music,
-            }
-            for tool_call in tool_calls:
-                function_name = tool_call.function.name
-                function_to_call = available_functions[function_name]
-                function_args = json.loads(tool_call.function.arguments)
-                function_response = function_to_call(**function_args)
-        # break
+            responses = get_funcs_responses(tool_calls)
 
 
 if __name__ == "__main__":

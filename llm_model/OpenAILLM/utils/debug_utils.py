@@ -12,7 +12,7 @@ def setup_logger(log_file):
     )
 
 
-setup_logger('debug.log')
+setup_logger('../debug.log')
 
 
 def print_basic_response_info(response):
