@@ -1,4 +1,4 @@
-from music import turn_music
+from .music import turn_music
 import json
 
 available_functions = {

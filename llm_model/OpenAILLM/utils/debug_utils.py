@@ -1,4 +1,5 @@
 from litellm import completion_cost
+from pathlib import Path
 
 import logging
 
@@ -12,7 +13,8 @@ def setup_logger(log_file):
     )
 
 
-setup_logger('../debug.log')
+Path("../logs").mkdir(parents=True, exist_ok=True)
+setup_logger('../logs/debug.log')
 
 
 def print_basic_response_info(response):
