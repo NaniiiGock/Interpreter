@@ -1,11 +1,13 @@
 import atexit
 import logging
 import os
+import json
 
 import readline
 
 import llm_model.OpenAILLM.setup_llm as setup_llm
 from REPL import REQUESTS_HISTORY_PATH
+from REPL.functional.music import turn_music
 
 
 def save_history():
@@ -32,18 +34,22 @@ def run_repl():
     os.system("sh utils/logo.sh")
     while True:
         line = input("> ").strip()
+        # line = "Play song You Drive My Four Wheel Coffin"
         if line == "exit":
             break
-        elif line == 'Play "You Drive My Four Wheel Coffin" every day at 7:00':
-
-            os.system(
-                "./task_scheduler \"0 7 * * * osascript -e 'tell application Music to play track You Drive My Four Wheel Coffin'\"")
-            continue
         llm_response = setup_llm.generate_code_with_litellm(line)
-        extension = setup_llm.parse_chunk_language(llm_response)
-        tmp_filename = "tmp." + extension
-        setup_llm.write_to_file(llm_response, extension, tmp_filename)
-        setup_llm.execute_generated_code(tmp_filename, llm_response)
+        tool_calls = llm_response.tool_calls
+
+        if tool_calls:
+            available_functions = {
+                "turn_music": turn_music,
+            }
+            for tool_call in tool_calls:
+                function_name = tool_call.function.name
+                function_to_call = available_functions[function_name]
+                function_args = json.loads(tool_call.function.arguments)
+                function_response = function_to_call(**function_args)
+        # break
 
 
 if __name__ == "__main__":

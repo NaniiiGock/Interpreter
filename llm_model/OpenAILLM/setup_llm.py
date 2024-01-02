@@ -2,9 +2,13 @@ import os
 import subprocess
 import litellm
 import re
-from llm_model.OpenAILLM.debug_utils import print_basic_response_info, print_detailed_choices_info, calculate_and_update_cost
+from llm_model.OpenAILLM.debug_utils import print_basic_response_info, print_detailed_choices_info, \
+    calculate_and_update_cost
 import warnings
+
 warnings.filterwarnings('ignore')
+
+# litellm.set_verbose = True
 
 
 def parse_chunk_language(chunk_text: str):
@@ -91,29 +95,26 @@ def prepare_messages_for_litellm(prompt):
     # System message to set the context and instructions
     system_message = {
         "role": "system",
-        "content": ("You are a code generation assistant. Generate code only in Python, Shell, "
-                    "or AppleScript for the following task. Write only code without explanation. Provide the response "
-                    "in a code block"
-                    "with the language specified at the start, like so: "
-                    "`<language>\\n<code>`")
+        "content": "You are a code generation assistant. Generate code only in Python, Shell, "
+                   "or AppleScript for the following task"
     }
     messages.append(system_message)
 
-    example_message = {
-        'role': 'user',
-        "content": "Play song You drive my four wheel coffin"
-    }
-    messages.append(example_message)
-
-    example_response = {
-        'role': 'assistant',
-        'content': """<applescript>
-        tell application "Music"
-            play track "Last Christmas"
-        end tell
-        <\\code>"""
-    }
-    messages.append(example_response)
+    # example_message = {
+    #     'role': 'user',
+    #     "content": "Play song You drive my four wheel coffin"
+    # }
+    # messages.append(example_message)
+    #
+    # example_response = {
+    #     'role': 'assistant',
+    #     'content': """<applescript>
+    #     tell application "Music"
+    #         play track "Last Christmas"
+    #     end tell
+    #     <\code>"""
+    # }
+    # messages.append(example_response)
     # User message with the actual prompt
     user_message = {
         "role": "user",
@@ -122,6 +123,33 @@ def prepare_messages_for_litellm(prompt):
     messages.append(user_message)
 
     return messages
+
+
+def get_tools():
+    """
+    Returns a list of tools that can be used for code generation.
+    """
+    tools = [
+        {
+            'type': 'function',
+            'function': {
+                'name': 'turn_music',
+                'description': 'Turns the music on',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'name': {
+                            'type': 'string',
+                            'description': 'The name of the song to play'
+                        }
+                    },
+                    'required': ['name']
+                }
+            }
+        }
+    ]
+
+    return tools
 
 
 def generate_code_with_litellm(prompt):
@@ -141,6 +169,8 @@ def generate_code_with_litellm(prompt):
     params = {
         "model": "gpt-3.5-turbo",  # or another suitable model
         "messages": messages,
+        "tools": get_tools(),
+        "tool_choice": "auto",
         "max_tokens": 250,
         "temperature": 0.8,
         # Add any other optional parameters as needed
@@ -149,12 +179,13 @@ def generate_code_with_litellm(prompt):
     # Generate code using LiteLLM
     try:
         response = litellm.completion(**params)
+
         print_basic_response_info(response)
         print_detailed_choices_info(response)
         calculate_and_update_cost(response)
 
         # Accessing the generated content correctly
-        generated_content = response['choices'][0]['message']['content'].strip()
+        generated_content = response['choices'][0]['message']
         return generated_content
     except Exception as e:
         return f"An error occurred: {str(e)}"
@@ -166,10 +197,9 @@ if __name__ == "__main__":
     # language = "python"  # Can be 'python', 'shell', or 'applescript'
     # configure_env()
     # generated_code = generate_code_with_litellm(prompt)
-    generated_code = "<python>\nprint('Hello World')\nprint('Hello World')"
-    language = parse_chunk_language(generated_code)
-    file_name = write_to_file(generated_code, language)
-    print("Generated Code:\n", generated_code)
-    output = execute_generated_code(file_name, language)
-    print("Output:\n", output)
-
+    # generated_code = "<python>\nprint('Hello World')\nprint('Hello World')"
+    # language = parse_chunk_language(generated_code)
+    # file_name = write_to_file(generated_code, language)
+    # print("Generated Code:\n", generated_code)
+    # output = execute_generated_code(file_name, language)
+    # print("Output:\n", output)
