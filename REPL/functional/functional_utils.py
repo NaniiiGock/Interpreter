@@ -1,8 +1,12 @@
 from .music import turn_music
+from .scheduler import schedule_command, remove_scheduled_command
+
 import json
 
 available_functions = {
     "turn_music": turn_music,
+    "schedule_command": schedule_command,
+    "remove_scheduled_command": remove_scheduled_command
 }
 
 

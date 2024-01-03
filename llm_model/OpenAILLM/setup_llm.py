@@ -83,6 +83,48 @@ def get_tools():
                     'required': ['name']
                 }
             }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'schedule_command',
+                'description': 'Schedules a command using crontab',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'frequency': {
+                            'type': 'string',
+                            'description': 'Frequency to run the command with crontab'
+                        },
+                        'command': {
+                            'type': 'string',
+                            'description': 'Command to schedule'
+                        }
+                    },
+                    'required': ['frequency', 'command']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'remove_scheduled_command',
+                'description': 'Remove command that was scheduled with crontab',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'frequency': {
+                            'type': 'string',
+                            'description': 'Frequency for command to with crontab'
+                        },
+                        'command': {
+                            'type': 'string',
+                            'description': 'Command to remove'
+                        }
+                    },
+                    'required': ['frequency', 'command']
+                }
+            }
         }
     ]
 
