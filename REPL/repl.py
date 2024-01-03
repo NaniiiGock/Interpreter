@@ -36,12 +36,15 @@ def run_repl():
         # line = "write an email to my professor at professor@email.com to as him about summer mentorship"
         if line == "exit":
             break
-        llm_response = setup_llm.generate_code_with_litellm(line)
-        tool_calls = llm_response.tool_calls
+        llm_response = setup_llm.get_llm_response(line)
+        if hasattr(llm_response, 'tool_calls'):
+            tool_calls = llm_response.tool_calls
+            if tool_calls:
+                responses = get_funcs_responses(tool_calls)
+                # do something with responses
+                continue
+        print(llm_response.content)
 
-        if tool_calls:
-            responses = get_funcs_responses(tool_calls)
-            # do something with responses
 
 
 if __name__ == "__main__":

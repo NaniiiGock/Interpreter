@@ -245,13 +245,12 @@ def get_tools():
     return tools
 
 
-def generate_code_with_litellm(prompt):
+def get_llm_response(prompt):
     """
-    Generates code using LiteLLM and OpenAI API.
+    Generates response using LiteLLM and OpenAI API.
 
-    :param prompt: Basic prompt for code generation.
-    :param language: The programming language ('python', 'shell', 'applescript').
-    :return: Generated code as a string.
+    :param prompt: Basic prompt for response generation.
+    :return: Generated response as a string.
     """
     configure_env()
 
