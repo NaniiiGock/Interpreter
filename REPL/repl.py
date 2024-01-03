@@ -30,10 +30,10 @@ def read_history():
 def run_repl():
     """Run the REPL (Read-Eval-Print Loop)."""
     read_history()
-    os.system("sh utils/logo.sh")
+    os.system("sh ../utils/logo.sh")
     while True:
-        line = input("> ").strip()
-        # line = "Play song You Drive My Four Wheel Coffin"
+        # line = input("> ").strip()
+        line = "open App Store"
         if line == "exit":
             break
         llm_response = setup_llm.generate_code_with_litellm(line)
@@ -41,6 +41,7 @@ def run_repl():
 
         if tool_calls:
             responses = get_funcs_responses(tool_calls)
+            # do something with responses
 
 
 if __name__ == "__main__":
