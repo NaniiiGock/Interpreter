@@ -189,6 +189,27 @@ def get_tools():
                     'required': ['frequency', 'command']
                 }
             }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'run_scripts',
+                'description': 'Run code in various languages by executing appropriate scripts.',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'language': {
+                            'type': 'string',
+                            'description': "Specifies the programming language to use. Accepts 'python', 'applescript', or 'shell'."
+                        },
+                        'code': {
+                            'type': 'string',
+                            'description': 'The code content to execute. Include proper headers for shell scripts.'
+                        }
+                    },
+                    'required': ['frequency', 'command']
+                }
+            }
         }
     ]
 
