@@ -30,7 +30,7 @@ def read_history():
 def run_repl():
     """Run the REPL (Read-Eval-Print Loop)."""
     read_history()
-    os.system("sh utils/logo.sh")
+    os.system("sh ../utils/logo.sh")
     while True:
         line = input("> ").strip()
         # line = "Play song You Drive My Four Wheel Coffin"
