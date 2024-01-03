@@ -32,8 +32,8 @@ def run_repl():
     read_history()
     os.system("sh ../utils/logo.sh")
     while True:
-        # line = input("> ").strip()
-        line = "open App Store"
+        line = input("> ").strip()
+        # line = "write an email to my professor at professor@email.com to as him about summer mentorship"
         if line == "exit":
             break
         llm_response = setup_llm.generate_code_with_litellm(line)

@@ -210,6 +210,35 @@ def get_tools():
                     'required': ['frequency', 'command']
                 }
             }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'compose_email',
+                'description': 'writes email to recipient',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'recipient_name': {
+                            'type': 'string',
+                            'description': 'The name of the recipient'
+                        },
+                        'recipient_address': {
+                            'type': 'string',
+                            'description': 'The email address of the recipient'
+                        },
+                        'subject': {
+                            'type': 'string',
+                            'description': 'The subject of the email'
+                        },
+                        'body': {
+                            'type': 'string',
+                            'description': 'The body of the email'
+                        }
+                    },
+                    'required': ['recipient_name', 'recipient_address', 'subject', 'body']
+                }
+            }
         }
     ]
 
