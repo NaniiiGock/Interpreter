@@ -87,6 +87,70 @@ def get_tools():
         {
             'type': 'function',
             'function': {
+                'name': 'tell_current_datetime',
+                'description': 'Tells the current date and time',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                    },
+                    'required': []
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'open_app',
+                'description': 'Opens an app',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'name': {
+                            'type': 'string',
+                            'description': 'The name of the app to open'
+                        }
+                    },
+                    'required': ['name']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'call_by_phone_number',
+                'description': 'Calls someone by phone number',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'phone_number': {
+                            'type': 'string',
+                            'description': 'The phone number to call'
+                        }
+                    },
+                    'required': ['phone_number']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'call_by_name',
+                'description': 'Calls someone by name',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'name': {
+                            'type': 'string',
+                            'description': 'The name of the person to call'
+                        }
+                    },
+                    'required': ['name']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
                 'name': 'schedule_command',
                 'description': 'Schedules a command using crontab',
                 'parameters': {

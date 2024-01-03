@@ -1,3 +1,5 @@
+import os
+
 from litellm import completion_cost
 from pathlib import Path
 
@@ -33,7 +35,8 @@ def print_detailed_choices_info(response):
         logging.info("  Content: %s", message.get('content', 'N/A'))
 
 
-def update_and_save_overall_cost(new_cost, filename="total_cost.txt"):
+def update_and_save_overall_cost(new_cost, filename="../logs/total_cost.txt"):
+    print(os.getcwd())
     try:
         with open(filename, 'r') as file:
             total_cost = float(file.read())
