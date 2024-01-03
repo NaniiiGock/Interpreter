@@ -239,6 +239,69 @@ def get_tools():
                     'required': ['recipient_name', 'recipient_address', 'subject', 'body']
                 }
             }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'message_by_phone_number',
+                'description': 'sends message to recipient by phone number',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'phone_number': {
+                            'type': 'string',
+                            'description': 'The phone number of the recipient'
+                        },
+                        'body': {
+                            'type': 'string',
+                            'description': 'The body of the message'
+                        }
+                    },
+                    'required': ['phone_number', 'body']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'message_by_contact_name',
+                'description': 'sends message to recipient by contact name',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'name': {
+                            'type': 'string',
+                            'description': 'The name of the recipient'
+                        },
+                        'body': {
+                            'type': 'string',
+                            'description': 'The body of the message'
+                        }
+                    },
+                    'required': ['name', 'body']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'make_note',
+                'description': 'makes a note',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'note_title': {
+                            'type': 'string',
+                            'description': 'The title of the note'
+                        },
+                        'note_body': {
+                            'type': 'string',
+                            'description': 'The body of the note'
+                        }
+                    },
+                    'required': ['note_title', 'note_body']
+                }
+            }
         }
     ]
 

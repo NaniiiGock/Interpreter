@@ -5,6 +5,8 @@ from .make_call import call_by_phone_number, call_by_name
 from .scheduler import schedule_command, remove_scheduled_command
 from .run_generated_scripts import run_applescript, run_shell_script, run_python_script, run_scripts
 from .email_writer import compose_email
+from .write_message import message_by_phone_number, message_by_contact_name
+from .noter import make_note
 import json
 import re
 
@@ -19,6 +21,9 @@ available_functions = {
     "remove_scheduled_command": remove_scheduled_command,
     "run_scripts": run_scripts,
     "compose_email": compose_email,
+    "message_by_phone_number": message_by_phone_number,
+    "message_by_contact_name": message_by_contact_name,
+    "make_note": make_note,
 }
 
 

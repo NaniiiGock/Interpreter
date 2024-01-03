@@ -1,31 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
-RB_RED=$(printf '\033[38;5;196m')
-RB_ORANGE=$(printf '\033[38;5;202m')
-RB_YELLOW=$(printf '\033[38;5;226m')
-RB_GREEN=$(printf '\033[38;5;082m')
-RB_BLUE=$(printf '\033[38;5;021m')
-RB_INDIGO=$(printf '\033[38;5;093m')
-RB_VIOLET=$(printf '\033[38;5;163m')
-RB_RESET=$(printf '\033[0m')
+# Define the rainbow colors
+RAINBOW=(
+  $'\e[31m' # Red
+  $'\e[33m' # Yellow
+  $'\e[32m' # Green
+  $'\e[36m' # Cyan
+  $'\e[34m' # Blue
+  $'\e[35m' # Magenta
+  $'\e[33;1m' # Bright Yellow
+  $'\e[37;1m' # Bright white
+)
 
-EXTENDED_RAINBOW=(
-       $RB_RED
-       $RB_ORANGE
-       $RB_YELLOW
-       $RB_GREEN
-       $RB_BLUE
-       $RB_INDIGO
-       $RB_VIOLET
-    )
+# Reset color
+RESET=$'\e[0m'
 
+# MacTell ASCII art lines
+ART_LINES=(
+  "\$\$\      \$\$\               \$\$\$\$\$\$\$\$\      \$\$\\$\$\ "
+  "\$\$\$\    \$\$\$ |              \__\$\$  __|     \$\$ \$\$ |"
+  "\$\$\$\$\  \$\$\$\$ |\$\$\$\$\$\$\  \$\$\$\$\$\$\$\\$\$ |\$\$\$\$\$\$\ \$\$ \$\$ |"
+  "\$\$\\$\$\\$\$ \$\$ |\____\$\$\\$\$  _____\$\$ \$\$  __\$\$\\$\$ \$\$ |"
+  "\$\$ \\$\$\$  \$\$ |\$\$\$\$\$\$\$ \$\$ /     \$\$ \$\$\$\$\$\$\$\$ \$\$ \$\$ |"
+  "\$\$ |\\$  /\$\$ \$\$  __\$\$ \$\$ |     \$\$ \$\$   ____\$\$ \$\$ |"
+  "\$\$ | \_/ \$\$ \\$\$\$\$\$\$\$ \\$\$\$\$\$\$\$\\$\$ \\$\$\$\$\$\$\$\\$\$ \$\$ |"
+  "\__|     \__|\_______|\_______\__|\_______\__\__|"
+)
 
-rotate_colors() {
-    local first_color=$1
-    EXTENDED_RAINBOW=("${EXTENDED_RAINBOW[@]:1}" "$first_color")
-}
-
-for _ in {1..5}; do
-    printf '%sM%s a%s c%s t%s e%s l%s l%s\n' "${EXTENDED_RAINBOW[@]}" "$RB_RESET"
-    rotate_colors "${EXTENDED_RAINBOW[0]}"
+# Print each line of the ASCII art in a different color
+# shellcheck disable=SC2068
+for i in ${!ART_LINES[@]}; do
+  color_index=$((i % ${#RAINBOW[@]}))
+  printf "%b%s%b\n" "${RAINBOW[$color_index]}" "${ART_LINES[i]}" "$RESET"
 done
+
