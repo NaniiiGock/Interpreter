@@ -17,10 +17,6 @@ EXTENDED_RAINBOW=(
        $RB_BLUE
        $RB_INDIGO
        $RB_VIOLET
-       $RB_RED
-       $RB_ORANGE
-       $RB_YELLOW
-       $RB_GREEN
     )
 
 
@@ -30,6 +26,6 @@ rotate_colors() {
 }
 
 for _ in {1..5}; do
-    printf '%sI%s n%s t%s e%s r%s p%s r%s e%s t%s e%s r%s\n' "${EXTENDED_RAINBOW[@]}" "$RB_RESET"
+    printf '%sM%s a%s c%s t%s e%s l%s l%s\n' "${EXTENDED_RAINBOW[@]}" "$RB_RESET"
     rotate_colors "${EXTENDED_RAINBOW[0]}"
 done

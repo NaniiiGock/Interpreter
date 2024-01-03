@@ -2,6 +2,7 @@ from .music import turn_music
 from .datetime_mac import tell_current_datetime
 from .apps_mac import open_app
 from .make_call import call_by_phone_number, call_by_name
+from .scheduler import schedule_command, remove_scheduled_command
 import json
 import re
 
@@ -11,7 +12,9 @@ available_functions = {
     "tell_current_datetime": tell_current_datetime,
     "open_app": open_app,
     "call_by_phone_number": call_by_phone_number,
-    "call_by_name": call_by_name
+    "call_by_name": call_by_name,
+    "schedule_command": schedule_command,
+    "remove_scheduled_command": remove_scheduled_command
 }
 
 
