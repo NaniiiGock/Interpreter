@@ -1,12 +1,14 @@
 from .music import turn_music
 from .scheduler import schedule_command, remove_scheduled_command
-
+from .run_generated_scripts import run_applescript, run_shell_script, run_python_script, run_scripts
 import json
+
 
 available_functions = {
     "turn_music": turn_music,
     "schedule_command": schedule_command,
-    "remove_scheduled_command": remove_scheduled_command
+    "remove_scheduled_command": remove_scheduled_command,
+    "run_scripts": run_scripts
 }
 
 
