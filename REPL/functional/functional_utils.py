@@ -30,7 +30,7 @@ def get_funcs_responses(tool_calls):
 
 
 def parse_markdown_code_blocks(markdown_text):
-    code_block_regex = re.compile(r'```(.*?)\\[rnt]*([\s\S]+?)```', re.MULTILINE)
+    code_block_regex = re.compile(r'```(.*?)\\[rntfv\s]*([\s\S]+?)```', re.MULTILINE)
     code_blocks = []
 
     matches = code_block_regex.finditer(markdown_text)
