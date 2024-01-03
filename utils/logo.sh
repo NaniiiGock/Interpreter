@@ -2,14 +2,14 @@
 
 # Define the rainbow colors
 RAINBOW=(
-  $'\e[31m' # Red
-  $'\e[33m' # Yellow
-  $'\e[32m' # Green
-  $'\e[36m' # Cyan
-  $'\e[34m' # Blue
-  $'\e[35m' # Magenta
-  $'\e[33;1m' # Bright Yellow
-  $'\e[37;1m' # Bright white
+  $'\033[38;5;196m' # Red
+  $'\033[38;5;202m' # Orange
+  $'\033[38;5;082m' # Green
+  $'\033[38;5;226m' # Bright Yellow
+  $'\033[38;5;163m' # Cyan
+  $'\033[38;5;093m' # Magenta
+  $'\033[38;5;44m' # Blue
+  $'\033[38;5;15m' # Bright white
 )
 
 # Reset color

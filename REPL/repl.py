@@ -33,7 +33,6 @@ def run_repl():
     os.system("sh ../utils/logo.sh")
     while True:
         line = input("> ").strip()
-        # line = "write an email to my professor at professor@email.com to as him about summer mentorship"
         if line == "exit":
             break
         llm_response = setup_llm.get_llm_response(line)
@@ -44,7 +43,6 @@ def run_repl():
                 # do something with responses
                 continue
         print(llm_response.content)
-
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ from .run_generated_scripts import run_applescript, run_shell_script, run_python
 from .email_writer import compose_email
 from .write_message import message_by_phone_number, message_by_contact_name
 from .noter import make_note
+from .voice_over import tell_number_unread_messages
 import json
 import re
 
@@ -24,6 +25,7 @@ available_functions = {
     "message_by_phone_number": message_by_phone_number,
     "message_by_contact_name": message_by_contact_name,
     "make_note": make_note,
+    "tell_number_unread_messages": tell_number_unread_messages,
 }
 
 

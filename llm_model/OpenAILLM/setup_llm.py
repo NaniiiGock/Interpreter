@@ -302,6 +302,19 @@ def get_tools():
                     'required': ['note_title', 'note_body']
                 }
             }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'tell_number_unread_messages',
+                'description': 'tells the number of unread messages',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                    },
+                    'required': []
+                }
+            }
         }
     ]
 
