@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 enum StatusCode: Int {
     // internal codes
@@ -25,12 +26,23 @@ struct MessagePair: Identifiable {
     var llmResponse: LocalizedStringKey = ""
     var isSaved: Bool = false
     var statusCode: StatusCode = StatusCode.noActionTaken
+    let date: Date = Date()
     
-    mutating func receiveLLMResponse(llmResponse: LocalizedStringKey, statusCode: StatusCode) {
+
+    mutating func sendInputTextToLLM() {
+        // TODO: integrate Python
+        let (llmResponse, responseCode): (LocalizedStringKey, StatusCode) = ("you sure you wanna spend the cents you've worked for?", StatusCode.sentForExecution)
+        
         self.llmResponse = llmResponse
-        self.statusCode = statusCode
+        self.statusCode = responseCode
+        
     }
     
+    mutating func addToBookmarks() {
+        // TODO: integrate Python
+        self.isSaved = !self.isSaved
+    }
+
     mutating func toggleBookmark() {
         // TODO: integrate Python
         self.isSaved = !self.isSaved
@@ -41,6 +53,16 @@ struct MessagePair: Identifiable {
         self.statusCode = StatusCode.sentForExecution
     }
 }
+
+extension MessagePair {
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
+}
+
 
 
 struct MessageView: View {
@@ -54,12 +76,18 @@ struct MessageView: View {
                 Text(messagePair.llmResponse)
                     .foregroundColor(.purple)
                 Spacer()
+                Text(messagePair.formattedDate)
+                    .font(.system(size: 10))  // Adjust font size as needed
+                    .foregroundColor(.gray)
+
                 
             }
             Spacer()
 
             VStack(alignment: .trailing, spacing: 5) {
+                
                 HStack {
+                    
                     Button(action: {self.messagePair.toggleBookmark()}) {
                         Image(systemName: messagePair.isSaved ? "bookmark.fill" : "bookmark")
                     }
@@ -77,6 +105,7 @@ struct MessageView: View {
                     Text(statusText)
                         .foregroundColor(statusColor)
                 }
+                
             }
         }
         .padding()

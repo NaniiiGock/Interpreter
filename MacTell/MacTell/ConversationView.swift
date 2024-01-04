@@ -43,35 +43,16 @@ struct ConversationView: View {
         }
 
         conversation.append(MessagePair(userInput: userInput))
-        sendInputTextToLLM()
-    
+        self.conversation[conversation.count - 1].sendInputTextToLLM()
+        
         DispatchQueue.main.async {
             self.userInput = ""
         }
         
         if autoSave {
-            self.conversation[conversation.count - 1].toggleBookmark()
+            self.conversation[conversation.count - 1].addToBookmarks()
         }
     }
-    
-    
-    func sendMessageToLLM(messagePair: MessagePair) -> (String, StatusCode) {
-        // TODO: integrate Python
-        return ("LLM Response: *huh?*", StatusCode.sentForExecution)
-    }
-
-    func sendInputTextToLLM() {
-        guard !conversation.isEmpty else { fatalError("Empty `conversation`!") }
-        
-
-        let last_ind = self.conversation.count - 1
-        let last_message_pair = self.conversation[last_ind]
-        
-        let (llmResponse, responseCode) = sendMessageToLLM(messagePair: last_message_pair)
-    
-        self.conversation[last_ind].receiveLLMResponse(llmResponse: LocalizedStringKey(llmResponse), statusCode: responseCode)
-        }
-    
 }
 
 struct ConversationView_Previews: PreviewProvider {
