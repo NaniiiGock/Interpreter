@@ -1,0 +1,594 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D53ED56D2B46B91F001997C6 /* MacTellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56C2B46B91F001997C6 /* MacTellApp.swift */; };
+		D53ED56F2B46B91F001997C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56E2B46B91F001997C6 /* ContentView.swift */; };
+		D53ED5712B46B920001997C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D53ED5702B46B920001997C6 /* Assets.xcassets */; };
+		D53ED5742B46B920001997C6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D53ED5732B46B920001997C6 /* Preview Assets.xcassets */; };
+		D53ED57F2B46B921001997C6 /* MacTellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED57E2B46B921001997C6 /* MacTellTests.swift */; };
+		D53ED5892B46B921001997C6 /* MacTellUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED5882B46B921001997C6 /* MacTellUITests.swift */; };
+		D53ED58B2B46B921001997C6 /* MacTellUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED58A2B46B921001997C6 /* MacTellUITestsLaunchTests.swift */; };
+		D53ED5982B46BFA9001997C6 /* MessagePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED5972B46BFA9001997C6 /* MessagePair.swift */; };
+		D53ED59A2B46C317001997C6 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED5992B46C317001997C6 /* ConversationView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D53ED57B2B46B921001997C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D53ED5612B46B91F001997C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D53ED5682B46B91F001997C6;
+			remoteInfo = MacTell;
+		};
+		D53ED5852B46B921001997C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D53ED5612B46B91F001997C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D53ED5682B46B91F001997C6;
+			remoteInfo = MacTell;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D53ED5692B46B91F001997C6 /* MacTell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacTell.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D53ED56C2B46B91F001997C6 /* MacTellApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTellApp.swift; sourceTree = "<group>"; };
+		D53ED56E2B46B91F001997C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D53ED5702B46B920001997C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D53ED5732B46B920001997C6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D53ED5752B46B920001997C6 /* MacTell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacTell.entitlements; sourceTree = "<group>"; };
+		D53ED57A2B46B921001997C6 /* MacTellTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTellTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D53ED57E2B46B921001997C6 /* MacTellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTellTests.swift; sourceTree = "<group>"; };
+		D53ED5842B46B921001997C6 /* MacTellUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacTellUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D53ED5882B46B921001997C6 /* MacTellUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTellUITests.swift; sourceTree = "<group>"; };
+		D53ED58A2B46B921001997C6 /* MacTellUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTellUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D53ED5972B46BFA9001997C6 /* MessagePair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePair.swift; sourceTree = "<group>"; };
+		D53ED5992B46C317001997C6 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D53ED5662B46B91F001997C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53ED5772B46B921001997C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53ED5812B46B921001997C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D53ED5602B46B91F001997C6 = {
+			isa = PBXGroup;
+			children = (
+				D53ED56B2B46B91F001997C6 /* MacTell */,
+				D53ED57D2B46B921001997C6 /* MacTellTests */,
+				D53ED5872B46B921001997C6 /* MacTellUITests */,
+				D53ED56A2B46B91F001997C6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D53ED56A2B46B91F001997C6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D53ED5692B46B91F001997C6 /* MacTell.app */,
+				D53ED57A2B46B921001997C6 /* MacTellTests.xctest */,
+				D53ED5842B46B921001997C6 /* MacTellUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D53ED56B2B46B91F001997C6 /* MacTell */ = {
+			isa = PBXGroup;
+			children = (
+				D53ED56C2B46B91F001997C6 /* MacTellApp.swift */,
+				D53ED56E2B46B91F001997C6 /* ContentView.swift */,
+				D53ED5992B46C317001997C6 /* ConversationView.swift */,
+				D53ED5972B46BFA9001997C6 /* MessagePair.swift */,
+				D53ED5702B46B920001997C6 /* Assets.xcassets */,
+				D53ED5752B46B920001997C6 /* MacTell.entitlements */,
+				D53ED5722B46B920001997C6 /* Preview Content */,
+			);
+			path = MacTell;
+			sourceTree = "<group>";
+		};
+		D53ED5722B46B920001997C6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D53ED5732B46B920001997C6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D53ED57D2B46B921001997C6 /* MacTellTests */ = {
+			isa = PBXGroup;
+			children = (
+				D53ED57E2B46B921001997C6 /* MacTellTests.swift */,
+			);
+			path = MacTellTests;
+			sourceTree = "<group>";
+		};
+		D53ED5872B46B921001997C6 /* MacTellUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D53ED5882B46B921001997C6 /* MacTellUITests.swift */,
+				D53ED58A2B46B921001997C6 /* MacTellUITestsLaunchTests.swift */,
+			);
+			path = MacTellUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D53ED5682B46B91F001997C6 /* MacTell */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D53ED58E2B46B921001997C6 /* Build configuration list for PBXNativeTarget "MacTell" */;
+			buildPhases = (
+				D53ED5652B46B91F001997C6 /* Sources */,
+				D53ED5662B46B91F001997C6 /* Frameworks */,
+				D53ED5672B46B91F001997C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacTell;
+			productName = MacTell;
+			productReference = D53ED5692B46B91F001997C6 /* MacTell.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D53ED5792B46B921001997C6 /* MacTellTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D53ED5912B46B921001997C6 /* Build configuration list for PBXNativeTarget "MacTellTests" */;
+			buildPhases = (
+				D53ED5762B46B921001997C6 /* Sources */,
+				D53ED5772B46B921001997C6 /* Frameworks */,
+				D53ED5782B46B921001997C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D53ED57C2B46B921001997C6 /* PBXTargetDependency */,
+			);
+			name = MacTellTests;
+			productName = MacTellTests;
+			productReference = D53ED57A2B46B921001997C6 /* MacTellTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D53ED5832B46B921001997C6 /* MacTellUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D53ED5942B46B921001997C6 /* Build configuration list for PBXNativeTarget "MacTellUITests" */;
+			buildPhases = (
+				D53ED5802B46B921001997C6 /* Sources */,
+				D53ED5812B46B921001997C6 /* Frameworks */,
+				D53ED5822B46B921001997C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D53ED5862B46B921001997C6 /* PBXTargetDependency */,
+			);
+			name = MacTellUITests;
+			productName = MacTellUITests;
+			productReference = D53ED5842B46B921001997C6 /* MacTellUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D53ED5612B46B91F001997C6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1510;
+				LastUpgradeCheck = 1510;
+				TargetAttributes = {
+					D53ED5682B46B91F001997C6 = {
+						CreatedOnToolsVersion = 15.1;
+					};
+					D53ED5792B46B921001997C6 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = D53ED5682B46B91F001997C6;
+					};
+					D53ED5832B46B921001997C6 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = D53ED5682B46B91F001997C6;
+					};
+				};
+			};
+			buildConfigurationList = D53ED5642B46B91F001997C6 /* Build configuration list for PBXProject "MacTell" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D53ED5602B46B91F001997C6;
+			productRefGroup = D53ED56A2B46B91F001997C6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D53ED5682B46B91F001997C6 /* MacTell */,
+				D53ED5792B46B921001997C6 /* MacTellTests */,
+				D53ED5832B46B921001997C6 /* MacTellUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D53ED5672B46B91F001997C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53ED5742B46B920001997C6 /* Preview Assets.xcassets in Resources */,
+				D53ED5712B46B920001997C6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53ED5782B46B921001997C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53ED5822B46B921001997C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D53ED5652B46B91F001997C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53ED5982B46BFA9001997C6 /* MessagePair.swift in Sources */,
+				D53ED56F2B46B91F001997C6 /* ContentView.swift in Sources */,
+				D53ED56D2B46B91F001997C6 /* MacTellApp.swift in Sources */,
+				D53ED59A2B46C317001997C6 /* ConversationView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53ED5762B46B921001997C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53ED57F2B46B921001997C6 /* MacTellTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D53ED5802B46B921001997C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53ED5892B46B921001997C6 /* MacTellUITests.swift in Sources */,
+				D53ED58B2B46B921001997C6 /* MacTellUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D53ED57C2B46B921001997C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D53ED5682B46B91F001997C6 /* MacTell */;
+			targetProxy = D53ED57B2B46B921001997C6 /* PBXContainerItemProxy */;
+		};
+		D53ED5862B46B921001997C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D53ED5682B46B91F001997C6 /* MacTell */;
+			targetProxy = D53ED5852B46B921001997C6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D53ED58C2B46B921001997C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D53ED58D2B46B921001997C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		D53ED58F2B46B921001997C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MacTell/MacTell.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MacTell/Preview Content\"";
+				DEVELOPMENT_TEAM = QQD92N8V52;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Baby.MacTell;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D53ED5902B46B921001997C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MacTell/MacTell.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MacTell/Preview Content\"";
+				DEVELOPMENT_TEAM = QQD92N8V52;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Baby.MacTell;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D53ED5922B46B921001997C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QQD92N8V52;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Baby.MacTellTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacTell.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacTell";
+			};
+			name = Debug;
+		};
+		D53ED5932B46B921001997C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QQD92N8V52;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Baby.MacTellTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MacTell.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MacTell";
+			};
+			name = Release;
+		};
+		D53ED5952B46B921001997C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QQD92N8V52;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Baby.MacTellUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = MacTell;
+			};
+			name = Debug;
+		};
+		D53ED5962B46B921001997C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QQD92N8V52;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Baby.MacTellUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = MacTell;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D53ED5642B46B91F001997C6 /* Build configuration list for PBXProject "MacTell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53ED58C2B46B921001997C6 /* Debug */,
+				D53ED58D2B46B921001997C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D53ED58E2B46B921001997C6 /* Build configuration list for PBXNativeTarget "MacTell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53ED58F2B46B921001997C6 /* Debug */,
+				D53ED5902B46B921001997C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D53ED5912B46B921001997C6 /* Build configuration list for PBXNativeTarget "MacTellTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53ED5922B46B921001997C6 /* Debug */,
+				D53ED5932B46B921001997C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D53ED5942B46B921001997C6 /* Build configuration list for PBXNativeTarget "MacTellUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D53ED5952B46B921001997C6 /* Debug */,
+				D53ED5962B46B921001997C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D53ED5612B46B91F001997C6 /* Project object */;
+}
