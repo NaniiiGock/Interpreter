@@ -357,11 +357,11 @@ def get_llm_response(prompt):
     # Prepare messages for LiteLLM
     messages = prepare_messages_for_litellm(prompt)
 
-    model_name = "davinci-002"
+    model_name = "gpt-3.5-turbo"
     params = {}
     if support_func_calls(model_name):
         params = {
-            "model": "davinci-002",  # or another suitable model
+            "model": model_name,  # or another suitable model
             "messages": messages,
             "tools": get_tools(),
             "tool_choice": "auto",
@@ -371,7 +371,7 @@ def get_llm_response(prompt):
         }
     else:
         params = {
-            "model": "gpt-3.5-turbo",  # or another suitable model
+            "model": model_name,  # or another suitable model
             "messages": messages,
             "max_tokens": 250,
             "temperature": 0.8,
