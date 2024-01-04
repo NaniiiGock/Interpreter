@@ -338,6 +338,13 @@ def get_tools():
     return tools
 
 
+def support_func_calls(model_name):
+    if model_name in {"gpt-4", "gpt-4-1106-preview", "gpt-4-0613", "gpt-3.5-turbo",
+                      "gpt-3.5-turbo-1106", "gpt-3.5-turbo-0613"}:
+        return True
+    return False
+
+
 def get_llm_response(prompt):
     """
     Generates response using LiteLLM and OpenAI API.
@@ -350,18 +357,28 @@ def get_llm_response(prompt):
     # Prepare messages for LiteLLM
     messages = prepare_messages_for_litellm(prompt)
 
-    # Set up LiteLLM parameters
-    params = {
-        "model": "gpt-3.5-turbo",  # or another suitable model
-        "messages": messages,
-        "tools": get_tools(),
-        "tool_choice": "auto",
-        "max_tokens": 250,
-        "temperature": 0.8,
-        # Add any other optional parameters as needed
-    }
+    model_name = "davinci-002"
+    params = {}
+    if support_func_calls(model_name):
+        params = {
+            "model": "davinci-002",  # or another suitable model
+            "messages": messages,
+            "tools": get_tools(),
+            "tool_choice": "auto",
+            "max_tokens": 250,
+            "temperature": 0.8,
+            # Add any other optional parameters as needed
+        }
+    else:
+        params = {
+            "model": "gpt-3.5-turbo",  # or another suitable model
+            "messages": messages,
+            "max_tokens": 250,
+            "temperature": 0.8,
+            # Add any other optional parameters as needed
+        }
 
-    # Generate code using LiteLLM
+    # Generate response using LiteLLM
     try:
         response = litellm.completion(**params)
 
