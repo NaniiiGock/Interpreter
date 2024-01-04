@@ -6,7 +6,7 @@ import readline
 
 import llm_model.OpenAILLM.setup_llm as setup_llm
 from REPL import REQUESTS_HISTORY_PATH
-from REPL.functional.functional_utils import get_funcs_responses
+from REPL.functional.functional_utils import get_funcs_responses, get_other_response
 
 
 def save_history():
@@ -41,8 +41,13 @@ def run_repl():
             if tool_calls:
                 responses = get_funcs_responses(tool_calls)
                 # do something with responses
-                continue
-        print(llm_response.content)
+                print(responses[0][1])
+            else:
+                print(llm_response.content)
+        else:
+            responses = get_other_response(llm_response)
+            print(responses)
+
 
 
 if __name__ == "__main__":
