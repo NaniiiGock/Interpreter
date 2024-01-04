@@ -1,11 +1,15 @@
 from subprocess import Popen, PIPE
+from ..BaseClassFunction import GreenFunction
 
-def tell_number_unread_messages():
-    """
-    Tells the number of unread messages.
-    :return:
-    """
-    scpt = '''
+
+class TellNumberUnreadMessages(GreenFunction):
+    @staticmethod
+    def run():
+        """
+        Tells the number of unread messages.
+        :return:
+        """
+        scpt = '''
 on isVoiceOverRunning()
 	set isRunning to false
 	tell application "System Events"
@@ -58,6 +62,6 @@ else
 	delay 2
 end if
     '''
-    p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    stdout, stderr = p.communicate(scpt)
-    return p.returncode, stdout, stderr
+        p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+        stdout, stderr = p.communicate(scpt)
+        return p.returncode, stdout, stderr

@@ -1,12 +1,13 @@
 import atexit
 import logging
 import os
+import sys
 
 import readline
 
 import llm_model.OpenAILLM.setup_llm as setup_llm
 from REPL import REQUESTS_HISTORY_PATH
-from REPL.functional.functional_utils import get_funcs_responses, get_other_response
+from functional.functional_utils import pipeline_responses_processing
 
 
 def save_history():
@@ -27,6 +28,12 @@ def read_history():
             logging.warning(f"History file not found: {REQUESTS_HISTORY_PATH}")
 
 
+def print_error(message):
+    red_text = "\033[91m"
+    reset_color = "\033[0m"
+    sys.stderr.write(f"{red_text}{message}{reset_color}\n")
+
+
 def run_repl():
     """Run the REPL (Read-Eval-Print Loop)."""
     read_history()
@@ -36,17 +43,14 @@ def run_repl():
         if line == "exit":
             break
         llm_response = setup_llm.get_llm_response(line)
-        if hasattr(llm_response, 'tool_calls'):
-            tool_calls = llm_response.tool_calls
-            if tool_calls:
-                responses = get_funcs_responses(tool_calls)
-                # do something with responses
-                print(responses[0][1])
-            else:
-                print(llm_response.content)
-        else:
-            responses = get_other_response(llm_response)
-            print(responses)
+
+        list_responses = pipeline_responses_processing(llm_response)
+
+        for stout, stderr in list_responses:
+            if stout:
+                print(stout)
+            if stderr:
+                print_error(stderr)
 
 
 if __name__ == "__main__":

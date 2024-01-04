@@ -1,12 +1,15 @@
 from subprocess import Popen, PIPE
+from ..BaseClassFunction import GreenFunction
 
 
-def tell_current_datetime():
-    """
-    Tells the current date and time.
-    :return:
-    """
-    scpt = f'''
+class TellCurrentDatetime(GreenFunction):
+    @staticmethod
+    def run():
+        """
+        Tells the current date and time.
+        :return:
+        """
+        scpt = f'''
     (* 
  Speaks the  date and time of day
  
@@ -83,6 +86,6 @@ else
 	delay 2
 end if
     '''
-    p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    stdout, stderr = p.communicate(scpt)
-    return p.returncode, stdout, stderr
+        p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+        stdout, stderr = p.communicate(scpt)
+        return p.returncode, stdout, stderr

@@ -1,13 +1,16 @@
 from subprocess import Popen, PIPE
+from ..BaseClassFunction import GreenFunction
 
 
-def search_google(query):
-    """
-    Search google with query
-    :param query:
-    :return:
-    """
-    scpt = f'''
+class SearchGoogle(GreenFunction):
+    @staticmethod
+    def run(query: str):
+        """
+        Search google with query
+        :param query:
+        :return:
+        """
+        scpt = f'''
     set searchQuery to "{query}"
 
 -- URL encode the search query
@@ -39,6 +42,6 @@ on urlencode(theText)
 	end tell
 end urlencode
     '''
-    p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    stdout, stderr = p.communicate(scpt)
-    return p.returncode, stdout, stderr
+        p = Popen(['osascript', '-'], stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+        stdout, stderr = p.communicate(scpt)
+        return p.returncode, stdout, stderr

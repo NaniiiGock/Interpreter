@@ -193,7 +193,7 @@ def get_tools():
         {
             'type': 'function',
             'function': {
-                'name': 'run_scripts',
+                'name': 'execute_script',
                 'description': 'Run code in various languages by executing appropriate scripts.',
                 'parameters': {
                     'type': 'object',
@@ -207,7 +207,7 @@ def get_tools():
                             'description': 'The code content to execute. Include proper headers for shell scripts.'
                         }
                     },
-                    'required': ['frequency', 'command']
+                    'required': ['language', 'code']
                 }
             }
         },

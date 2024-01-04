@@ -1,59 +1,103 @@
-from .music import turn_music
-from .datetime_mac import tell_current_datetime
-from .apps_mac import open_app
-from .make_call import call_by_phone_number, call_by_name
-from .scheduler import schedule_command, remove_scheduled_command
-from .email_writer import compose_email
-from .write_message import message_by_phone_number, message_by_contact_name
-from .noter import make_note
-from .voice_over import tell_number_unread_messages
-from .run_generated_scripts import run_scripts, check_language
-from .safari_surfer import search_google
+from .green_functions.music import TurnMusic
+from .green_functions.datetime_mac import TellCurrentDatetime
+from .green_functions.apps_mac import OpenApp
+from .green_functions.email_writer import ComposeEmail
+from .green_functions.voice_over import TellNumberUnreadMessages
+from .green_functions.safari_surfer import SearchGoogle
+from .green_functions.noter import MakeNote
+
+from .red_functions.make_call import CallByPhoneNumber, CallByName
+from .red_functions.scheduler import ScheduleCommand, RemoveScheduledCommand
+from .red_functions.write_message import MessageByPhoneNumber, MessageByContactName
+from .red_functions.run_generated_scripts import ScriptExecution
+
+from .red_functions.run_generated_scripts import check_language
+from .BaseClassFunction import RedFunction
 import json
 import re
 
 
 available_functions = {
-    "turn_music": turn_music,
-    "tell_current_datetime": tell_current_datetime,
-    "open_app": open_app,
-    "call_by_phone_number": call_by_phone_number,
-    "call_by_name": call_by_name,
-    "schedule_command": schedule_command,
-    "remove_scheduled_command": remove_scheduled_command,
-    "run_scripts": run_scripts,
-    "compose_email": compose_email,
-    "message_by_phone_number": message_by_phone_number,
-    "message_by_contact_name": message_by_contact_name,
-    "make_note": make_note,
-    "tell_number_unread_messages": tell_number_unread_messages,
-    "search_google": search_google,
+    "turn_music": TurnMusic,
+    "tell_current_datetime": TellCurrentDatetime,
+    "open_app": OpenApp,
+    "email_writer": ComposeEmail,
+    "tell_number_unread_messages": TellNumberUnreadMessages,
+    "search_google": SearchGoogle,
+    "make_note": MakeNote,
+
+    "call_by_phone_number": CallByPhoneNumber,
+    "call_by_name": CallByName,
+    "schedule_command": ScheduleCommand,
+    "remove_scheduled_command": RemoveScheduledCommand,
+    "message_by_phone_number": MessageByPhoneNumber,
+    "message_by_contact_name": MessageByContactName,
+
+    "execute_script": ScriptExecution,
 }
 
 
-def get_funcs_responses(tool_calls):
-    responses = []
-    for tool_call in tool_calls:
-        function_name = tool_call.function.name
-        function_to_call = available_functions[function_name]
-        function_args = json.loads(tool_call.function.arguments)
-        function_response = function_to_call(**function_args)
-        responses.append(function_response)
-    return responses
+def pipeline_responses_processing(llm_response):
+    results = []
+    if hasattr(llm_response, 'tool_calls'):
+        tool_calls = llm_response.tool_calls
+        for tool_call in tool_calls:
+            function_name = tool_call.function.name
+            function_argument = tool_call.function.arguments
+
+            if should_confirm_function_execution(function_name):
+                if not confirm_tool_function_execution(function_name, function_argument):
+                    continue
+
+            return_code, stdout, stderr = get_funcs_response(function_name, function_argument)
+            results.append(tuple([stdout, stderr]))
+    else:
+
+        code_blocks = parse_markdown_code_blocks(llm_response.content)
+
+        if code_blocks and check_language(code_blocks[0][0]):
+            function_argument = {"language": code_blocks[0][0],
+                                 "code": code_blocks[0][1]}
+
+            if confirm_tool_function_execution("execute_script", function_argument):
+                return_code, stdout, stderr = get_funcs_response("execute_script", function_argument)
+                results.append(tuple([stdout, stderr]))
+                return results
+
+        results.append(tuple([llm_response.content, None]))
+    return results
 
 
-def get_other_response(response):
-    response = response['model_extra']['content']
-    code_blocks = parse_markdown_code_blocks(response)
-    if not code_blocks:
-        return response
-    if check_language(code_blocks[0][0]):
-        return run_scripts(code_blocks[0][0], code_blocks[0][1])
-    return response
+def should_confirm_function_execution(function_name):
+    return issubclass(available_functions[function_name], RedFunction)
+
+
+def confirm_tool_function_execution(function_name, function_argument):
+    if isinstance(function_argument, str):
+        function_argument = json.loads(function_argument)
+    confirmation_message = available_functions[function_name].get_confirmation_message(**function_argument)
+    return confirm_tool_call(confirmation_message)
+
+
+def confirm_tool_call(string):
+    print(string)
+    print("---Please type 'Y' or 'y' if you agree, or anything else if you disagree.---")
+    line = input("> ").strip()
+    if line == 'Y' or line == 'y':
+        return True
+    return False
+
+
+def get_funcs_response(function_name, function_argument):
+    if isinstance(function_argument, str):
+        function_argument = json.loads(function_argument)
+    function_to_call = available_functions[function_name]
+    function_response = function_to_call.run(**function_argument)
+    return function_response
 
 
 def parse_markdown_code_blocks(markdown_text):
-    code_block_regex = re.compile(r'```(.*?)\s*([\s\S]+?)```', re.MULTILINE)
+    code_block_regex = re.compile(r'```(python|bash|shell|applescript)\s*([\s\S]+?)```', re.MULTILINE)
     code_blocks = []
     matches = code_block_regex.finditer(markdown_text)
     for match in matches:
