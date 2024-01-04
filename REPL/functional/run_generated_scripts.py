@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 import os
+from pathlib import Path
 
 
 def write_to_file(path, content):
@@ -12,16 +13,17 @@ def clear_file(path):
 
 
 def run_script(script_content: str, command: str, script_extension: str):
-    SCRIPT_PATH = f'./temp/script{script_extension}'
+    script_path = f'./temp/script{script_extension}'
+    Path("./temp").mkdir(parents=True, exist_ok=True)
 
-    write_to_file(SCRIPT_PATH, script_content)
-    p = Popen([command, SCRIPT_PATH], stdout=PIPE, stderr=PIPE)
+    write_to_file(script_path, script_content)
+    p = Popen([command, script_path], stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
-    clear_file(SCRIPT_PATH)
+    clear_file(script_path)
     return p.returncode, stdout, stderr
 
 
-def run_scripts(code: str, language: str):
+def run_scripts(language: str, code: str):
     if language == 'python':
         return run_script(code, 'python', '.py')
     if language == 'shell' or language == 'bash':

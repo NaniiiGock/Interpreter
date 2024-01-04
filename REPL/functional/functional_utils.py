@@ -53,7 +53,7 @@ def get_other_response(response):
 
 
 def parse_markdown_code_blocks(markdown_text):
-    code_block_regex = re.compile(r'```(.*?)\s*([\s\S]+?)```', re.MULTILINE)
+    code_block_regex = re.compile(r'```(python|bash|shell|applescript)\s*([\s\S]+?)```', re.MULTILINE)
     code_blocks = []
     matches = code_block_regex.finditer(markdown_text)
     for match in matches:
