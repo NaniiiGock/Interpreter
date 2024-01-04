@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ConversationView: View {
     @Binding var conversation: [MessagePair]
-    public let autoSave = false
+    let autoSave: Bool
 
     @State private var userInput = ""
     
@@ -21,9 +21,7 @@ struct ConversationView: View {
         VStack {
             ScrollView {
                 ForEach($conversation, id: \.id) {
-                    $messagePair in MessageView(messagePair: $messagePair,
-                                                onBookmark: { toggleBookmarkMessagePair(for: messagePair) }
-)
+                    $messagePair in MessageView(messagePair: $messagePair)
                 }
             }
             
@@ -52,7 +50,7 @@ struct ConversationView: View {
         }
         
         if autoSave {
-            toggleBookmarkMessagePair(for: self.conversation[conversation.count - 1])
+            self.conversation[conversation.count - 1].toggleBookmark()
         }
     }
     
@@ -74,16 +72,6 @@ struct ConversationView: View {
         self.conversation[last_ind].receiveLLMResponse(llmResponse: LocalizedStringKey(llmResponse), statusCode: responseCode)
         }
     
-    func toggleBookmarkMessagePair(for messagePair: MessagePair) {
-        // TODO: integrate Python
-        let index = conversation.firstIndex(where: { $0.id == messagePair.id })
-        
-        if index! < 0 {
-            fatalError("Something went wrong")
-        }
-        
-        conversation[index!].toggle_bookmark()
-    }
 }
 
 struct ConversationView_Previews: PreviewProvider {
@@ -91,7 +79,7 @@ struct ConversationView_Previews: PreviewProvider {
         @State var tmp_conversation: [MessagePair] = []
 
         var body: some View {
-            ConversationView(conversation: $tmp_conversation)
+            ConversationView(conversation: $tmp_conversation, autoSave: false)
         }
     }
 

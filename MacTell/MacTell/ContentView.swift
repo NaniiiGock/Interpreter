@@ -30,13 +30,13 @@ struct ContentView: View {
     var body: some View {
         VStack {
             TabView(selection: $selectedTab) {
-                ConversationView(conversation: $new_conversation)
+                ConversationView(conversation: $new_conversation, autoSave: false)
                     .tabItem {
                         Label("New", systemImage: "pencil")
                     }
                     .tag(Tab.New)
                 
-                ConversationView(conversation: $saved_conversation)
+                ConversationView(conversation: $saved_conversation, autoSave: true)
                 .tabItem {
                     Label("Saved", systemImage: "bookmark")
                 }

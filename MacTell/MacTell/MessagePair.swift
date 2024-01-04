@@ -31,17 +31,20 @@ struct MessagePair: Identifiable {
         self.statusCode = statusCode
     }
     
-    mutating func toggle_bookmark() {
+    mutating func toggleBookmark() {
+        // TODO: integrate Python
         self.isSaved = !self.isSaved
+    }
+    
+    mutating func rerunMe() {
+        // TODO: integrate Python
+        self.statusCode = StatusCode.sentForExecution
     }
 }
 
 
 struct MessageView: View {
     @Binding var messagePair: MessagePair
-    
-    let onBookmark: () -> Void
-
     
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
@@ -57,11 +60,11 @@ struct MessageView: View {
 
             VStack(alignment: .trailing, spacing: 5) {
                 HStack {
-                    Button(action: onBookmark) {
+                    Button(action: {self.messagePair.toggleBookmark()}) {
                         Image(systemName: messagePair.isSaved ? "bookmark.fill" : "bookmark")
                     }
                     
-                    Button(action: rerunMe) {
+                    Button(action: {self.messagePair.rerunMe()}) {
                         Image(systemName: messagePair.statusCode == StatusCode.userConfirmationNeeded ? "checkmark" : "arrow.clockwise")
                     }
                 }
@@ -82,12 +85,7 @@ struct MessageView: View {
         .padding()
     }
     
-    func rerunMe(){
-        // TODO: integrate Python
-        messagePair.statusCode = StatusCode.sentForExecution
-    }
-    
-    
+
     private var statusIcon: Image {
         switch messagePair.statusCode {
         case .noActionTaken, .sentForExecution:
@@ -141,7 +139,7 @@ struct MessageView_Previews: PreviewProvider {
         @State var sampleMessagePair = MessagePair(userInput: "Sample input", llmResponse: "Some LLM Response")
 
         var body: some View {
-            MessageView(messagePair: $sampleMessagePair, onBookmark: {sampleMessagePair.toggle_bookmark()})
+            MessageView(messagePair: $sampleMessagePair)
         }
     }
 
@@ -149,4 +147,3 @@ struct MessageView_Previews: PreviewProvider {
         PreviewWrapper()
     }
 }
-
