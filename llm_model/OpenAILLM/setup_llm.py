@@ -315,6 +315,23 @@ def get_tools():
                     'required': []
                 }
             }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'search_google',
+                'description': 'searches google',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'query': {
+                            'type': 'string',
+                            'description': 'The query to search'
+                        }
+                    },
+                    'required': ['query']
+                }
+            }
         }
     ]
 

@@ -8,6 +8,7 @@ from .write_message import message_by_phone_number, message_by_contact_name
 from .noter import make_note
 from .voice_over import tell_number_unread_messages
 from .run_generated_scripts import run_scripts, check_language
+from .safari_surfer import search_google
 import json
 import re
 
@@ -26,6 +27,7 @@ available_functions = {
     "message_by_contact_name": message_by_contact_name,
     "make_note": make_note,
     "tell_number_unread_messages": tell_number_unread_messages,
+    "search_google": search_google,
 }
 
 
