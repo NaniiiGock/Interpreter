@@ -6,7 +6,7 @@ import readline
 
 import llm_model.OpenAILLM.setup_llm as setup_llm
 from REPL import REQUESTS_HISTORY_PATH
-from REPL.functional.functional_utils import get_funcs_responses
+from REPL.functional.functional_utils import get_funcs_responses, get_other_response
 
 
 def save_history():
@@ -32,16 +32,19 @@ def run_repl():
     read_history()
     os.system("sh ../utils/logo.sh")
     while True:
-        # line = input("> ").strip()
-        line = "open App Store"
+        line = input("> ").strip()
         if line == "exit":
             break
         llm_response = setup_llm.generate_code_with_litellm(line)
-        tool_calls = llm_response.tool_calls
 
-        if tool_calls:
+        try:
+            tool_calls = llm_response.tool_calls
             responses = get_funcs_responses(tool_calls)
-            # do something with responses
+            print(responses[1])
+        except AttributeError:
+            responses = get_other_response(llm_response)
+            print(responses)
+
 
 
 if __name__ == "__main__":
