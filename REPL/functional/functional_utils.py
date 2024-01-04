@@ -3,6 +3,10 @@ from .datetime_mac import tell_current_datetime
 from .apps_mac import open_app
 from .make_call import call_by_phone_number, call_by_name
 from .scheduler import schedule_command, remove_scheduled_command
+from .email_writer import compose_email
+from .write_message import message_by_phone_number, message_by_contact_name
+from .noter import make_note
+from .voice_over import tell_number_unread_messages
 from .run_generated_scripts import run_scripts, check_language
 import json
 import re
@@ -16,7 +20,12 @@ available_functions = {
     "call_by_name": call_by_name,
     "schedule_command": schedule_command,
     "remove_scheduled_command": remove_scheduled_command,
-    "run_scripts": run_scripts
+    "run_scripts": run_scripts,
+    "compose_email": compose_email,
+    "message_by_phone_number": message_by_phone_number,
+    "message_by_contact_name": message_by_contact_name,
+    "make_note": make_note,
+    "tell_number_unread_messages": tell_number_unread_messages,
 }
 
 

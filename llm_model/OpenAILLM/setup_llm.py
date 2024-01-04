@@ -210,19 +210,123 @@ def get_tools():
                     'required': ['frequency', 'command']
                 }
             }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'compose_email',
+                'description': 'writes email to recipient',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'recipient_name': {
+                            'type': 'string',
+                            'description': 'The name of the recipient'
+                        },
+                        'recipient_address': {
+                            'type': 'string',
+                            'description': 'The email address of the recipient'
+                        },
+                        'subject': {
+                            'type': 'string',
+                            'description': 'The subject of the email'
+                        },
+                        'body': {
+                            'type': 'string',
+                            'description': 'The body of the email'
+                        }
+                    },
+                    'required': ['recipient_name', 'recipient_address', 'subject', 'body']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'message_by_phone_number',
+                'description': 'sends message to recipient by phone number',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'phone_number': {
+                            'type': 'string',
+                            'description': 'The phone number of the recipient'
+                        },
+                        'body': {
+                            'type': 'string',
+                            'description': 'The body of the message'
+                        }
+                    },
+                    'required': ['phone_number', 'body']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'message_by_contact_name',
+                'description': 'sends message to recipient by contact name',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'name': {
+                            'type': 'string',
+                            'description': 'The name of the recipient'
+                        },
+                        'body': {
+                            'type': 'string',
+                            'description': 'The body of the message'
+                        }
+                    },
+                    'required': ['name', 'body']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'make_note',
+                'description': 'makes a note',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                        'note_title': {
+                            'type': 'string',
+                            'description': 'The title of the note'
+                        },
+                        'note_body': {
+                            'type': 'string',
+                            'description': 'The body of the note'
+                        }
+                    },
+                    'required': ['note_title', 'note_body']
+                }
+            }
+        },
+        {
+            'type': 'function',
+            'function': {
+                'name': 'tell_number_unread_messages',
+                'description': 'tells the number of unread messages',
+                'parameters': {
+                    'type': 'object',
+                    'properties': {
+                    },
+                    'required': []
+                }
+            }
         }
     ]
 
     return tools
 
 
-def generate_code_with_litellm(prompt):
+def get_llm_response(prompt):
     """
-    Generates code using LiteLLM and OpenAI API.
+    Generates response using LiteLLM and OpenAI API.
 
-    :param prompt: Basic prompt for code generation.
-    :param language: The programming language ('python', 'shell', 'applescript').
-    :return: Generated code as a string.
+    :param prompt: Basic prompt for response generation.
+    :return: Generated response as a string.
     """
     configure_env()
 
