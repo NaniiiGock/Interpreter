@@ -36,7 +36,6 @@ def print_detailed_choices_info(response):
 
 
 def update_and_save_overall_cost(new_cost, filename="../logs/total_cost.txt"):
-    print(os.getcwd())
     try:
         with open(filename, 'r') as file:
             total_cost = float(file.read())

@@ -41,7 +41,7 @@ def run_repl():
             if tool_calls:
                 responses = get_funcs_responses(tool_calls)
                 # do something with responses
-                print(responses[1])
+                print(responses[0][1])
             else:
                 print(llm_response.content)
         else:
