@@ -8,14 +8,13 @@ import communication_utils
 async def echo(websocket, path):
     async for message in websocket:
         data = json.loads(message)
+        print("Received: ")
+        print(data)
 
         statusCode = int(data["statusCode"])
         assert communication_utils.is_valid_status_code(statusCode), "Wrong StatusCode... :/"
 
-        print("Received: ")
-        print(data)
-
-        response = {**message,
+        response = {**data,
                     **{
                     "statusCode": 10,
                     "userInput": f"Echo: {data['userInput']}",
