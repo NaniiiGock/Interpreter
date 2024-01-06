@@ -8,15 +8,16 @@ async def echo(websocket, path):
         data = json.loads(message)
 
         
-        interaction_type: InteractioTynpe = int(data["statusCode"])
-        assert is_valid_type(interaction_type), "Wrong intertype"
+        statusCode = int(data["statusCode"])
+        assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
 
         print("Received: ")
         print(data)
 
         response = {**message,
                     **{
-                    "userInput": f"Echo: {data['userInput']}"
+                    "statusCode": 10,
+                    "userInput": f"Echo: {data['userInput']}",
                     }
                 }
         
