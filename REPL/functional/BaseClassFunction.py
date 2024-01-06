@@ -7,7 +7,17 @@ class GreenFunction(ABC):
 
     @staticmethod
     @abstractmethod
+    def get_exec_description():
+        pass
+
+    @staticmethod
+    @abstractmethod
     def run(*args):
+        pass
+
+    @staticmethod
+    @abstractmethod
+    async def run_async(*args):
         pass
 
 

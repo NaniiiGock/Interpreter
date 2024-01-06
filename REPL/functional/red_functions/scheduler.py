@@ -45,6 +45,9 @@ def run_remove_sched_command(cron_command: str, input_data=None):
 
 
 class RemoveScheduledCommand(RedFunction):
+    @staticmethod
+    def get_exec_description():
+        return "Removing scheduled command..."
 
     @staticmethod
     async def run_async(frequency: str, command: str):
@@ -54,6 +57,10 @@ class RemoveScheduledCommand(RedFunction):
         current_crontab, stdout, stderr = await asyncio.get_event_loop().run_in_executor(
             None, run_remove_sched_command, get_cron_command
         )
+
+        # removing all quotes before matching
+        stdout = stdout.replace("'", "").replace('"', '')
+        command = command.replace("'", "").replace('"', '')
 
         lines = stdout.split('\n')
         new_crontab = '\n'.join([line for line in lines if f"{frequency} {command}" not in line])
@@ -71,6 +78,10 @@ class RemoveScheduledCommand(RedFunction):
         # Get the current crontab
         p = Popen("crontab -l", shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
         current_crontab, _ = p.communicate()
+
+        # removing all quotes before matching
+        current_crontab = current_crontab.replace("'", "").replace('"', '')
+        command = command.replace("'", "").replace('"', '')
 
         # Remove the specified command from the crontab
         lines = current_crontab.split('\n')
