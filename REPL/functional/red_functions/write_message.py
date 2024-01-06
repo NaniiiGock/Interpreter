@@ -5,6 +5,10 @@ import asyncio
 
 class MessageByPhoneNumber(RedFunction):
     @staticmethod
+    def get_exec_description():
+        return "Sending message by phone number..."
+
+    @staticmethod
     async def run_async(phone_number: str, body: str):
         """
         Asynchronously sends a message to a phone number using iMessage.
@@ -64,6 +68,9 @@ class MessageByPhoneNumber(RedFunction):
 
 
 class MessageByContactName(RedFunction):
+    @staticmethod
+    def get_exec_description():
+        return "Sending message by contact name..."
 
     @staticmethod
     async def run_async(name: str, body: str):

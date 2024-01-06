@@ -5,6 +5,10 @@ import asyncio
 
 class OpenApp(GreenFunction):
     @staticmethod
+    def get_exec_description():
+        return "Opening the app..."
+
+    @staticmethod
     def run(name: str):
         """
         Opens an application.

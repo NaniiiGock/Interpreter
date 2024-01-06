@@ -5,6 +5,10 @@ import asyncio
 
 class ComposeEmail(GreenFunction):
     @staticmethod
+    def get_exec_description():
+        return "Composing an email..."
+
+    @staticmethod
     async def run_async(recipient_name: str, recipient_address: str, subject: str, body: str):
         """
         Asynchronously composes an email.

@@ -1,5 +1,4 @@
 class ExecutionHandler:
-
     @staticmethod
     async def execute_code_asynchronously(function_class, func_params):
         # Directly call the asynchronous method of the class

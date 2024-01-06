@@ -5,6 +5,10 @@ import asyncio
 
 class CallByPhoneNumber(RedFunction):
     @staticmethod
+    def get_exec_description():
+        return "Calling by phone number..."
+
+    @staticmethod
     async def run_async(phone_number: str):
         """
         Asynchronously makes a call to a phone number using FaceTime.
@@ -74,6 +78,10 @@ class CallByPhoneNumber(RedFunction):
 
 
 class CallByName(RedFunction):
+    @staticmethod
+    def get_exec_description():
+        return "Calling by name..."
+
     @staticmethod
     async def run_async(name: str):
         """

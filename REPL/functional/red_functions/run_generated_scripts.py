@@ -6,6 +6,9 @@ import asyncio
 
 
 class ScriptExecution(RedFunction):
+    @staticmethod
+    def get_exec_description():
+        return "Executing code..."
 
     @staticmethod
     async def run_async(language: str, code: str):

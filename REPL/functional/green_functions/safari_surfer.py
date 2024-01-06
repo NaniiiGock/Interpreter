@@ -5,6 +5,10 @@ import asyncio
 
 class SearchGoogle(GreenFunction):
     @staticmethod
+    def get_exec_description():
+        return "Searching Google..."
+
+    @staticmethod
     async def run_async(query: str):
         """
         Asynchronously searches Google with a query using Safari.

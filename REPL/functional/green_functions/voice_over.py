@@ -5,6 +5,10 @@ import asyncio
 
 class TellNumberUnreadMessages(GreenFunction):
     @staticmethod
+    def get_exec_description():
+        return "Telling the number of unread messages..."
+
+    @staticmethod
     async def run_async():
         """
         Asynchronously tells the number of unread messages in the Mail app.

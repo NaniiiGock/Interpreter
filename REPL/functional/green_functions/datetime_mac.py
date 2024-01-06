@@ -5,6 +5,10 @@ import asyncio
 
 class TellCurrentDatetime(GreenFunction):
     @staticmethod
+    def get_exec_description():
+        return "Telling the current date and time..."
+
+    @staticmethod
     async def run_async():
         """
         Asynchronously tells the current date and time.

@@ -4,6 +4,9 @@ import asyncio
 
 
 class ScheduleCommand(RedFunction):
+    @staticmethod
+    def get_exec_description():
+        return "Scheduling command..."
 
     @staticmethod
     async def run_async(frequency: str, command: str):

@@ -4,6 +4,9 @@ import asyncio
 
 
 class TurnMusic(GreenFunction):
+    @staticmethod
+    def get_exec_description():
+        return "Turning on the music..."
 
     @staticmethod
     async def run_async(name: str):

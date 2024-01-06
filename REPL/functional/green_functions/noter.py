@@ -5,6 +5,10 @@ import asyncio
 
 class MakeNote(GreenFunction):
     @staticmethod
+    def get_exec_description():
+        return "Making a note..."
+
+    @staticmethod
     async def run_async(note_title: str, note_body: str):
         """
         Asynchronously makes a note.
