@@ -27,21 +27,38 @@ enum StatusCode: Int, Codable {
     case removeFromBookmarks = 16
     case deleteAllUnsaved = 17
     case deleteUserMessage = 18
+    case askAllSaved = 19
+    case sendAllSaved = 20
 }
 
 
-struct MessagePair: Identifiable {
-    let id = UUID()
+class MessagePair: Identifiable, ObservableObject {
+    let id: UUID
     let userInput: String
-    var llmResponse: LocalizedStringKey = ""
-    var isSaved: Bool = false
-    var statusCode: StatusCode = StatusCode.noActionTaken
-    let date: Date = Date()
+    @Published var llmResponse: LocalizedStringKey
+    @Published var isSaved: Bool
+    @Published var statusCode: StatusCode
+    let date: Date
     
     static var webSocketManager = WebSocketManager()
     
+    
+    init(id: UUID = UUID(),
+         userInput: String = "",
+         llmResponse: LocalizedStringKey  = "",
+         isSaved: Bool = false,
+         statusCode: StatusCode = .noActionTaken,
+         date: Date = Date()) {
+        self.id = id
+        self.userInput = userInput
+        self.llmResponse = llmResponse
+        self.isSaved = isSaved
+        self.statusCode = statusCode
+        self.date = date
+    }
 
-    mutating func buildJSONAndSendToServer(statusCode: StatusCode, modifyStatus: Bool) {
+    
+    func buildJSONAndSendToServer(statusCode: StatusCode, modifyStatus: Bool) {
         var userServerInteractionData = UserServerInteractionDataBuilder().build_all(messagePair: self)
         userServerInteractionData.statusCode = statusCode
 
@@ -56,7 +73,7 @@ struct MessagePair: Identifiable {
         
     }
     
-    mutating func sendInputTextToLLM() {
+    func sendInputTextToLLM() {
         buildJSONAndSendToServer(statusCode: .submitUserResponse, modifyStatus: true)
 
         // TODO: integrate Server Response
@@ -65,18 +82,17 @@ struct MessagePair: Identifiable {
         // self.statusCode = responseCode
     }
     
-    
-    mutating func toggleBookmark() {
+    func toggleBookmark() {
         buildJSONAndSendToServer(statusCode: self.isSaved ? .removeFromBookmarks : .saveToBookmarks, modifyStatus: false)
         self.isSaved = !self.isSaved
     }
 
-    mutating func addToBookmarks() {
+    func addToBookmarks() {
         assert(!self.isSaved)
         toggleBookmark()
-    }
+}
 
-    mutating func rerunMe() {
+    func rerunMe() {
         buildJSONAndSendToServer(statusCode: .askRerun, modifyStatus: true)
     }
 }
@@ -108,10 +124,6 @@ extension MessagePair {
             .serverCrash: .init(icon: Image(systemName: "exclamationmark.triangle"), text: "Server Error", color: .red),
             .executedSuccessfully: .init(icon: Image(systemName: "checkmark.circle"), text: "Executed Successfully", color: .green),
             .executionError: .init(icon: Image(systemName: "xmark.octagon"), text: "Execution Error", color: .red),
-            .saveToBookmarks: .init(icon: Image(systemName: "bookmark.fill"), text: "Saved", color: .blue),
-            .removeFromBookmarks: .init(icon: Image(systemName: "bookmark.slash"), text: "Removed", color: .gray),
-            .deleteAllUnsaved: .init(icon: Image(systemName: "trash"), text: "All Unsaved Deleted", color: .purple),
-            .deleteUserMessage: .init(icon: Image(systemName: "trash.slash"), text: "Message Deleted", color: .purple)
         ]
 
         return appearance[self.statusCode] ?? .init(icon: Image(systemName: "questionmark"), text: "Unknown Status", color: .black)
@@ -120,7 +132,7 @@ extension MessagePair {
 
 
 struct MessageView: View {
-    @Binding var messagePair: MessagePair
+    @ObservedObject var messagePair: MessagePair
     
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
@@ -176,7 +188,7 @@ struct MessageView_Previews: PreviewProvider {
         @State var sampleMessagePair = MessagePair(userInput: "Sample input", llmResponse: "Some LLM Response")
 
         var body: some View {
-            MessageView(messagePair: $sampleMessagePair)
+            MessageView(messagePair: sampleMessagePair)
         }
     }
 

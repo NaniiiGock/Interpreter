@@ -31,6 +31,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             TabView(selection: $selectedTab) {
+                
                 ConversationView(conversation: $newConversation, autoSave: false)
                     .tabItem {
                         Label("New", systemImage: "pencil")
@@ -38,13 +39,40 @@ struct ContentView: View {
                     .tag(Tab.New)
                 
                 ConversationView(conversation: $savedConversation, autoSave: true)
-                .tabItem {
-                    Label("Saved", systemImage: "bookmark")
-                }
-                .tag(Tab.Saved)
+                    .tabItem {
+                        Label("Saved", systemImage: "bookmark")
+                    }
+                    .tag(Tab.Saved)
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onChange(of: selectedTab) { oldTab, _ in
+                tabChanged(to: oldTab)
+            }
+        }
+    }
+    
+    private func tabChanged(to oldTab: Tab) {
+        if oldTab == Tab.Saved {
+            filterUnsavedMessages()
+        }
+        else if oldTab == Tab.New {
+            verifySavedMessages()
+        }
+    }
+    
+    private func filterUnsavedMessages() {
+        savedConversation = savedConversation.filter { $0.isSaved }
+    }
+
+    private func verifySavedMessages() {
+        filterUnsavedMessages()
+
+        let newSaved = newConversation.filter { $0.isSaved }
+        for item in newSaved {
+            if !savedConversation.contains(where: { $0.id == item.id }) {
+                savedConversation.append(item)
+            }
         }
     }
 }

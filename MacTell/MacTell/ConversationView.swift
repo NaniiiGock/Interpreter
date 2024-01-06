@@ -19,7 +19,7 @@ struct ConversationView: View {
         VStack {
             ScrollView {
                 ForEach($conversation, id: \.id) {
-                    $messagePair in MessageView(messagePair: $messagePair)
+                    $messagePair in MessageView(messagePair: messagePair)
                 }
             }
             
