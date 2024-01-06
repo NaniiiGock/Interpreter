@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D526545F2B473DCB00641F7D /* PythonCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D526545E2B473DCB00641F7D /* PythonCommunicator.swift */; };
+		D52654672B48A43000641F7D /* PythonKit in Frameworks */ = {isa = PBXBuildFile; productRef = D52654662B48A43000641F7D /* PythonKit */; };
 		D53ED56D2B46B91F001997C6 /* MacTellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56C2B46B91F001997C6 /* MacTellApp.swift */; };
 		D53ED56F2B46B91F001997C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56E2B46B91F001997C6 /* ContentView.swift */; };
 		D53ED5712B46B920001997C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D53ED5702B46B920001997C6 /* Assets.xcassets */; };
@@ -17,6 +17,8 @@
 		D53ED58B2B46B921001997C6 /* MacTellUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED58A2B46B921001997C6 /* MacTellUITestsLaunchTests.swift */; };
 		D53ED5982B46BFA9001997C6 /* MessagePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED5972B46BFA9001997C6 /* MessagePair.swift */; };
 		D53ED59A2B46C317001997C6 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED5992B46C317001997C6 /* ConversationView.swift */; };
+		D58634482B495F1000C70256 /* UserServerCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58634472B495F1000C70256 /* UserServerCommunication.swift */; };
+		D586344A2B49933F00C70256 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58634492B49933F00C70256 /* WebSocket.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +39,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D526545E2B473DCB00641F7D /* PythonCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PythonCommunicator.swift; sourceTree = "<group>"; };
 		D53ED5692B46B91F001997C6 /* MacTell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacTell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D53ED56C2B46B91F001997C6 /* MacTellApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTellApp.swift; sourceTree = "<group>"; };
 		D53ED56E2B46B91F001997C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,6 +52,8 @@
 		D53ED58A2B46B921001997C6 /* MacTellUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTellUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D53ED5972B46BFA9001997C6 /* MessagePair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePair.swift; sourceTree = "<group>"; };
 		D53ED5992B46C317001997C6 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
+		D58634472B495F1000C70256 /* UserServerCommunication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServerCommunication.swift; sourceTree = "<group>"; };
+		D58634492B49933F00C70256 /* WebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D52654672B48A43000641F7D /* PythonKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,11 +108,12 @@
 				D53ED56C2B46B91F001997C6 /* MacTellApp.swift */,
 				D53ED56E2B46B91F001997C6 /* ContentView.swift */,
 				D53ED5992B46C317001997C6 /* ConversationView.swift */,
-				D526545E2B473DCB00641F7D /* PythonCommunicator.swift */,
 				D53ED5972B46BFA9001997C6 /* MessagePair.swift */,
 				D53ED5702B46B920001997C6 /* Assets.xcassets */,
+				D58634492B49933F00C70256 /* WebSocket.swift */,
 				D53ED5752B46B920001997C6 /* MacTell.entitlements */,
 				D53ED5722B46B920001997C6 /* Preview Content */,
+				D58634472B495F1000C70256 /* UserServerCommunication.swift */,
 			);
 			path = MacTell;
 			sourceTree = "<group>";
@@ -154,6 +159,9 @@
 			dependencies = (
 			);
 			name = MacTell;
+			packageProductDependencies = (
+				D52654662B48A43000641F7D /* PythonKit */,
+			);
 			productName = MacTell;
 			productReference = D53ED5692B46B91F001997C6 /* MacTell.app */;
 			productType = "com.apple.product-type.application";
@@ -226,6 +234,9 @@
 				Base,
 			);
 			mainGroup = D53ED5602B46B91F001997C6;
+			packageReferences = (
+				D52654652B48A43000641F7D /* XCRemoteSwiftPackageReference "PythonKit" */,
+			);
 			productRefGroup = D53ED56A2B46B91F001997C6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -269,7 +280,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D53ED5982B46BFA9001997C6 /* MessagePair.swift in Sources */,
-				D526545F2B473DCB00641F7D /* PythonCommunicator.swift in Sources */,
+				D586344A2B49933F00C70256 /* WebSocket.swift in Sources */,
+				D58634482B495F1000C70256 /* UserServerCommunication.swift in Sources */,
 				D53ED56F2B46B91F001997C6 /* ContentView.swift in Sources */,
 				D53ED56D2B46B91F001997C6 /* MacTellApp.swift in Sources */,
 				D53ED59A2B46C317001997C6 /* ConversationView.swift in Sources */,
@@ -433,6 +445,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MacTell/MacTell.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -460,6 +473,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MacTell/MacTell.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -593,6 +607,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D52654652B48A43000641F7D /* XCRemoteSwiftPackageReference "PythonKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pvieito/PythonKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D52654662B48A43000641F7D /* PythonKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D52654652B48A43000641F7D /* XCRemoteSwiftPackageReference "PythonKit" */;
+			productName = PythonKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D53ED5612B46B91F001997C6 /* Project object */;
 }

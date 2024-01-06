@@ -13,8 +13,6 @@ struct ConversationView: View {
     let autoSave: Bool
 
     @State private var userInput = ""
-    
-    // @State public var PythonLibManager
 
 
     var body: some View {

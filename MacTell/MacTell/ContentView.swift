@@ -16,8 +16,9 @@ enum Tab {
 struct ContentView: View {
     @State private var selectedTab: Tab = Tab.New
     
-    @State private var new_conversation: [MessagePair] = []
-    @State private var saved_conversation: [MessagePair] = [
+    @State private var newConversation: [MessagePair] = []
+    // TODO: fetch from the DB
+    @State private var savedConversation: [MessagePair] = [
         MessagePair(userInput: "I want to listen to some music. Choose a random one.", llmResponse: "Done!", isSaved: true, statusCode: StatusCode.executedSuccessfully),
         MessagePair(userInput: "Delete the system. I want Linux", llmResponse: """
 **I will execute the following code**:
@@ -30,13 +31,13 @@ struct ContentView: View {
     var body: some View {
         VStack {
             TabView(selection: $selectedTab) {
-                ConversationView(conversation: $new_conversation, autoSave: false)
+                ConversationView(conversation: $newConversation, autoSave: false)
                     .tabItem {
                         Label("New", systemImage: "pencil")
                     }
                     .tag(Tab.New)
                 
-                ConversationView(conversation: $saved_conversation, autoSave: true)
+                ConversationView(conversation: $savedConversation, autoSave: true)
                 .tabItem {
                     Label("Saved", systemImage: "bookmark")
                 }

@@ -8,13 +8,14 @@
 import SwiftUI
 import Foundation
 
-enum StatusCode: Int {
+enum StatusCode: Int, Codable {
     // internal codes
     case noActionTaken = -1     // yet to be sent
     
     // external (API) codes
     case sentForExecution = 0          // no confirmation + is safe
     case userConfirmationNeeded = 1    // needs confirmation + maybe not safe
+    case requestToAPISent = 2          // waiting for LLM response
     case serverCrash = 7               // CriticalError
     case executedSuccessfully = 10     // The execution was successful
     case executionError = 11           // The execution was unsuccessful
@@ -28,8 +29,16 @@ struct MessagePair: Identifiable {
     var statusCode: StatusCode = StatusCode.noActionTaken
     let date: Date = Date()
     
+    static var webSocketManager = WebSocketManager()
+    
 
     mutating func sendInputTextToLLM() {
+        let userServerInteractionData = UserServerInteractionDataBuilder().build_all(messagePair: self)
+        
+        DispatchQueue.main.async {
+            MessagePair.webSocketManager.sendMessage(userServerInteractionData)
+        }
+        
         // TODO: integrate Python
         let (llmResponse, responseCode): (LocalizedStringKey, StatusCode) = ("you sure you wanna spend the cents you've worked for?", StatusCode.sentForExecution)
         
@@ -40,7 +49,7 @@ struct MessagePair: Identifiable {
     
     mutating func addToBookmarks() {
         // TODO: integrate Python
-        self.isSaved = !self.isSaved
+        self.isSaved = true
     }
 
     mutating func toggleBookmark() {
@@ -77,7 +86,7 @@ struct MessageView: View {
                     .foregroundColor(.purple)
                 Spacer()
                 Text(messagePair.formattedDate)
-                    .font(.system(size: 10))  // Adjust font size as needed
+                    .font(.system(size: 10))
                     .foregroundColor(.gray)
 
                 
@@ -117,7 +126,7 @@ struct MessageView: View {
 
     private var statusIcon: Image {
         switch messagePair.statusCode {
-        case .noActionTaken, .sentForExecution:
+        case .noActionTaken, .sentForExecution, .requestToAPISent:
             return Image(systemName: "hourglass")
         case .userConfirmationNeeded:
             return Image(systemName: "exclamationmark.circle")
@@ -133,7 +142,7 @@ struct MessageView: View {
     private var statusText: String {
         switch messagePair.statusCode {
         case .noActionTaken, .sentForExecution:
-            return "Waiting for Completion"
+            return "Sent for Execution"
         case .userConfirmationNeeded:
             return "Confirmation Needed"
         case .serverCrash:
@@ -142,23 +151,28 @@ struct MessageView: View {
             return "Executed Successfully"
         case .executionError:
             return "Execution Error"
+        case .requestToAPISent:
+            return "Waiting for LLM Response..."
         }
     }
 
     private var statusColor: Color {
         switch messagePair.statusCode {
         case .noActionTaken, .sentForExecution:
-            return Color.gray
+            return Color.gray.opacity(0.8)
         case .userConfirmationNeeded:
-            return Color.yellow
+            return Color.yellow.opacity(0.8)
         case .serverCrash:
-            return Color.red
+            return Color.red.opacity(0.8)
         case .executedSuccessfully:
-            return Color.green
+            return Color.green.opacity(0.8)
         case .executionError:
-            return Color.orange
+            return Color.orange.opacity(0.8)
+        case .requestToAPISent:
+            return Color.cyan.opacity(0.8)
         }
     }
+
 
 }
 
