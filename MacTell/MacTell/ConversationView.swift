@@ -41,12 +41,13 @@ struct ConversationView: View {
         }
 
         conversation.append(MessagePair(userInput: userInput))
-        self.conversation[conversation.count - 1].sendInputTextToLLM()
         
         DispatchQueue.main.async {
             self.userInput = ""
         }
-        
+
+        self.conversation[conversation.count - 1].sendInputTextToLLM()
+    
         if autoSave {
             self.conversation[conversation.count - 1].addToBookmarks()
         }

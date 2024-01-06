@@ -51,9 +51,6 @@ class WebSocketManager: ObservableObject {
     }
 
     private func receiveMessage() {
-        if !(isConnected) {
-            connect()
-        }
 
         webSocketTask?.receive { [weak self] result in
             switch result {

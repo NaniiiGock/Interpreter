@@ -10,51 +10,48 @@ import PythonKit
 import SwiftUI
 
 
-enum InteractionType: Int, Codable {
-    case Default = -1
-    // user requests
-    case SendingInput = 0
-    case SendingConfirmation = 1
-    case AskingRerun = 2
-    case SaveToBookmarks = 3
-    case RemoveFromBookmarks = 4
-    case DeleteAllUnsavedFromDB = 5
-    case DeleteUserMessage = 6
-
-    // server responses
-    case ReturningLLMResponse = 7
-    case ReturningCommandsResults = 8
-}
 
 struct UserServerInteractionData: Codable {
-    var type: InteractionType = InteractionType.Default
+    var statusCode: StatusCode = StatusCode.noActionTaken
 
-    var uuid: String = ""
+    var UUID: String = ""
     var userInput: String = ""
     var llmResponse: String = ""
     var StdOut: String = ""
     var StdErr: String = ""
     var Date: String = ""
-    var statusCode: StatusCode = StatusCode.noActionTaken
 }
 
 
 
 class UserServerInteractionDataBuilder {
-    public var userServerInteractionData: UserServerInteractionData = UserServerInteractionData()
+    public var userServerInteractionData: UserServerInteractionData?
     
-    
-    func addUUID(messagePair: MessagePair) {
-        self.userServerInteractionData.uuid = messagePair.id.uuidString
+    func refresh() -> UserServerInteractionDataBuilder {
+        self.userServerInteractionData = UserServerInteractionData()
+        return self
     }
     
-    func addDate(messagePair: MessagePair) {
-        self.userServerInteractionData.Date = messagePair.formattedDate
+    func addUUID(messagePair: MessagePair) -> UserServerInteractionDataBuilder {
+        self.userServerInteractionData?.UUID = messagePair.id.uuidString
+        return self
+    }
+    
+    func addUserInput(messagePair: MessagePair) -> UserServerInteractionDataBuilder {
+        self.userServerInteractionData?.userInput = messagePair.userInput
+        return self
+    }
+    
+    func addDate(messagePair: MessagePair) -> Void  {
+        self.userServerInteractionData?.Date = messagePair.formattedDate
     }
     
     func build_all(messagePair: MessagePair) -> UserServerInteractionData {
-        self.addUUID(messagePair: messagePair)
-        self.addDate(messagePair: messagePair)
-        return self.userServerInteractionData
+        self.refresh()
+            .addUUID(messagePair: messagePair)
+            .addUserInput(messagePair: messagePair)
+            .addDate(messagePair: messagePair)
+        
+        return self.userServerInteractionData!
     }
 }

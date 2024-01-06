@@ -24,7 +24,7 @@ struct ContentView: View {
 **I will execute the following code**:
 `rm -rf /`
 *You OK with this?*
-""", isSaved: true, statusCode: StatusCode.userConfirmationNeeded),
+""", isSaved: true, statusCode: StatusCode.askConfirmation),
     ]
     
     

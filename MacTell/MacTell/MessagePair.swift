@@ -9,17 +9,26 @@ import SwiftUI
 import Foundation
 
 enum StatusCode: Int, Codable {
-    // internal codes
-    case noActionTaken = -1     // yet to be sent
+    case noActionTaken = -1            // default
+
+    case sentForExecution = 0          // command's execution has started.
+    case askConfirmation = 1           // app has to ask user for execution confirmation.
     
-    // external (API) codes
-    case sentForExecution = 0          // no confirmation + is safe
-    case userConfirmationNeeded = 1    // needs confirmation + maybe not safe
-    case requestToAPISent = 2          // waiting for LLM response
+    case requestSentToAPI = 2          // app’s UserRequest has been submitted to LLM.
+    
+    case submitUserResponse = 3        // The app asks server to submit userInput to LLM.
+    case askRerun = 4                  // User wants to rerun the command.
+    
     case serverCrash = 7               // CriticalError
     case executedSuccessfully = 10     // The execution was successful
     case executionError = 11           // The execution was unsuccessful
+    
+    case saveToBookmarks = 15
+    case removeFromBookmarks = 16
+    case deleteAllUnsaved = 17
+    case deleteUserMessage = 18
 }
+
 
 struct MessagePair: Identifiable {
     let id = UUID()
@@ -32,34 +41,43 @@ struct MessagePair: Identifiable {
     static var webSocketManager = WebSocketManager()
     
 
-    mutating func sendInputTextToLLM() {
-        let userServerInteractionData = UserServerInteractionDataBuilder().build_all(messagePair: self)
-        
+    mutating func buildJSONAndSendToServer(statusCode: StatusCode, modifyStatus: Bool) {
+        var userServerInteractionData = UserServerInteractionDataBuilder().build_all(messagePair: self)
+        userServerInteractionData.statusCode = statusCode
+
         DispatchQueue.main.async {
             MessagePair.webSocketManager.sendMessage(userServerInteractionData)
         }
         
-        // TODO: integrate Python
-        let (llmResponse, responseCode): (LocalizedStringKey, StatusCode) = ("you sure you wanna spend the cents you've worked for?", StatusCode.sentForExecution)
+        if modifyStatus {
+            self.statusCode = statusCode
+        }
         
-        self.llmResponse = llmResponse
-        self.statusCode = responseCode
         
     }
     
-    mutating func addToBookmarks() {
-        // TODO: integrate Python
-        self.isSaved = true
-    }
+    mutating func sendInputTextToLLM() {
+        buildJSONAndSendToServer(statusCode: .submitUserResponse, modifyStatus: true)
 
+        // TODO: integrate Server Response
+        // let (llmResponse, responseCode): (LocalizedStringKey, StatusCode) = ("you sure you wanna spend the cents you've worked for?", StatusCode.sentForExecution)
+        // self.llmResponse = llmResponse
+        // self.statusCode = responseCode
+    }
+    
+    
     mutating func toggleBookmark() {
-        // TODO: integrate Python
+        buildJSONAndSendToServer(statusCode: self.isSaved ? .removeFromBookmarks : .saveToBookmarks, modifyStatus: false)
         self.isSaved = !self.isSaved
     }
-    
+
+    mutating func addToBookmarks() {
+        assert(!self.isSaved)
+        toggleBookmark()
+    }
+
     mutating func rerunMe() {
-        // TODO: integrate Python
-        self.statusCode = StatusCode.sentForExecution
+        buildJSONAndSendToServer(statusCode: .askRerun, modifyStatus: true)
     }
 }
 
@@ -72,6 +90,33 @@ extension MessagePair {
     }
 }
 
+struct StatusAppearance {
+    var icon: Image
+    var text: String
+    var color: Color
+}
+
+extension MessagePair {
+    func getStatusAppearance() -> StatusAppearance {
+        let appearance: [StatusCode: StatusAppearance] = [
+            .noActionTaken: .init(icon: Image(systemName: "ellipsis.circle"), text: "No Action Taken", color: .gray),
+            .sentForExecution: .init(icon: Image(systemName: "hourglass"), text: "Sent for Execution", color: .blue),
+            .askConfirmation: .init(icon: Image(systemName: "questionmark.circle"), text: "Confirmation Needed", color: .orange),
+            .requestSentToAPI: .init(icon: Image(systemName: "paperplane"), text: "Request Sent", color: .green),
+            .submitUserResponse: .init(icon: Image(systemName: "text.bubble"), text: "Response Submitted", color: .purple),
+            .askRerun: .init(icon: Image(systemName: "arrow.clockwise"), text: "Rerun Requested", color: .yellow),
+            .serverCrash: .init(icon: Image(systemName: "exclamationmark.triangle"), text: "Server Error", color: .red),
+            .executedSuccessfully: .init(icon: Image(systemName: "checkmark.circle"), text: "Executed Successfully", color: .green),
+            .executionError: .init(icon: Image(systemName: "xmark.octagon"), text: "Execution Error", color: .red),
+            .saveToBookmarks: .init(icon: Image(systemName: "bookmark.fill"), text: "Saved", color: .blue),
+            .removeFromBookmarks: .init(icon: Image(systemName: "bookmark.slash"), text: "Removed", color: .gray),
+            .deleteAllUnsaved: .init(icon: Image(systemName: "trash"), text: "All Unsaved Deleted", color: .purple),
+            .deleteUserMessage: .init(icon: Image(systemName: "trash.slash"), text: "Message Deleted", color: .purple)
+        ]
+
+        return appearance[self.statusCode] ?? .init(icon: Image(systemName: "questionmark"), text: "Unknown Status", color: .black)
+    }
+}
 
 
 struct MessageView: View {
@@ -102,17 +147,18 @@ struct MessageView: View {
                     }
                     
                     Button(action: {self.messagePair.rerunMe()}) {
-                        Image(systemName: messagePair.statusCode == StatusCode.userConfirmationNeeded ? "checkmark" : "arrow.clockwise")
+                        Image(systemName: messagePair.statusCode == StatusCode.askConfirmation ? "checkmark" : "arrow.clockwise")
                     }
                 }
                
                 Spacer()
 
                 HStack {
-                    statusIcon
-                    
-                    Text(statusText)
-                        .foregroundColor(statusColor)
+                    let statusAppearance = messagePair.getStatusAppearance()
+
+                    statusAppearance.icon
+                    Text(statusAppearance.text)
+                        .foregroundColor(statusAppearance.color)
                 }
                 
             }
@@ -122,58 +168,6 @@ struct MessageView: View {
         .cornerRadius(10)
         .padding()
     }
-    
-
-    private var statusIcon: Image {
-        switch messagePair.statusCode {
-        case .noActionTaken, .sentForExecution, .requestToAPISent:
-            return Image(systemName: "hourglass")
-        case .userConfirmationNeeded:
-            return Image(systemName: "exclamationmark.circle")
-        case .serverCrash:
-            return Image(systemName: "xmark.octagon")
-        case .executedSuccessfully:
-            return Image(systemName: "checkmark.circle")
-        case .executionError:
-            return Image(systemName: "exclamationmark.triangle")
-        }
-    }
-
-    private var statusText: String {
-        switch messagePair.statusCode {
-        case .noActionTaken, .sentForExecution:
-            return "Sent for Execution"
-        case .userConfirmationNeeded:
-            return "Confirmation Needed"
-        case .serverCrash:
-            return "Server Error"
-        case .executedSuccessfully:
-            return "Executed Successfully"
-        case .executionError:
-            return "Execution Error"
-        case .requestToAPISent:
-            return "Waiting for LLM Response..."
-        }
-    }
-
-    private var statusColor: Color {
-        switch messagePair.statusCode {
-        case .noActionTaken, .sentForExecution:
-            return Color.gray.opacity(0.8)
-        case .userConfirmationNeeded:
-            return Color.yellow.opacity(0.8)
-        case .serverCrash:
-            return Color.red.opacity(0.8)
-        case .executedSuccessfully:
-            return Color.green.opacity(0.8)
-        case .executionError:
-            return Color.orange.opacity(0.8)
-        case .requestToAPISent:
-            return Color.cyan.opacity(0.8)
-        }
-    }
-
-
 }
 
 
