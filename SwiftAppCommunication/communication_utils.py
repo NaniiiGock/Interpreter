@@ -3,6 +3,8 @@ from abc import ABC
 from typing import abstractmethod
 from enum import Enum
 
+def is_valid_status_code(code: int):
+    return code in [0, 1, 2, 3, 4, 7, 10, 11, 15, 16, 17, 18]
 
 
 class ClientServerCommunicationProtocol(ABC):

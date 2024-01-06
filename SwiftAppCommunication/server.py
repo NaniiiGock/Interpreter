@@ -3,13 +3,14 @@ import websockets
 import json
 import communication_utils
 
+
+
 async def echo(websocket, path):
     async for message in websocket:
         data = json.loads(message)
 
-        
         statusCode = int(data["statusCode"])
-        assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
+        assert communication_utils.is_valid_status_code(statusCode), "Wrong StatusCode... :/"
 
         print("Received: ")
         print(data)
