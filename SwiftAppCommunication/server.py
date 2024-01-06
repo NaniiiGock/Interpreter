@@ -7,8 +7,9 @@ async def echo(websocket, path):
     async for message in websocket:
         data = json.loads(message)
 
-        interaction_type
-        interaction_type: InteractionType = int(data["type"])
+        
+        interaction_type: InteractioTynpe = int(data["statusCode"])
+        assert is_valid_type(interaction_type), "Wrong intertype"
 
         print("Received: ")
         print(data)

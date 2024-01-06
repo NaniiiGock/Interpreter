@@ -5,25 +5,6 @@ from enum import Enum
 
 
 
-class InteractionType(Enum):
-    # user requests
-    SendingInput = 0,
-    SendingConfirmation = 1,
-    AskingRerun = 2,
-    SaveToBookmarks = 3,
-    RemoveFromBookmarks = 4,
-    DeleteAllUnsavedFromDB = 5,
-    DeleteUserMessage = 6,
-
-    # server responses
-    ReturningLLMResponse = 7,
-    ReturningCommandsResults = 8
-
-
-class ServerResponses(Enum):
-    ...
-
-
 class ClientServerCommunicationProtocol(ABC):
     @abstractmethod 
     def for_SendingUserInput(message_uuid: int, user_input: str, date: str):pass
