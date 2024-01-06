@@ -2,7 +2,7 @@ import psycopg2
 import uuid
 
 class Database:
-    def __init__(self, dbname, user, password, host='localhost', port=5432):
+    def __init__(self, dbname, user, password, host='localhost', port=5433):
         self.conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
         self.cur = self.conn.cursor()
 
@@ -19,6 +19,10 @@ class Database:
         ''')
         self.conn.commit()
 
+    def get_rows(self):
+        self.cur.execute('SELECT * FROM data')
+        return self.cur.fetchall()
+    
     def get_saved_rows(self):
         self.cur.execute('SELECT * FROM data WHERE is_saved = TRUE')
         return self.cur.fetchall()
@@ -40,7 +44,7 @@ class Database:
         self.cur.execute('''
             INSERT INTO data (UUID, "User Input", StatusCode, is_saved, "LLM Response")
             VALUES (%s, %s, %s, %s, %s)
-        ''', (new_uuid, user_input, status_code, is_saved, llm_response))
+        ''', (str(new_uuid), user_input, status_code, is_saved, llm_response))
         self.conn.commit()
 
     def update_is_saved(self, uuid, is_saved):
@@ -50,22 +54,38 @@ class Database:
     def delete_unsaved_rows(self):
         self.cur.execute('DELETE FROM data WHERE is_saved = FALSE')
         self.conn.commit()
+    
+    def delete_all_rows(self):
+        self.cur.execute('DELETE FROM data')
+        self.conn.commit()
 
-    def __del__(self):
-        self.cur.close()
-        self.conn.close()
 
-
-db = Database(dbname='your_dbname', user='your_username', password='your_password')
-db.add_row("Example input", 200)
+db = Database(dbname='postgres', user='postgres', password='postgre_pass')
+db.add_row("Example input", 200, is_saved=True)
 db.add_row("Another input", 404, is_saved=True)
-print(db.get_saved_rows())
+# print(db.get_saved_rows())
 
-row_uuid = db.get_saved_rows()[0][0]
-print(db.get_row_by_uuid(row_uuid))
+# row_uuid = db.get_saved_rows()[0][0]
+# print(db.get_row_by_uuid(row_uuid))
 
-db.update_status_code(row_uuid, 500)
-db.update_stdout_stderr(row_uuid, "New stdout", "New stderr")
-db.update_is_saved(row_uuid, False)
+# db.update_status_code(row_uuid, 500)
+# print(db.get_saved_rows())
+# db.update_stdout_stderr(row_uuid, "New stdout", "New stderr")
+# db.update_is_saved(row_uuid, False)
+# print(db.get_saved_rows())
 
-db.delete_unsaved_rows()
+rows = db.get_rows()
+for row in rows:
+    print(row)
+    
+    
+
+# db.delete_unsaved_rows()
+# db.delete_all_rows()
+
+
+# rows = db.get_rows()
+# for row in rows:
+#     print(row)
+    
+
