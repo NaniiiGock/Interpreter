@@ -7,7 +7,7 @@ from llm_model.OpenAILLM.utils.debug_utils import (
     calculate_and_update_cost
 )
 import warnings
-from OpenAILLM.setup_llm import get_tools
+from llm_model.OpenAILLM.setup_llm import get_tools
 
 warnings.filterwarnings('ignore')
 

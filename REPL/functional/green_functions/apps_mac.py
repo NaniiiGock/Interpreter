@@ -1,3 +1,4 @@
+import time
 from subprocess import Popen, PIPE
 from REPL.functional.BaseClassFunction import GreenFunction
 import asyncio
