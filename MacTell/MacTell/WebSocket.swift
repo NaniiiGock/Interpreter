@@ -15,8 +15,7 @@ class WebSocketManager: ObservableObject {
 
     func connect() {
         guard let url = URL(string: "ws://localhost:8765") else {
-            print("Invalid Socket URL")
-            return
+            fatalError("Invalid Socket URL")
         }
         
         webSocketTask = URLSession.shared.webSocketTask(with: url)

@@ -3,52 +3,52 @@
     {
       "idiom" : "mac",
       "scale" : "1x",
-      "size" : "16x16"
+      "size" : "7x7"
     },
     {
       "idiom" : "mac",
       "scale" : "2x",
-      "size" : "16x16"
+      "size" : "7x7"
     },
     {
       "idiom" : "mac",
       "scale" : "1x",
-      "size" : "32x32"
+      "size" : "11x11"
     },
     {
       "idiom" : "mac",
       "scale" : "2x",
-      "size" : "32x32"
+      "size" : "11x11"
     },
     {
       "idiom" : "mac",
       "scale" : "1x",
-      "size" : "128x128"
+      "size" : "24x24"
     },
     {
       "idiom" : "mac",
       "scale" : "2x",
-      "size" : "128x128"
+      "size" : "24x24"
     },
     {
       "idiom" : "mac",
       "scale" : "1x",
-      "size" : "256x256"
+      "size" : "50x50"
     },
     {
       "idiom" : "mac",
       "scale" : "2x",
-      "size" : "256x256"
+      "size" : "50x50"
     },
     {
       "idiom" : "mac",
       "scale" : "1x",
-      "size" : "512x512"
+      "size" : "100x100"
     },
     {
       "idiom" : "mac",
       "scale" : "2x",
-      "size" : "512x512"
+      "size" : "100x100"
     }
   ],
   "info" : {
