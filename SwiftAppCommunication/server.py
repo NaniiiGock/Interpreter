@@ -1,7 +1,12 @@
 import asyncio
 import websockets
 import json
-import communication_utils
+
+
+
+### TODO: rewrite
+def is_valid_status_code(code: int):
+    return code in [0, 1, 2, 3, 4, 7, 10, 11, 15, 16, 17, 18]
 
 
 async def echo(websocket, path):
@@ -10,11 +15,11 @@ async def echo(websocket, path):
         print("Received: ", data)
 
         statusCode = int(data["statusCode"])
-        assert communication_utils.is_valid_status_code(statusCode), "Wrong StatusCode... :/"
+        assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
 
         response = {**data,
                     **{
-                    "statusCode": 11,
+                    "statusCode": 2,
                     "llmResponse": "I sent this from Python!"
                     }
                 }
