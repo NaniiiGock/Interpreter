@@ -39,31 +39,16 @@ struct ConversationView: View {
         if userInput == "" {
             return
         }
-
-        conversation.append(MessagePair(userInput: userInput))
         
         DispatchQueue.main.async {
+            conversation.append(MessagePair(userInput: userInput))
             self.userInput = ""
+            self.conversation[conversation.count - 1].sendInputTextToLLM()
+            
+            if autoSave {
+                self.conversation[conversation.count - 1].addToBookmarks()
+            }
         }
 
-        self.conversation[conversation.count - 1].sendInputTextToLLM()
-    
-        if autoSave {
-            self.conversation[conversation.count - 1].addToBookmarks()
-        }
-    }
-}
-
-struct ConversationView_Previews: PreviewProvider {
-    struct DummyView: View {
-        @State var tmp_conversation: [MessagePair] = []
-
-        var body: some View {
-            ConversationView(conversation: $tmp_conversation, autoSave: false)
-        }
-    }
-
-    static var previews: some View {
-        DummyView()
     }
 }

@@ -40,8 +40,6 @@ class MessagePair: Identifiable, ObservableObject {
     @Published var statusCode: StatusCode
     let date: Date
     
-    static var webSocketManager = WebSocketManager()
-    
     
     init(id: UUID = UUID(),
          userInput: String = "",
@@ -62,29 +60,20 @@ class MessagePair: Identifiable, ObservableObject {
         var userServerInteractionData = UserServerInteractionDataBuilder().build_all(messagePair: self)
         userServerInteractionData.statusCode = statusCode
 
-        DispatchQueue.main.async {
-            MessagePair.webSocketManager.sendMessage(userServerInteractionData)
-        }
+        WebSocketManager.shared.sendMessage(userServerInteractionData)
         
         if modifyStatus {
             self.statusCode = statusCode
         }
-        
-        
     }
     
     func sendInputTextToLLM() {
         buildJSONAndSendToServer(statusCode: .submitUserResponse, modifyStatus: true)
-
-        // TODO: integrate Server Response
-        // let (llmResponse, responseCode): (LocalizedStringKey, StatusCode) = ("you sure you wanna spend the cents you've worked for?", StatusCode.sentForExecution)
-        // self.llmResponse = llmResponse
-        // self.statusCode = responseCode
     }
     
     func toggleBookmark() {
         buildJSONAndSendToServer(statusCode: self.isSaved ? .removeFromBookmarks : .saveToBookmarks, modifyStatus: false)
-        self.isSaved = !self.isSaved
+        self.isSaved.toggle()
     }
 
     func addToBookmarks() {
@@ -94,6 +83,23 @@ class MessagePair: Identifiable, ObservableObject {
 
     func rerunMe() {
         buildJSONAndSendToServer(statusCode: .askRerun, modifyStatus: true)
+    }
+    
+    func processReceivedData(userServerInteractionData: UserServerInteractionData) {
+        self.statusCode = userServerInteractionData.statusCode
+
+        switch userServerInteractionData.statusCode {
+        case .sentForExecution, .askConfirmation:
+            self.llmResponse = LocalizedStringKey(userServerInteractionData.llmResponse)
+        case .requestSentToAPI, .serverCrash:
+            return
+        case .executedSuccessfully, .executionError:
+            _ = userServerInteractionData.StdOut
+            _ = userServerInteractionData.StdErr
+            // TODO: change the view to show the stdout and stderr
+        default:
+            print("ERROR: MessagePair does not support such Status Code:", userServerInteractionData.statusCode)
+        }
     }
 }
 

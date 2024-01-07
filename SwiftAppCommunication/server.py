@@ -14,11 +14,11 @@ async def echo(websocket, path):
 
         response = {**data,
                     **{
-                    "statusCode": 10,
-                    "userInput": f"Echo: {data['userInput']}",
+                    "statusCode": 11,
+                    "llmResponse": "I sent this from Python!"
                     }
                 }
-        
+
         await websocket.send(json.dumps(response))
 
 async def main():

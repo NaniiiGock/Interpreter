@@ -16,17 +16,10 @@ enum Tab {
 struct ContentView: View {
     @State private var selectedTab: Tab = Tab.New
     
-    @State private var newConversation: [MessagePair] = []
-    // TODO: fetch from the DB
-    @State private var savedConversation: [MessagePair] = [
-        MessagePair(userInput: "I want to listen to some music. Choose a random one.", llmResponse: "Done!", isSaved: true, statusCode: StatusCode.executedSuccessfully),
-        MessagePair(userInput: "Delete the system. I want Linux", llmResponse: """
-**I will execute the following code**:
-`rm -rf /`
-*You OK with this?*
-""", isSaved: true, statusCode: StatusCode.askConfirmation),
-    ]
+    @Binding public var newConversation: [MessagePair]
     
+    // TODO: fetch from the DB
+    @Binding public var savedConversation: [MessagePair]
     
     var body: some View {
         VStack {
@@ -50,13 +43,19 @@ struct ContentView: View {
                 tabChanged(to: oldTab)
             }
         }
+        .onAppear(){
+            WebSocketManager.shared.onMessageReceived = {[self] USID in
+                self.redirectReceivedData(userServerInteractionData: USID)}
+            WebSocketManager.shared.connect()
+        }
     }
-    
-    private func tabChanged(to oldTab: Tab) {
-        if oldTab == Tab.Saved {
+
+    private func tabChanged(to _: Tab) {
+        // here `selectedTab` is already modified.
+        if selectedTab == Tab.New {
             filterUnsavedMessages()
         }
-        else if oldTab == Tab.New {
+        else if selectedTab == Tab.Saved {
             verifySavedMessages()
         }
     }
@@ -75,8 +74,49 @@ struct ContentView: View {
             }
         }
     }
+    
+    private func redirectReceivedData(userServerInteractionData: UserServerInteractionData) {
+        guard let receivedUUID = UUID(uuidString: userServerInteractionData.UUID) else {
+            fatalError("Invalid UUID string")
+        }
+
+        var messagePairInInterest: MessagePair?
+
+        if let index = newConversation.firstIndex(where: { $0.id == receivedUUID }) {
+            messagePairInInterest = newConversation[index]
+        }
+        if let index = savedConversation.firstIndex(where: { $0.id == receivedUUID }) {
+            messagePairInInterest = savedConversation[index]
+        }
+        
+        if messagePairInInterest == nil {
+            print("WARNING: MessagePair not found for received UUID")
+            return
+        }
+        messagePairInInterest!.processReceivedData(userServerInteractionData: userServerInteractionData)
+    }
 }
 
-#Preview {
-    ContentView()
+
+
+struct ContentView_Previews: PreviewProvider {
+    struct PreviewWrapper: View {
+        @State var newConversation: [MessagePair] = []
+        @State var savedConversation: [MessagePair] = [
+            MessagePair(userInput: "I want to listen to some music. Choose a random one.", llmResponse: "Done!", isSaved: true, statusCode: StatusCode.executedSuccessfully),
+            MessagePair(userInput: "Delete the system. I want Linux", llmResponse: """
+            **I will execute the following code**:
+            `rm -rf /`
+            *You OK with this?*
+            """, isSaved: true, statusCode: StatusCode.askConfirmation)
+        ]
+
+        var body: some View {
+            ContentView(newConversation: $newConversation, savedConversation: $savedConversation)
+        }
+    }
+
+    static var previews: some View {
+        PreviewWrapper()
+    }
 }

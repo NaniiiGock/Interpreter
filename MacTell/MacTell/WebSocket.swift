@@ -6,26 +6,23 @@
 //
 
 import Foundation
-import SwiftUI
-
-
 
 class WebSocketManager: ObservableObject {
+    static let shared = WebSocketManager()  // singleton
+    
     var webSocketTask: URLSessionWebSocketTask?
-    @Published var receivedMessage: UserServerInteractionData?
-    var isConnected = false
+    var onMessageReceived: ((UserServerInteractionData) -> Void)?
 
     func connect() {
-        if isConnected {
+        guard let url = URL(string: "ws://localhost:8765") else {
+            print("Invalid Socket URL")
             return
         }
-
-        let url = URL(string: "ws://localhost:8765")!
+        
         webSocketTask = URLSession.shared.webSocketTask(with: url)
         webSocketTask?.resume()
         print("DEBUG: Connection established!")
         receiveMessage()
-        isConnected = true
     }
 
     func disconnect() {
@@ -33,10 +30,6 @@ class WebSocketManager: ObservableObject {
     }
 
     func sendMessage(_ message: UserServerInteractionData) {
-        if !(isConnected) {
-            connect()
-        }
-
         guard let jsonData = try? JSONEncoder().encode(message),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             print("ERROR: Failed to encode message")
@@ -51,28 +44,27 @@ class WebSocketManager: ObservableObject {
     }
 
     private func receiveMessage() {
-
         webSocketTask?.receive { [weak self] result in
             switch result {
             case .failure(let error):
                 print("Error in receiving message: \(error).        Or, the connection has been closed.")
             case .success(let message):
-                switch message {
-                case .string(let text):
-                    DispatchQueue.main.async {
-                        if let data = text.data(using: .utf8),
-                           let message = try? JSONDecoder().decode(UserServerInteractionData.self, from: data) {
-                            // Process the received message
-                            self?.receivedMessage = message
-                            // TODO: process the message
-                        } else {
-                            print("Failed to decode JSON")
-                        }
-                    }
-                default:
-                    break
+                self?.processReceivedMessage(message)
+                
+            }
+            self?.receiveMessage() // Continue listening for messages
+        }
+    }
+    
+    private func processReceivedMessage(_ message: URLSessionWebSocketTask.Message) {
+        if case .string(let text) = message {
+            DispatchQueue.main.async {
+                if let data = text.data(using: .utf8),
+                   let userServerInteractionData = try? JSONDecoder().decode(UserServerInteractionData.self, from: data) {
+                    self.onMessageReceived?(userServerInteractionData)
+                } else {
+                    print("Failed to decode JSON")
                 }
-                self?.receiveMessage() // Continue listening for messages
             }
         }
     }

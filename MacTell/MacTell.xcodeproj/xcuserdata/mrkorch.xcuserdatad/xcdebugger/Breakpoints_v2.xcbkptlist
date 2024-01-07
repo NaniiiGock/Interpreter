@@ -52,5 +52,195 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8570C6BC-E45F-48D9-8445-D03645C44101"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MacTell/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "11"
+            endingLineNumber = "11"
+            landmarkName = "Tab"
+            landmarkType = "13">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "653FF413-F7B4-4C78-A0B8-06320CD5C7C3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MacTell/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "verifySavedMessages()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "653FF413-F7B4-4C78-A0B8-06320CD5C7C3 - e0b1f5451258389a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MacTell.ContentView.verifySavedMessages() -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "96">
+               </Location>
+               <Location
+                  uuid = "653FF413-F7B4-4C78-A0B8-06320CD5C7C3 - e0b1f545125838dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MacTell.ContentView.verifySavedMessages() -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "108">
+               </Location>
+               <Location
+                  uuid = "653FF413-F7B4-4C78-A0B8-06320CD5C7C3 - d4235e4318b82082"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (MacTell.MessagePair) -&gt; Swift.Bool in MacTell.ContentView.verifySavedMessages() -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "653FF413-F7B4-4C78-A0B8-06320CD5C7C3 - e0b1f545125838bd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MacTell.ContentView.verifySavedMessages() -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "96">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9CE3F761-FA50-4B61-9156-13D9BD78A79C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MacTell/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "tabChanged(to:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9CE3F761-FA50-4B61-9156-13D9BD78A79C - 9068c74c2954a9a5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MacTell.ContentView.tabChanged(to: MacTell.Tab) -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "104">
+               </Location>
+               <Location
+                  uuid = "9CE3F761-FA50-4B61-9156-13D9BD78A79C - 9068c74c2954a9a5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MacTell.ContentView.tabChanged(to: MacTell.Tab) -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "72">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "186B9EB3-A9C1-4CCF-9BA6-CC11C386E6FB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MacTell/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "redirectReceivedData(userServerInteractionData:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "186B9EB3-A9C1-4CCF-9BA6-CC11C386E6FB - 9551933c4ce0c167"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MacTell.ContentView.redirectReceivedData(userServerInteractionData: MacTell.UserServerInteractionData) -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "2176">
+               </Location>
+               <Location
+                  uuid = "186B9EB3-A9C1-4CCF-9BA6-CC11C386E6FB - 9551933c4ce0c167"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MacTell.ContentView.redirectReceivedData(userServerInteractionData: MacTell.UserServerInteractionData) -&gt; ()"
+                  moduleName = "MacTell"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mrkorch/Desktop/UCU3/OS/Interpreter/MacTell/MacTell/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "408">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
