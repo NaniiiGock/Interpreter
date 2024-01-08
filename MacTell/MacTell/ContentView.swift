@@ -7,30 +7,25 @@
 
 import SwiftUI
 
-
 enum Tab {
-  case New, Saved
+    case New, Saved
 }
 
-
 struct ContentView: View {
-    @State private var selectedTab: Tab = Tab.New
-    
+    @State private var selectedTab: Tab = .New
+
     @Binding public var newConversation: [MessagePair]
-    
-    // TODO: fetch from the DB
     @Binding public var savedConversation: [MessagePair]
-    
+
     var body: some View {
         VStack {
             TabView(selection: $selectedTab) {
-                
                 ConversationView(conversation: $newConversation, autoSave: false)
                     .tabItem {
                         Label("New", systemImage: "pencil")
                     }
                     .tag(Tab.New)
-                
+
                 ConversationView(conversation: $savedConversation, autoSave: true)
                     .tabItem {
                         Label("Saved", systemImage: "bookmark")
@@ -43,9 +38,10 @@ struct ContentView: View {
                 tabChanged(to: oldTab)
             }
         }
-        .onAppear(){
-            WebSocketManager.shared.onMessageReceived = {[self] USID in
-                self.redirectReceivedData(userServerInteractionData: USID)}
+        .onAppear {
+            WebSocketManager.shared.onMessageReceived = self.redirectReceivedData
+            WebSocketManager.shared.onPlethoraMessagesReceived = self.replaceSavedMessages
+
             WebSocketManager.shared.connect()
         }
     }
@@ -59,7 +55,7 @@ struct ContentView: View {
             verifySavedMessages()
         }
     }
-    
+
     private func filterUnsavedMessages() {
         savedConversation = savedConversation.filter { $0.isSaved }
     }
@@ -74,7 +70,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     private func redirectReceivedData(userServerInteractionData: UserServerInteractionData) {
         guard let receivedUUID = UUID(uuidString: userServerInteractionData.UUID) else {
             fatalError("Invalid UUID string")
@@ -88,16 +84,20 @@ struct ContentView: View {
         if let index = savedConversation.firstIndex(where: { $0.id == receivedUUID }) {
             messagePairInInterest = savedConversation[index]
         }
-        
+
         if messagePairInInterest == nil {
             print("WARNING: MessagePair not found for received UUID")
             return
         }
         messagePairInInterest!.processReceivedData(userServerInteractionData: userServerInteractionData)
     }
+
+    private func replaceSavedMessages(USIDArr: [UserServerInteractionData]) {
+        savedConversation = USIDArr.map { USID in
+            MessagePair(id: UUID(uuidString: USID.UUID)!, userInput: USID.userInput, llmResponse: LocalizedStringKey(USID.llmResponse), isSaved: true, statusCode: USID.statusCode, date: USID.Date)
+        }
+    }
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     struct PreviewWrapper: View {

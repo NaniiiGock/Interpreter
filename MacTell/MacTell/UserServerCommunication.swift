@@ -9,10 +9,8 @@ import Foundation
 import PythonKit
 import SwiftUI
 
-
-
 struct UserServerInteractionData: Codable {
-    var statusCode: StatusCode = StatusCode.noActionTaken
+    var statusCode: StatusCode = .noActionTaken
 
     var UUID: String = ""
     var userInput: String = ""
@@ -22,36 +20,34 @@ struct UserServerInteractionData: Codable {
     var Date: String = ""
 }
 
-
-
 class UserServerInteractionDataBuilder {
     public var userServerInteractionData: UserServerInteractionData?
-    
+
     func refresh() -> UserServerInteractionDataBuilder {
         self.userServerInteractionData = UserServerInteractionData()
         return self
     }
-    
+
     func addUUID(messagePair: MessagePair) -> UserServerInteractionDataBuilder {
         self.userServerInteractionData?.UUID = messagePair.id.uuidString
         return self
     }
-    
+
     func addUserInput(messagePair: MessagePair) -> UserServerInteractionDataBuilder {
         self.userServerInteractionData?.userInput = messagePair.userInput
         return self
     }
-    
-    func addDate(messagePair: MessagePair) -> Void  {
-        self.userServerInteractionData?.Date = messagePair.formattedDate
+
+    func addDate(messagePair: MessagePair) {
+        self.userServerInteractionData?.Date = messagePair.date
     }
-    
+
     func build_all(messagePair: MessagePair) -> UserServerInteractionData {
         self.refresh()
             .addUUID(messagePair: messagePair)
             .addUserInput(messagePair: messagePair)
             .addDate(messagePair: messagePair)
-        
+
         return self.userServerInteractionData!
     }
 }
