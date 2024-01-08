@@ -6,7 +6,7 @@ import json
 
 ### TODO: rewrite
 def is_valid_status_code(code: int):
-    return code in [0, 1, 2, 3, 4, 7, 10, 11, 15, 16, 17, 18]
+    return code in [0, 1, 2, 3, 4, 7, 10, 11, 15, 16, 17, 18, 19]
 
 
 async def echo(websocket, path):
@@ -25,6 +25,8 @@ async def echo(websocket, path):
                 }
 
         await websocket.send(json.dumps(response))
+
+        
 
 async def main():
     async with websockets.serve(echo, "localhost", 8765):

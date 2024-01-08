@@ -43,6 +43,7 @@ struct ContentView: View {
             WebSocketManager.shared.onPlethoraMessagesReceived = self.replaceSavedMessages
 
             WebSocketManager.shared.connect()
+            WebSocketManager.shared.sendMessage(UserServerInteractionData(statusCode: .askAllSaved))
         }
     }
 
