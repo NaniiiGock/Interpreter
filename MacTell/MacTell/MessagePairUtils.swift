@@ -28,8 +28,9 @@ enum StatusCode: Int, Codable {
 
     case saveToBookmarks = 15
     case removeFromBookmarks = 16
-    // TODO: add garbage bin button
+
     case deleteUserMessage = 18
+
     case askAllSaved = 19
     case sendAllSaved = 20
 }

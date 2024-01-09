@@ -92,62 +92,88 @@ class MessagePair: Identifiable, ObservableObject {
 struct MessageView: View {
     @ObservedObject var messagePair: MessagePair
     @State private var showOutputPopover = false
+    var onDelete: ((MessagePair) -> Void)?
+    
+    @State private var isHovering = false
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 10) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(self.messagePair.userInput)
-                Text(self.messagePair.llmResponse)
-                    .foregroundColor(.purple)
-                
+        
+        ZStack(alignment: .topTrailing) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(self.messagePair.userInput)
+                    Text(self.messagePair.llmResponse)
+                        .foregroundColor(.purple)
+                    
 
-                
+                    
+                    Spacer()
+                    Text(self.messagePair.date)
+                        .font(.system(size: 10))
+                        .foregroundColor(.gray)
+                }
                 Spacer()
-                Text(self.messagePair.date)
-                    .font(.system(size: 10))
-                    .foregroundColor(.gray)
+
+                VStack(alignment: .trailing, spacing: 5) {
+                    HStack {
+                        Button(action: { self.messagePair.toggleBookmark() }) {
+                            Image(systemName: self.messagePair.isSaved ? "bookmark.fill" : "bookmark")
+                        }
+
+                        Button(action: { self.messagePair.rerunMe() }) {
+                            Image(systemName: self.messagePair.statusCode == StatusCode.askConfirmation ? "checkmark" : "arrow.clockwise")
+                        }
+                    }
+
+                    Spacer()
+
+                    HStack {
+                        if !self.messagePair.stdOut.isEmpty || !self.messagePair.stdErr.isEmpty {
+                            Button(action: { self.showOutputPopover.toggle() }) {
+                                Text(showOutputPopover ? "Hide Output" : "Show Output")
+                                // Image(systemName: "chevron.down.circle.fill")
+                            }
+                            .popover(isPresented: $showOutputPopover) {
+                                OutputPopoverView(stdOut: self.messagePair.stdOut, stdErr: self.messagePair.stdErr)
+                            }
+                        }
+                        
+                        
+                        let statusAppearance = self.messagePair.getStatusAppearance()
+
+                        statusAppearance.icon
+                        Text(statusAppearance.text)
+                            .foregroundColor(statusAppearance.color)
+                    }
+
+
+                }
             }
-            Spacer()
+            .padding()
+            .background(Color.gray.opacity(0.2))
+            .cornerRadius(10)
+            .padding()
+            
+            if onDelete != nil {
+                Button(action: { self.onDelete?(self.messagePair) }) {
+                    Image(systemName: "xmark")
+                        .imageScale(.small) // Adjusts the scale of the image
+                        .font(.system(size: 12)) // Adjusts the size of the image
 
-            VStack(alignment: .trailing, spacing: 5) {
-                HStack {
-                    Button(action: { self.messagePair.toggleBookmark() }) {
-                        Image(systemName: self.messagePair.isSaved ? "bookmark.fill" : "bookmark")
-                    }
-
-                    Button(action: { self.messagePair.rerunMe() }) {
-                        Image(systemName: self.messagePair.statusCode == StatusCode.askConfirmation ? "checkmark" : "arrow.clockwise")
-                    }
+                        .foregroundColor(.white) // Changing text color to white for contrast
+                        .padding(3) // Adjust padding for touch area, slightly increased for better touch target
                 }
-
-                Spacer()
-
-                HStack {
-                    if !self.messagePair.stdOut.isEmpty || !self.messagePair.stdErr.isEmpty {
-                        Button(action: { self.showOutputPopover.toggle() }) {
-                            Text(showOutputPopover ? "Hide Output" : "Show Output")
-                            // Image(systemName: "chevron.down.circle.fill")
-                        }
-                        .popover(isPresented: $showOutputPopover) {
-                            OutputPopoverView(stdOut: self.messagePair.stdOut, stdErr: self.messagePair.stdErr)
-                        }
-                    }
-                    
-                    
-                    let statusAppearance = self.messagePair.getStatusAppearance()
-
-                    statusAppearance.icon
-                    Text(statusAppearance.text)
-                        .foregroundColor(statusAppearance.color)
+                .onHover {hovering in
+                            self.isHovering = hovering
                 }
-
-
+                .background(Color.black) // Changing background to black for a darker appearance
+                .opacity(self.isHovering ? 0.7 : 0.3)
+                .cornerRadius(20) // Keeping the circular shape
+                .padding([.top, .trailing], 3) // Adjust padding to position the button correctly
+                
             }
         }
-        .padding()
-        .background(Color.gray.opacity(0.2))
-        .cornerRadius(10)
-        .padding()
+
     }
 }
 

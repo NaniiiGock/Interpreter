@@ -10,6 +10,7 @@ import SwiftUI
 struct ConversationView: View {
     @Binding var conversation: [MessagePair]
     let autoSave: Bool
+    var onDelete: ((MessagePair) -> Void)?
 
     @State private var userInput = ""
 
@@ -17,9 +18,10 @@ struct ConversationView: View {
         VStack {
             ScrollView {
                 ForEach($conversation, id: \.id) {
-                    $messagePair in MessageView(messagePair: messagePair)
+                    $messagePair in MessageView(messagePair: messagePair, onDelete: self.onDelete)
                 }
             }
+            .defaultScrollAnchor(.bottom)
 
             HStack {
                 TextField("Type a message", text: $userInput, onCommit: sendMessage)

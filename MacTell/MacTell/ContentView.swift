@@ -20,13 +20,13 @@ struct ContentView: View {
     var body: some View {
         VStack {
             TabView(selection: $selectedTab) {
-                ConversationView(conversation: $newConversation, autoSave: false)
+                ConversationView(conversation: $newConversation, autoSave: false, onDelete: self.onDelete)
                     .tabItem {
                         Label("New", systemImage: "pencil")
                     }
                     .tag(Tab.New)
 
-                ConversationView(conversation: $savedConversation, autoSave: true)
+                ConversationView(conversation: $savedConversation, autoSave: true, onDelete: self.onDelete)
                     .tabItem {
                         Label("Saved", systemImage: "bookmark")
                     }
@@ -98,7 +98,32 @@ struct ContentView: View {
             MessagePair(id: UUID(uuidString: USID.UUID)!, userInput: USID.userInput, llmResponse: LocalizedStringKey(USID.llmResponse), isSaved: true, statusCode: USID.statusCode, date: USID.Date, stdOut: USID.StdOut, stdErr: USID.StdErr)
         }
     }
+    
+    private func onDelete(messagePair: MessagePair) {
+        DispatchQueue.main.async {
+            let toDeleteUUID = messagePair.id
+
+            var sendDeleteMessage = false
+
+            if let index = newConversation.firstIndex(where: { $0.id == toDeleteUUID }) {
+                newConversation.remove(at: index)
+                sendDeleteMessage = true
+            }
+
+            if let index = savedConversation.firstIndex(where: { $0.id == toDeleteUUID }) {
+                savedConversation.remove(at: index)
+                sendDeleteMessage = true
+            }
+
+            if sendDeleteMessage {
+                WebSocketManager.shared.sendMessage(UserServerInteractionData(statusCode: .deleteUserMessage, UUID: toDeleteUUID.uuidString))
+            }
+                
+            
+        }
+    }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     struct PreviewWrapper: View {

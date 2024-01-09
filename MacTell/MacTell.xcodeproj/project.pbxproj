@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D5210BE32B4DA3FF006893ED /* MessagePairUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5210BE22B4DA3FF006893ED /* MessagePairUtils.swift */; };
 		D52654672B48A43000641F7D /* PythonKit in Frameworks */ = {isa = PBXBuildFile; productRef = D52654662B48A43000641F7D /* PythonKit */; };
 		D53ED56D2B46B91F001997C6 /* MacTellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56C2B46B91F001997C6 /* MacTellApp.swift */; };
 		D53ED56F2B46B91F001997C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56E2B46B91F001997C6 /* ContentView.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D5210BE22B4DA3FF006893ED /* MessagePairUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePairUtils.swift; sourceTree = "<group>"; };
 		D53ED5692B46B91F001997C6 /* MacTell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacTell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D53ED56C2B46B91F001997C6 /* MacTellApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacTellApp.swift; sourceTree = "<group>"; };
 		D53ED56E2B46B91F001997C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				D53ED56E2B46B91F001997C6 /* ContentView.swift */,
 				D53ED5992B46C317001997C6 /* ConversationView.swift */,
 				D53ED5972B46BFA9001997C6 /* MessagePair.swift */,
+				D5210BE22B4DA3FF006893ED /* MessagePairUtils.swift */,
 				D53ED5702B46B920001997C6 /* Assets.xcassets */,
 				D58634492B49933F00C70256 /* WebSocket.swift */,
 				D53ED5752B46B920001997C6 /* MacTell.entitlements */,
@@ -283,6 +286,7 @@
 				D586344A2B49933F00C70256 /* WebSocket.swift in Sources */,
 				D58634482B495F1000C70256 /* UserServerCommunication.swift in Sources */,
 				D53ED56F2B46B91F001997C6 /* ContentView.swift in Sources */,
+				D5210BE32B4DA3FF006893ED /* MessagePairUtils.swift in Sources */,
 				D53ED56D2B46B91F001997C6 /* MacTellApp.swift in Sources */,
 				D53ED59A2B46C317001997C6 /* ConversationView.swift in Sources */,
 			);
