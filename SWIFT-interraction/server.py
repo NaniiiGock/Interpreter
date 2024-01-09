@@ -28,7 +28,6 @@ async def echo(websocket, path):
         #     await websocket.send(json.dumps(response))
 
         if statusCode == StatusCode.SUBMIT_USER_RESPONSE:
-            print('got here')
             response = {**data,
                         **{
                             "statusCode": StatusCode.REQUEST_SENT_TO_API,
