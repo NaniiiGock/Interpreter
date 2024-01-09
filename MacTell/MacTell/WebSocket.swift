@@ -29,6 +29,7 @@ class WebSocketManager: ObservableObject {
         webSocketTask?.cancel(with: .normalClosure, reason: nil)
     }
 
+    // TODO: research how receive works: is it order-preserving ?
     func sendMessage(_ message: UserServerInteractionData) {
         guard let jsonData = try? JSONEncoder().encode(message),
               let jsonString = String(data: jsonData, encoding: .utf8)

@@ -23,8 +23,8 @@ async def echo(websocket, path):
                     "llmResponse": "I sent this from Python!"
                     }
                 }
-
-        await websocket.send(json.dumps(response))
+        if statusCode != 19:
+            await websocket.send(json.dumps(response))
 
         
 

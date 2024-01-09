@@ -25,7 +25,7 @@ enum StatusCode: Int, Codable {
 
     case saveToBookmarks = 15
     case removeFromBookmarks = 16
-    case deleteAllUnsaved = 17
+    // TODO: add garbage bin button
     case deleteUserMessage = 18
     case askAllSaved = 19
     case sendAllSaved = 20
@@ -116,6 +116,7 @@ struct StatusAppearance {
 
 extension MessagePair {
     func getStatusAppearance() -> StatusAppearance {
+        // TODO: change the texts
         let appearance: [StatusCode: StatusAppearance] = [
             .noActionTaken: .init(icon: Image(systemName: "ellipsis.circle"), text: "No Action Taken", color: .gray),
             .sentForExecution: .init(icon: Image(systemName: "hourglass"), text: "Sent for Execution", color: .blue),

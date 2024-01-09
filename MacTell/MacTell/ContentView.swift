@@ -34,7 +34,7 @@ struct ContentView: View {
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .onChange(of: selectedTab) { oldTab, _ in
+            .onChange(of: selectedTab) { oldTab in
                 tabChanged(to: oldTab)
             }
         }
@@ -94,6 +94,7 @@ struct ContentView: View {
     }
 
     private func replaceSavedMessages(USIDArr: [UserServerInteractionData]) {
+        // TODO: check +=
         savedConversation = USIDArr.map { USID in
             MessagePair(id: UUID(uuidString: USID.UUID)!, userInput: USID.userInput, llmResponse: LocalizedStringKey(USID.llmResponse), isSaved: true, statusCode: USID.statusCode, date: USID.Date)
         }
