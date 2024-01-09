@@ -2,7 +2,18 @@ from enum import Enum
 
 
 class StatusCode(Enum):
-    SAFE = 0  # No confirmation needed
-    CONFIRM = 1
-    ERROR = 7
-    RAW_TEXT = 8
+    NO_ACTION_TAKEN = -1
+    SENT_FOR_EXECUTION = 0
+    ASK_CONFIRMATION = 1
+    REQUEST_SENT_TO_API = 2
+    SUBMIT_USER_RESPONSE = 3
+    ASK_RERUN = 4
+    RAW_TEXT = 5
+    SERVER_CRASH = 7
+    EXECUTED_SUCCESSFULLY = 10
+    EXECUTION_ERROR = 11
+    SAVE_TO_BOOKMARKS = 15
+    REMOVE_FROM_BOOKMARKS = 16
+    DELETE_USER_MESSAGE = 18
+    ASK_ALL_SAVED = 19
+    SEND_ALL_SAVED = 20

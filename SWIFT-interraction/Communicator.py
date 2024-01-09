@@ -23,7 +23,7 @@ class Communicator:
         if status_code == StatusCode.RAW_TEXT:
             return uuid, response.content, status_code
 
-        elif status_code == StatusCode.SAFE:
+        elif status_code == StatusCode.SENT_FOR_EXECUTION:
             asyncio.create_task(
                 ExecutionHandler.execute_code_asynchronously(
                     ResponseParser.get_func_class(response.func_name),
@@ -31,7 +31,7 @@ class Communicator:
                 )
             )
             return uuid, ResponseParser.get_func_class(response.func_name).get_exec_description(), status_code
-        elif status_code == StatusCode.CONFIRM:
+        elif status_code == StatusCode.ASK_CONFIRMATION:
             return uuid, \
                 ResponseParser.get_func_class(response.func_name).get_confirmation_message(
                     **response.get_formatted_args()

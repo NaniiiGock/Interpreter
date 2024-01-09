@@ -29,11 +29,11 @@ class ResponseParser:
             response.set_func_name("execute_script")
             response.set_func_args(json.dumps({"language": code_blocks[0][0],
                                                "code": code_blocks[0][1]}))
-            return response, StatusCode.CONFIRM
+            return response, StatusCode.ASK_CONFIRMATION
 
         # if there's no executable code in the message, just raw text
         response.set_content(message.content)
-        return response, StatusCode.SAFE
+        return response, StatusCode.RAW_TEXT
 
     @staticmethod
     def determine_safety(function_name: str):
@@ -43,8 +43,8 @@ class ResponseParser:
         """
         function_class = ResponseParser.get_func_class(function_name)
         if issubclass(function_class, RedFunction):
-            return StatusCode.CONFIRM
-        return StatusCode.SAFE
+            return StatusCode.ASK_CONFIRMATION
+        return StatusCode.SENT_FOR_EXECUTION
 
     @staticmethod
     def get_func_class(func_name: str):
