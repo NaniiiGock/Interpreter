@@ -28,7 +28,7 @@ class ExecutionHandler:
                         }
                         }
             print("Failed exec : Sending: ", response)
-            websocket.send(json.dumps(response))
+            await websocket.send(json.dumps(response))
 
         # Return the result
         return result

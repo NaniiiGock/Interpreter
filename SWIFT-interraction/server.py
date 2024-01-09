@@ -37,6 +37,9 @@ async def echo(websocket, path):
             asyncio.create_task(process_user_input(data, websocket))
 
 
+        # if statusCode == StatusCode.
+
+
 async def process_user_input(data, websocket):
     uuid = data['UUID']
     user_input = data['userInput']
