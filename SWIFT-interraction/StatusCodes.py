@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class StatusCode(Enum):
+class StatusCode:
     NO_ACTION_TAKEN = -1
     SENT_FOR_EXECUTION = 0
     ASK_CONFIRMATION = 1

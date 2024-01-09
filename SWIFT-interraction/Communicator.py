@@ -7,13 +7,16 @@ import asyncio
 
 class Communicator:
     @staticmethod
-    async def async_swift_input(uuid, user_input):
+    async def async_swift_input(data, websocket):
         """
         Function that will be called from swift to send user input to the LLM
-        :param uuid:
-        :param user_input:
+        :param data:
+        :param websocket:
         :return:
         """
+        uuid = data['UUID']
+        user_input = data['userInput']
+
         llm_client = LiteLLMClient("gpt-3.5-turbo")
         llm_message = llm_client.get_response(user_input)
         response, status_code = ResponseParser.parse_response_object(llm_message)
@@ -27,7 +30,7 @@ class Communicator:
             asyncio.create_task(
                 ExecutionHandler.execute_code_asynchronously(
                     ResponseParser.get_func_class(response.func_name),
-                    response.get_formatted_args()
+                    response.get_formatted_args(), data, websocket
                 )
             )
             return uuid, ResponseParser.get_func_class(response.func_name).get_exec_description(), status_code

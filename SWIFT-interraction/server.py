@@ -18,16 +18,16 @@ async def echo(websocket, path):
         statusCode = int(data["statusCode"])
         assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
 
-        response = {**data,
-                    **{
-                        "statusCode": StatusCode.REQUEST_SENT_TO_API,
-                        "llmResponse": "I sent this from Python!"
-                    }
-                    }
-        if statusCode != StatusCode.ASK_ALL_SAVED:
-            await websocket.send(json.dumps(response))
+        # response = {**data,
+        #             **{
+        #                 "statusCode": StatusCode.REQUEST_SENT_TO_API,
+        #                 "llmResponse": "I sent this from Python!"
+        #             }
+        #             }
+        # if statusCode != StatusCode.ASK_ALL_SAVED.value:
+        #     await websocket.send(json.dumps(response))
 
-        elif statusCode == StatusCode.SUBMIT_USER_RESPONSE:
+        if statusCode == StatusCode.SUBMIT_USER_RESPONSE:
             print('got here')
             response = {**data,
                         **{
@@ -43,7 +43,7 @@ async def process_user_input(data, websocket):
     user_input = data['userInput']
 
     # Call the communicator's method to send input to LLM and get a response
-    response_uuid, llm_response, response_status_code = await Communicator.async_swift_input(uuid, user_input)
+    response_uuid, llm_response, response_status_code = await Communicator.async_swift_input(data, websocket)
 
     # Send the LLM response back to the client asynchronously
     response = {**data,
