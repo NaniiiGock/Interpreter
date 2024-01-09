@@ -1,6 +1,7 @@
 import json
 from .StatusCodes import StatusCode
 
+
 class ExecutionHandler:
     @staticmethod
     async def execute_code_asynchronously(function_class, func_params, data, websocket):
@@ -16,6 +17,17 @@ class ExecutionHandler:
                         }
                         }
             print("Successful exec : Sending: ", response)
+            await websocket.send(json.dumps(response))
+            print("SENT")
+        else:
+            response = {**data,
+                        **{
+                            "statusCode": StatusCode.EXECUTION_ERROR,
+                            "StdOut": result['stdout'],
+                            "StdErr": result['stderr'],
+                        }
+                        }
+            print("Failed exec : Sending: ", response)
             websocket.send(json.dumps(response))
 
         # Return the result

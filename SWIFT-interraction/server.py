@@ -19,7 +19,6 @@ async def echo(websocket, path):
         assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
 
         if statusCode == StatusCode.SUBMIT_USER_RESPONSE:
-            print('got here')
             response = {**data,
                         **{
                             "statusCode": StatusCode.REQUEST_SENT_TO_API,
