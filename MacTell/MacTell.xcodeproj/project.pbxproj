@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D5210BE32B4DA3FF006893ED /* MessagePairUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5210BE22B4DA3FF006893ED /* MessagePairUtils.swift */; };
-		D52654672B48A43000641F7D /* PythonKit in Frameworks */ = {isa = PBXBuildFile; productRef = D52654662B48A43000641F7D /* PythonKit */; };
 		D53ED56D2B46B91F001997C6 /* MacTellApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56C2B46B91F001997C6 /* MacTellApp.swift */; };
 		D53ED56F2B46B91F001997C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53ED56E2B46B91F001997C6 /* ContentView.swift */; };
 		D53ED5712B46B920001997C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D53ED5702B46B920001997C6 /* Assets.xcassets */; };
@@ -63,7 +62,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D52654672B48A43000641F7D /* PythonKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +161,6 @@
 			);
 			name = MacTell;
 			packageProductDependencies = (
-				D52654662B48A43000641F7D /* PythonKit */,
 			);
 			productName = MacTell;
 			productReference = D53ED5692B46B91F001997C6 /* MacTell.app */;
@@ -238,7 +235,6 @@
 			);
 			mainGroup = D53ED5602B46B91F001997C6;
 			packageReferences = (
-				D52654652B48A43000641F7D /* XCRemoteSwiftPackageReference "PythonKit" */,
 			);
 			productRefGroup = D53ED56A2B46B91F001997C6 /* Products */;
 			projectDirPath = "";
@@ -618,25 +614,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		D52654652B48A43000641F7D /* XCRemoteSwiftPackageReference "PythonKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pvieito/PythonKit.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D52654662B48A43000641F7D /* PythonKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D52654652B48A43000641F7D /* XCRemoteSwiftPackageReference "PythonKit" */;
-			productName = PythonKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D53ED5612B46B91F001997C6 /* Project object */;
 }

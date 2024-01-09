@@ -118,7 +118,6 @@ struct ContentView: View {
             if sendDeleteMessage {
                 WebSocketManager.shared.sendMessage(UserServerInteractionData(statusCode: .deleteUserMessage, UUID: toDeleteUUID.uuidString))
             }
-                
             
         }
     }
