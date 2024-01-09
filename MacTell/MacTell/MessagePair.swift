@@ -71,7 +71,7 @@ class MessagePair: Identifiable, ObservableObject {
     
     func confirmExecution() {
         self.buildJSONAndSendToServer(statusCode: .confirmExecution, modifyStatus: false)
-        self.statusCode = .submitUserResponse
+        self.statusCode = .requestSentToAPI
     }
 
     func processReceivedData(userServerInteractionData: UserServerInteractionData) {
