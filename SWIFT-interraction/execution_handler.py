@@ -1,5 +1,5 @@
 import json
-from StatusCodes import StatusCode
+from .StatusCodes import StatusCode
 
 
 class ExecutionHandler:

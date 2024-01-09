@@ -23,6 +23,7 @@ enum StatusCode: Int, Codable {
     case rawText = 5 // LLM Response is a raw text.
 
     case serverCrash = 7 // CriticalError
+    case confirmExecution = 8 // User allows for run
     case executedSuccessfully = 10 // The execution was successful
     case executionError = 11 // The execution was unsuccessful
 

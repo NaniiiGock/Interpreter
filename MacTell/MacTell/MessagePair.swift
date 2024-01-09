@@ -28,18 +28,17 @@ class MessagePair: Identifiable, ObservableObject {
          statusCode: StatusCode = .noActionTaken,
          date: String = getFormattedDate(date: Date()),
          stdOut: String = "",
-         stdErr: String = "")
-    {
-        self.id = id
-        self.userInput = userInput
-        self.llmResponse = llmResponse
-        self.isSaved = isSaved
-        self.statusCode = statusCode
-        self.date = date
+         stdErr: String = "") {
+    self.id = id
+    self.userInput = userInput
+    self.llmResponse = llmResponse
+    self.isSaved = isSaved
+    self.statusCode = statusCode
+    self.date = date
 
-        self.stdOut = stdOut
-        self.stdErr = stdErr
-    }
+    self.stdOut = stdOut
+    self.stdErr = stdErr
+}
 
     func buildJSONAndSendToServer(statusCode: StatusCode, modifyStatus: Bool) {
         var userServerInteractionData = UserServerInteractionDataBuilder().build_all(messagePair: self)
@@ -68,6 +67,11 @@ class MessagePair: Identifiable, ObservableObject {
 
     func rerunMe() {
         self.buildJSONAndSendToServer(statusCode: .askRerun, modifyStatus: true)
+    }
+    
+    func confirmExecution() {
+        self.buildJSONAndSendToServer(statusCode: .confirmExecution, modifyStatus: false)
+        self.statusCode = .requestSentToAPI
     }
 
     func processReceivedData(userServerInteractionData: UserServerInteractionData) {
@@ -120,7 +124,7 @@ struct MessageView: View {
                             Image(systemName: self.messagePair.isSaved ? "bookmark.fill" : "bookmark")
                         }
 
-                        Button(action: { self.messagePair.rerunMe() }) {
+                        Button(action: { self.messagePair.statusCode == StatusCode.askConfirmation ? self.messagePair.confirmExecution() : self.messagePair.rerunMe() }) {
                             Image(systemName: self.messagePair.statusCode == StatusCode.askConfirmation ? "checkmark" : "arrow.clockwise")
                         }
                     }
