@@ -8,35 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum StatusCode: Int, Codable {
-    case noActionTaken = -1 // default
 
-    case sentForExecution = 0 // command's execution has started.
-    case askConfirmation = 1 // app has to ask user for execution confirmation.
-
-    case requestSentToAPI = 2 // app’s UserRequest has been submitted to LLM.
-
-    case submitUserResponse = 3 // The app asks server to submit userInput to LLM.
-    case askRerun = 4 // User wants to rerun the command.
-
-    case serverCrash = 7 // CriticalError
-    case executedSuccessfully = 10 // The execution was successful
-    case executionError = 11 // The execution was unsuccessful
-
-    case saveToBookmarks = 15
-    case removeFromBookmarks = 16
-    // TODO: add garbage bin button
-    case deleteUserMessage = 18
-    case askAllSaved = 19
-    case sendAllSaved = 20
-}
-
-func getFormattedDate(date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .short
-    return formatter.string(from: date)
-}
 
 class MessagePair: Identifiable, ObservableObject {
     let id: UUID
@@ -46,12 +18,17 @@ class MessagePair: Identifiable, ObservableObject {
     @Published var statusCode: StatusCode
     let date: String
 
+    @Published var stdOut: String
+    @Published var stdErr: String
+
     init(id: UUID = UUID(),
          userInput: String = "",
          llmResponse: LocalizedStringKey = "",
          isSaved: Bool = false,
          statusCode: StatusCode = .noActionTaken,
-         date: String = getFormattedDate(date: Date()))
+         date: String = getFormattedDate(date: Date()),
+         stdOut: String = "",
+         stdErr: String = "")
     {
         self.id = id
         self.userInput = userInput
@@ -59,6 +36,9 @@ class MessagePair: Identifiable, ObservableObject {
         self.isSaved = isSaved
         self.statusCode = statusCode
         self.date = date
+
+        self.stdOut = stdOut
+        self.stdErr = stdErr
     }
 
     func buildJSONAndSendToServer(statusCode: StatusCode, modifyStatus: Bool) {
@@ -94,47 +74,24 @@ class MessagePair: Identifiable, ObservableObject {
         self.statusCode = userServerInteractionData.statusCode
 
         switch userServerInteractionData.statusCode {
-        case .sentForExecution, .askConfirmation:
+        case .sentForExecution, .askConfirmation, .rawText:
             self.llmResponse = LocalizedStringKey(userServerInteractionData.llmResponse)
         case .requestSentToAPI, .serverCrash:
             return
         case .executedSuccessfully, .executionError:
-            _ = userServerInteractionData.StdOut
-            _ = userServerInteractionData.StdErr
-        // TODO: change the view to show the stdout and stderr
+            self.stdOut = userServerInteractionData.StdOut
+            self.stdErr = userServerInteractionData.StdErr
         default:
             print("ERROR: MessagePair does not support such Status Code:", userServerInteractionData.statusCode)
         }
     }
 }
 
-struct StatusAppearance {
-    var icon: Image
-    var text: String
-    var color: Color
-}
 
-extension MessagePair {
-    func getStatusAppearance() -> StatusAppearance {
-        // TODO: change the texts
-        let appearance: [StatusCode: StatusAppearance] = [
-            .noActionTaken: .init(icon: Image(systemName: "ellipsis.circle"), text: "No Action Taken", color: .gray),
-            .sentForExecution: .init(icon: Image(systemName: "hourglass"), text: "Sent for Execution", color: .blue),
-            .askConfirmation: .init(icon: Image(systemName: "questionmark.circle"), text: "Confirmation Needed", color: .orange),
-            .requestSentToAPI: .init(icon: Image(systemName: "paperplane"), text: "Request Sent", color: .green),
-            .submitUserResponse: .init(icon: Image(systemName: "text.bubble"), text: "Response Submitted", color: .purple),
-            .askRerun: .init(icon: Image(systemName: "arrow.clockwise"), text: "Rerun Requested", color: .yellow),
-            .serverCrash: .init(icon: Image(systemName: "exclamationmark.triangle"), text: "Server Error", color: .red),
-            .executedSuccessfully: .init(icon: Image(systemName: "checkmark.circle"), text: "Executed Successfully", color: .green),
-            .executionError: .init(icon: Image(systemName: "xmark.octagon"), text: "Execution Error", color: .red),
-        ]
-
-        return appearance[self.statusCode] ?? .init(icon: Image(systemName: "questionmark"), text: "Unknown Status", color: .black)
-    }
-}
 
 struct MessageView: View {
     @ObservedObject var messagePair: MessagePair
+    @State private var showOutputPopover = false
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
@@ -142,6 +99,9 @@ struct MessageView: View {
                 Text(self.messagePair.userInput)
                 Text(self.messagePair.llmResponse)
                     .foregroundColor(.purple)
+                
+
+                
                 Spacer()
                 Text(self.messagePair.date)
                     .font(.system(size: 10))
@@ -163,12 +123,25 @@ struct MessageView: View {
                 Spacer()
 
                 HStack {
+                    if !self.messagePair.stdOut.isEmpty || !self.messagePair.stdErr.isEmpty {
+                        Button(action: { self.showOutputPopover.toggle() }) {
+                            Text(showOutputPopover ? "Hide Output" : "Show Output")
+                            // Image(systemName: "chevron.down.circle.fill")
+                        }
+                        .popover(isPresented: $showOutputPopover) {
+                            OutputPopoverView(stdOut: self.messagePair.stdOut, stdErr: self.messagePair.stdErr)
+                        }
+                    }
+                    
+                    
                     let statusAppearance = self.messagePair.getStatusAppearance()
 
                     statusAppearance.icon
                     Text(statusAppearance.text)
                         .foregroundColor(statusAppearance.color)
                 }
+
+
             }
         }
         .padding()
@@ -177,6 +150,29 @@ struct MessageView: View {
         .padding()
     }
 }
+
+struct OutputPopoverView: View {
+    var stdOut: String
+    var stdErr: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            if !stdOut.isEmpty {
+                Text("Standard Output:")
+                    .fontWeight(.bold)
+                Text(stdOut)
+            }
+            if !stdErr.isEmpty {
+                Text("Standard Error:")
+                    .fontWeight(.bold)
+                Text(stdErr)
+                    .foregroundColor(.orange).opacity(0.9)
+            }
+        }
+        .padding()
+    }
+}
+
 
 struct MessageView_Previews: PreviewProvider {
     struct PreviewWrapper: View {
