@@ -7,13 +7,11 @@
 
 import SwiftUI
 
-
 struct ConversationView: View {
     @Binding var conversation: [MessagePair]
     let autoSave: Bool
 
     @State private var userInput = ""
-
 
     var body: some View {
         VStack {
@@ -22,7 +20,7 @@ struct ConversationView: View {
                     $messagePair in MessageView(messagePair: messagePair)
                 }
             }
-            
+
             HStack {
                 TextField("Type a message", text: $userInput, onCommit: sendMessage)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -34,21 +32,20 @@ struct ConversationView: View {
             .padding()
         }
     }
-    
+
     func sendMessage() {
         if userInput == "" {
             return
         }
-        
+
         DispatchQueue.main.async {
             conversation.append(MessagePair(userInput: userInput))
             self.userInput = ""
             self.conversation[conversation.count - 1].sendInputTextToLLM()
-            
+
             if autoSave {
                 self.conversation[conversation.count - 1].addToBookmarks()
             }
         }
-
     }
 }
