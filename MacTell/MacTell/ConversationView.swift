@@ -21,7 +21,7 @@ struct ConversationView: View {
                     $messagePair in MessageView(messagePair: messagePair, onDelete: self.onDelete)
                 }
             }
-            .defaultScrollAnchor(.bottom)
+            // .defaultScrollAnchor(.bottom)
 
             HStack {
                 TextField("Type a message", text: $userInput, onCommit: sendMessage)

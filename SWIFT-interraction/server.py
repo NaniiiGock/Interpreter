@@ -1,8 +1,8 @@
 import asyncio
 import websockets
 import json
-from StatusCodes import StatusCode
-from Communicator import Communicator
+from .StatusCodes import StatusCode
+from .Communicator import Communicator
 
 
 ### TODO: rewrite
@@ -17,15 +17,6 @@ async def echo(websocket, path):
 
         statusCode = int(data["statusCode"])
         assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
-
-        # response = {**data,
-        #             **{
-        #                 "statusCode": StatusCode.REQUEST_SENT_TO_API,
-        #                 "llmResponse": "I sent this from Python!"
-        #             }
-        #             }
-        # if statusCode != StatusCode.ASK_ALL_SAVED.value:
-        #     await websocket.send(json.dumps(response))
 
         if statusCode == StatusCode.SUBMIT_USER_RESPONSE:
             print('got here')

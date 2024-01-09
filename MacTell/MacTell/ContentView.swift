@@ -90,6 +90,8 @@ struct ContentView: View {
             print("WARNING: MessagePair not found for received UUID")
             return
         }
+        print("Received Status Code:")
+        print(userServerInteractionData.statusCode)
         messagePairInInterest!.processReceivedData(userServerInteractionData: userServerInteractionData)
     }
 
@@ -100,25 +102,23 @@ struct ContentView: View {
     }
     
     private func onDelete(messagePair: MessagePair) {
-        DispatchQueue.main.async {
-            let toDeleteUUID = messagePair.id
+        
+        let toDeleteUUID = messagePair.id
 
-            var sendDeleteMessage = false
+        var sendDeleteMessage = false
 
-            if let index = newConversation.firstIndex(where: { $0.id == toDeleteUUID }) {
-                newConversation.remove(at: index)
-                sendDeleteMessage = true
-            }
+        if let index = newConversation.firstIndex(where: { $0.id == toDeleteUUID }) {
+            newConversation.remove(at: index)
+            sendDeleteMessage = true
+        }
 
-            if let index = savedConversation.firstIndex(where: { $0.id == toDeleteUUID }) {
-                savedConversation.remove(at: index)
-                sendDeleteMessage = true
-            }
+        if let index = savedConversation.firstIndex(where: { $0.id == toDeleteUUID }) {
+            savedConversation.remove(at: index)
+            sendDeleteMessage = true
+        }
 
-            if sendDeleteMessage {
-                WebSocketManager.shared.sendMessage(UserServerInteractionData(statusCode: .deleteUserMessage, UUID: toDeleteUUID.uuidString))
-            }
-            
+        if sendDeleteMessage {
+            WebSocketManager.shared.sendMessage(UserServerInteractionData(statusCode: .deleteUserMessage, UUID: toDeleteUUID.uuidString))
         }
     }
 }
