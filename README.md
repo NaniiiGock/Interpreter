@@ -19,7 +19,7 @@ This application, developed in Swift for macOS, interfaces with a Large Language
 - **User Interaction Logging:** Implements an interaction logging mechanism for personalized command processing.
 - **Swift-based GUI:** Provides an intuitive graphical user interface, enhancing user experience on macOS systems.
 - **New Window:** Temporarily stores active session data.
-- **Saved Window:** Permanently archives selected user interactions for saving and re-executing LLM-generated commands or responses.
+- **Saved Window:** Archives saved user interactions for re-running previous LLM-generated commands or responses.
 
 
 ## Developer Docs
@@ -30,6 +30,11 @@ It shows the used classes, enums, structs and the respective methods.
 
 
 # System Structure:
+
+- User is sending request, which goes to server.
+- Next step is logging user input to DB + resending this input to LLM API
+- After getting responce from LLM, if resulting program is "red", we ask user for permission to execute it.
+- Last step: executing the program and sending result to chat with user.
 
 ![Media1](media/media2.png)
 
