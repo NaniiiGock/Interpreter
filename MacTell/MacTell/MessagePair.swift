@@ -114,7 +114,7 @@ struct MessageView: View {
                             .foregroundColor(.blue)
                         Text(self.messagePair.userInput)
                     }
-                    
+                
                     HStack {
                         Image(systemName: "cpu")
                             .imageScale(.small)
@@ -122,9 +122,7 @@ struct MessageView: View {
 
                         Text(self.messagePair.llmResponse)
                     }
-                        
 
-                    
                     Spacer()
                     Text(self.messagePair.date)
                         .font(.system(size: 10))
