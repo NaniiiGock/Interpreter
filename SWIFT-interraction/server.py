@@ -6,7 +6,6 @@ from StatusCodes import StatusCode
 from Communicator import Communicator
 from async_database import AsyncDatabase
 
-
 ### TODO: rewrite
 def is_valid_status_code(code: int):
     return code in [0, 1, 2, 3, 4, 7, 8, 10, 11, 15, 16, 17, 18, 19]
@@ -14,19 +13,22 @@ def is_valid_status_code(code: int):
 
 class StatusCodesMapper:
     @staticmethod
-    async def submit_user_response(data, websocket):
+    async def submit_user_response(data, db, websocket):
         response = {
             **data,
-            "statusCode": StatusCode.REQUEST_SENT_TO_API,
+            **{
+                "statusCode": StatusCode.REQUEST_SENT_TO_API,
+            }
         }
         await websocket.send(json.dumps(response))
-        await db.add_row(data["userInput"], StatusCode.REQUEST_SENT_TO_API)
-        asyncio.create_task(process_user_input(data, websocket))
+        await db.add_row(response["userInput"], StatusCode.REQUEST_SENT_TO_API, new_uuid=response["UUID"])
+        asyncio.create_task(process_user_input(response, websocket, db))
 
     @staticmethod
-    async def send_for_execution(data, websocket):
-        llm_message = b'\x80\x04\x95\x99\x01\x00\x00\x00\x00\x00\x00\x8c\rlitellm.utils\x94\x8c\x07Message\x94\x93\x94)\x81\x94}\x94(\x8c\x08__dict__\x94}\x94\x8c\x12__pydantic_extra__\x94}\x94(\x8c\x07content\x94N\x8c\x04role\x94\x8c\tassistant\x94\x8c\ntool_calls\x94]\x94h\x00\x8c\x1dChatCompletionMessageToolCall\x94\x93\x94)\x81\x94}\x94(h\x05}\x94(\x8c\x02id\x94\x8c\x1dcall_dcpfu8R4FYC21TsTPz5uLUxy\x94\x8c\x08function\x94h\x00\x8c\x08Function\x94\x93\x94)\x81\x94}\x94(h\x05}\x94(\x8c\targuments\x94\x8c\x16{\n  "name": "Safari"\n}\x94\x8c\x04name\x94\x8c\x08open_app\x94uh\x07}\x94\x8c\x17__pydantic_fields_set__\x94\x8f\x94(h\x1dh\x1b\x90\x8c\x14__pydantic_private__\x94Nub\x8c\x04type\x94\x8c\x08function\x94uh\x07}\x94h \x8f\x94(h\x15h#h\x13\x90h"Nubauh \x8f\x94h"Nub.'
-        llm_message = pickle.loads(llm_message)
+    async def send_for_execution(data, db, websocket):
+        row = await db.get_row_by_uuid(data["UUID"])
+
+        llm_message = pickle.loads(row["LLM Response"])
         statusCode = StatusCode.SENT_FOR_EXECUTION
         response = {
             **data,
@@ -56,7 +58,7 @@ async def echo(websocket, path):
 
         if statusCode != StatusCode.ASK_ALL_SAVED:
             submit_func = func_mapping[statusCode]
-            await submit_func(data, websocket)
+            await submit_func(data, db, websocket)
 
 
 async def process_user_input(data, websocket, db, llm_message=None, specified_status=None):
@@ -69,12 +71,11 @@ async def process_user_input(data, websocket, db, llm_message=None, specified_st
                 **{
                     "statusCode": response_status_code,
                     "llmResponse": llm_response,
-                    "UUID": response_uuid
                 }
                 }
     print("Sending: ", response)
-    await websocket.send(json.dumps(response))
     await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
+    await websocket.send(json.dumps(response))
 
 
 

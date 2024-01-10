@@ -1,6 +1,11 @@
 import asyncpg
 import asyncio
 import uuid
+import pickle
+
+
+def json_to_bin(json_message):
+    return pickle.dumps(json_message)
 
 
 class AsyncDatabase:
@@ -25,7 +30,7 @@ class AsyncDatabase:
                 StdErr TEXT,
                 StatusCode INTEGER,
                 is_saved BOOLEAN,
-                "LLM Response" TEXT
+                "LLM Response" BYTEA
             )
         ''')
 
@@ -42,13 +47,17 @@ class AsyncDatabase:
         await self.conn.execute('UPDATE data SET StatusCode = $1 WHERE UUID = $2', status_code, uuid)
 
     async def update_llm_response_and_status_code(self, uuid, llm_response, status_code):
+        llm_response = json_to_bin(llm_response)
         await self.conn.execute('UPDATE data SET StatusCode = $1, "LLM Response" = $2 WHERE UUID = $3', status_code, llm_response, uuid)
 
     async def update_stdout_stderr(self, uuid, stdout, stderr, status_code):
         await self.conn.execute('UPDATE data SET StdOut = $1, StdErr = $2 WHERE UUID = $3', stdout, stderr, uuid)
 
-    async def add_row(self, user_input, status_code, is_saved=False, llm_response=None):
-        new_uuid = uuid.uuid4()
+    async def add_row(self, user_input, status_code, is_saved=False, llm_response=None, new_uuid=False):
+        if llm_response:
+            llm_response = json_to_bin(llm_response)
+        if not new_uuid:
+            new_uuid = uuid.uuid4()
         await self.conn.execute('''
             INSERT INTO data (UUID, "User Input", StatusCode, is_saved, "LLM Response")
             VALUES ($1, $2, $3, $4, $5)
@@ -68,7 +77,7 @@ class AsyncDatabase:
 
 
 async def test_database_operations():
-    db = AsyncDatabase(dbname='postgres', user='postgres', password='postgre_pass', host='localhost', port=5433)
+    db = AsyncDatabase(dbname='postgres', user='postgres', password='postgres', host='localhost', port=5432)
 
     await db.connect()
     print("Connected")
@@ -76,27 +85,31 @@ async def test_database_operations():
     await db.create_table()
     print("Table created.")
 
-    # await db.add_row("Test input 1", 200, is_saved=True, llm_response="Response 1")
+    # await db.add_row("Test input 1", 200, is_saved=True)
     # await db.add_row("Test input 2", 404, is_saved=False, llm_response="Response 2")
     # print("Rows added.")
+
+    new_llm_response = json_to_bin("llm response")
+    #
+    await db.update_llm_response_and_status_code("23760804-d81c-4459-bdcb-65588b993109", new_llm_response, 300)
 
     # rows = await db.get_rows()
     # print("All rows:")
     # for row in rows:
     #     print(row)
 
-    saved_rows = await db.get_saved_rows()
-    print("\nSaved rows:")
-    for row in saved_rows:
-        print(row)
+    # saved_rows = await db.get_saved_rows()
+    # print("\nSaved rows:")
+    # for row in saved_rows:
+    #     print(row)
 
     # await db.delete_unsaved_rows()
-    await db.delete_all_rows()
+    # await db.delete_all_rows()
 
-    saved_rows = await db.get_saved_rows()
-    print("\nSaved rows:")
-    for row in saved_rows:
-        print(row)
+    # saved_rows = await db.get_saved_rows()
+    # print("\nSaved rows:")
+    # for row in saved_rows:
+    #     print(row)
 
     await db.close()
     print("Unsaved rows deleted and database connection closed.")
