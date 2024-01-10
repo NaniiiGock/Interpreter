@@ -29,7 +29,12 @@ class ScheduleCommand(RedFunction):
         """
         cron_command = f"(crontab -l ; echo '{frequency} {command}') | crontab -"
         p = Popen(cron_command, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-        return p.returncode, None, None
+
+        return {
+            'returncode': p.returncode,
+            'stdout': None,
+            'stderr': None
+        }
 
 
 def run_sched_command(cron_command: str):
@@ -90,8 +95,11 @@ class RemoveScheduledCommand(RedFunction):
         # Apply the updated crontab
         p = Popen("crontab -", shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
         p.communicate(input=new_crontab)
-        return p.returncode, None, None
-
+        return {
+            'returncode': p.returncode,
+            'stdout': None,
+            'stderr': None
+        }
 
 async def main():
     # Start the run_async task but don't wait here
