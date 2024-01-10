@@ -54,4 +54,15 @@ Operations that can significantly alter system state or require careful executio
 - **💬 Write a Message Using Contact Name**: Sends a message to a contact via the Messages app.
 - **💬 Write a Message Using Phone Number**: Sends a message to a phone number via the Messages app.
 
-Enjoy the convenience of interacting with your macOS with ease and efficiency! 🖱💡
+Enjoy the convenience of interacting with your macOS with ease and efficiency! 💡
+<p float="left">
+  <img src="./media/img.png"  />
+
+[//]: # (  <img src="./media/imessages.png" width="100" height="100"/>)
+
+[//]: # (  <img src="./media/mail.png" width="100" />)
+
+[//]: # (  <img src="./media/music.png" width="100" />)
+
+[//]: # (  <img src="./media/notes.png" width="100" />)
+</p>
