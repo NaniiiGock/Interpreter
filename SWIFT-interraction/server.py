@@ -66,9 +66,9 @@ class StatusCodesMapper:
                 # "llmResponse": llm_response
                 "llmResponse": "llmResponse"
             }
-            new_rows.append(json.dumps(new_row))
+            new_rows.append(new_row)
         print(new_rows)
-        await websocket.send(new_rows)
+        await websocket.send(json.dumps(new_rows))
 
 
 async def echo(websocket, path):
