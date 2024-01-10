@@ -38,6 +38,21 @@ It shows the used classes, enums, structs and the respective methods.
 
 ![Media1](media/media2.png)
 
+
+Flow of Events:
+- User Request: "Delete all files in the Downloads folder."
+- Server Receives Request
+- Logging to Database
+- The server then forwards user's request to the LLM API for processing.
+- LLM API Processes Request: generates a corresponding executable command.
+- Let's assume the LLM responds with a command that is flagged as "red" due to its potential risk.
+- User Permission for Execution: The server prompts user:  "Accept?"
+- User Confirmation
+- Executing the Command
+- Result Sent to User
+
+- The command execution is complete and the outcome is logged in DB.
+
 ![Media2](media/media1.png)
 
 ## Built-in Functionality of MacTell 🚀
