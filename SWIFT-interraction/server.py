@@ -4,6 +4,8 @@ import json
 import pickle
 from StatusCodes import StatusCode
 from Communicator import Communicator
+from async_database import AsyncDatabase
+
 
 ### TODO: rewrite
 def is_valid_status_code(code: int):
@@ -18,6 +20,7 @@ class StatusCodesMapper:
             "statusCode": StatusCode.REQUEST_SENT_TO_API,
         }
         await websocket.send(json.dumps(response))
+        await db.add_row(data["userInput"], StatusCode.REQUEST_SENT_TO_API)
         asyncio.create_task(process_user_input(data, websocket))
 
     @staticmethod
@@ -35,6 +38,9 @@ class StatusCodesMapper:
 
 
 async def echo(websocket, path):
+    db = AsyncDatabase("postgres", "postgres", "postgres")
+    await db.connect()
+    await db.create_table()
     func_mapping = {
         StatusCode.SUBMIT_USER_RESPONSE: StatusCodesMapper.submit_user_response,
         StatusCode.EXECUTION_CONFIRMED: StatusCodesMapper.send_for_execution,
@@ -53,10 +59,10 @@ async def echo(websocket, path):
             await submit_func(data, websocket)
 
 
-async def process_user_input(data, websocket, llm_message=None, specified_status=None):
+async def process_user_input(data, websocket, db, llm_message=None, specified_status=None):
     # Call the communicator's method to send input to LLM and get a response
     response_uuid, llm_response, response_status_code = await Communicator.async_swift_input(
-        data, websocket, llm_message, specified_status)
+        data, websocket, db, llm_message, specified_status)
 
     # Send the LLM response back to the client asynchronously
     response = {**data,
@@ -68,6 +74,8 @@ async def process_user_input(data, websocket, llm_message=None, specified_status
                 }
     print("Sending: ", response)
     await websocket.send(json.dumps(response))
+    await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
+
 
 
 async def main():

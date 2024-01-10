@@ -8,9 +8,10 @@ import pickle
 
 class Communicator:
     @staticmethod
-    async def async_swift_input(data, websocket, llm_message=None, specified_status=None):
+    async def async_swift_input(data, websocket, db, llm_message=None, specified_status=None):
         """
         Function that will be called from swift to send user input to the LLM
+        :param db:
         :param data:
         :param websocket:
         :param llm_message:
@@ -23,6 +24,7 @@ class Communicator:
             llm_client = LiteLLMClient("gpt-3.5-turbo")
             llm_message = llm_client.get_response(user_input)
         response, status_code = ResponseParser.parse_response_object(llm_message)
+
         status_code = specified_status if specified_status is not None else status_code
 
         # <<<Placeholder for writing response into DB>>> #
@@ -34,7 +36,7 @@ class Communicator:
             asyncio.create_task(
                 ExecutionHandler.execute_code_asynchronously(
                     ResponseParser.get_func_class(response.func_name),
-                    response.get_formatted_args(), data, websocket
+                    response.get_formatted_args(), db, data, websocket
                 )
             )
             return uuid, ResponseParser.get_func_class(response.func_name).get_exec_description(), status_code
