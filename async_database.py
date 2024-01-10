@@ -49,6 +49,10 @@ class AsyncDatabase:
         async with self.lock:
             return await self.conn.fetchrow('SELECT * FROM data WHERE UUID = $1', uuid)
 
+    async def remove_row_by_uuid(self, uuid):
+        async with self.lock:
+            return await self.conn.execute('DELETE FROM data WHERE UUID = $1', uuid)
+
     async def update_status_code(self, uuid, status_code):
         async with self.lock:
             await self.conn.execute('UPDATE data SET StatusCode = $1 WHERE UUID = $2', status_code, uuid)
