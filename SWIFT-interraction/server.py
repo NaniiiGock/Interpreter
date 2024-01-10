@@ -5,6 +5,7 @@ import pickle
 from StatusCodes import StatusCode
 from Communicator import Communicator
 from async_database import AsyncDatabase
+from response_parser import ResponseParser
 import base64
 
 
@@ -50,23 +51,24 @@ class StatusCodesMapper:
     @staticmethod
     async def asked_all_saved(data, db, websocket):
         await db.delete_unsaved_rows()
-        # rows = await db.get_saved_rows()
-        # new_rows = []
-        # for row in rows:
-        #     llm_response = base64.b64encode(row["LLM Response"]).decode('utf-8')
-        #     new_row = {
-        #         **data,
-        #         "UUID": str(row["uuid"]),
-        #         "statusCode": row["statuscode"],
-        #         "userInput": row["User Input"],
-        #         "StdErr": row["stderr"] if row["stderr"] else "",
-        #         "StdOut": row["stdout"] if row["stdout"] else "",
-        #         # "llmResponse": llm_response
-        #         "llmResponse": "llmResponse"
-        #     }
-        #     new_rows.append(json.dumps(new_row))
-        # print(new_rows)
-        # await websocket.send(new_rows)
+        rows = await db.get_saved_rows()
+        new_rows = []
+        for row in rows:
+            # llm_response = base64.b64encode(row["LLM Response"]).decode('utf-8')
+            new_row = {
+                **data,
+                "UUID": str(row["uuid"]),
+                "statusCode": row["statuscode"],
+                "userInput": row["User Input"],
+                "StdErr": row["stderr"] if row["stderr"] else "",
+                "StdOut": row["stdout"] if row["stdout"] else "",
+                # "llmResponse": llm_response
+                "llmResponse": ResponseParser.get_func_class(ResponseParser.parse_response_object(pickle.loads(row["LLM Response"]))[0].func_name).get_exec_description() if not isinstance(pickle.loads(row["LLM Response"]), str) else pickle.loads(row["LLM Response"]),
+                "Date": row["date"].strftime("%Y-%m-%d %H:%M:%S")
+            }
+            new_rows.append(new_row)
+        print(new_rows)
+        await websocket.send(json.dumps(new_rows))
 
 
 async def echo(websocket, path):
