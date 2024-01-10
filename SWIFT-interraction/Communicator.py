@@ -39,9 +39,9 @@ class Communicator:
                     response.get_formatted_args(), db, data, websocket
                 )
             )
-            return uuid, ResponseParser.get_func_class(response.func_name).get_exec_description(), status_code
+            return uuid, llm_message, ResponseParser.get_func_class(response.func_name).get_exec_description(), status_code
         elif status_code == StatusCode.ASK_CONFIRMATION:
-            return uuid, \
+            return uuid, llm_message, \
                 ResponseParser.get_func_class(response.func_name).get_confirmation_message(
                     **response.get_formatted_args()
                 ), status_code

@@ -63,14 +63,14 @@ async def echo(websocket, path):
 
 async def process_user_input(data, websocket, db, llm_message=None, specified_status=None):
     # Call the communicator's method to send input to LLM and get a response
-    response_uuid, llm_response, response_status_code = await Communicator.async_swift_input(
+    response_uuid, llm_response, llm_description, response_status_code = await Communicator.async_swift_input(
         data, websocket, db, llm_message, specified_status)
 
     # Send the LLM response back to the client asynchronously
     response = {**data,
                 **{
                     "statusCode": response_status_code,
-                    "llmResponse": llm_response,
+                    "llmResponse": llm_description,
                 }
                 }
     print("Sending: ", response)
