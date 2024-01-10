@@ -39,6 +39,34 @@ class StatusCodesMapper:
         await websocket.send(json.dumps(response))
         asyncio.create_task(process_user_input(data, websocket, db, llm_message, statusCode))
 
+    @staticmethod
+    async def saved_to_bookmarks(data, db, websocket):
+        await db.update_is_saved(data["UUID"], is_saved=True)
+
+    @staticmethod
+    async def remove_from_bookmarks(data, db, websocket):
+        await db.update_is_saved(data["UUID"], is_saved=False)
+
+    @staticmethod
+    async def asked_all_saved(data, db, websocket):
+        await db.delete_unsaved_rows()
+        # rows = await db.get_saved_rows()
+        # new_rows = []
+        #
+        # for row in rows:
+        #     new_row = {
+        #         **data,
+        #         "UUID": row["uuid"],
+        #         "statusCode": row["statuscode"],
+        #         "userInput": row["User Input"],
+        #         "StdErr": row["stderr"],
+        #         "StdOut": row["stdout"],
+        #         "llmResponse": row["LLM Response"]
+        #     }
+        #     new_rows.append(json.dumps(new_row))
+        #
+        # await websocket.send(new_rows)
+
 
 async def echo(websocket, path):
     db = AsyncDatabase("postgres", "postgres", "postgres")
@@ -48,6 +76,9 @@ async def echo(websocket, path):
         StatusCode.SUBMIT_USER_RESPONSE: StatusCodesMapper.submit_user_response,
         StatusCode.EXECUTION_CONFIRMED: StatusCodesMapper.send_for_execution,
         StatusCode.ASK_RERUN:  StatusCodesMapper.send_for_execution,
+        StatusCode.SAVE_TO_BOOKMARKS: StatusCodesMapper.saved_to_bookmarks,
+        StatusCode.REMOVE_FROM_BOOKMARKS: StatusCodesMapper.remove_from_bookmarks,
+        StatusCode.ASK_ALL_SAVED: StatusCodesMapper.asked_all_saved,
     }
 
     async for message in websocket:
@@ -57,9 +88,8 @@ async def echo(websocket, path):
         statusCode = int(data["statusCode"])
         assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
 
-        if statusCode != StatusCode.ASK_ALL_SAVED:
-            submit_func = func_mapping[statusCode]
-            await submit_func(data, db, websocket)
+        submit_func = func_mapping[statusCode]
+        await submit_func(data, db, websocket)
 
 
 async def process_user_input(data, websocket, db, llm_message=None, specified_status=None):
