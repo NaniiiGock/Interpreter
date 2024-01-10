@@ -57,7 +57,7 @@ extension MessagePair {
             .sentForExecution: .init(icon: Image(systemName: "hourglass"), text: "Sent for Execution", color: .blue),
             .askConfirmation: .init(icon: Image(systemName: "questionmark.circle"), text: "Confirmation Needed", color: .orange),
             .requestSentToAPI: .init(icon: Image(systemName: "paperplane"), text: "Request Sent", color: .green),
-            .submitUserResponse: .init(icon: Image(systemName: "text.bubble"), text: "Input Submitted", color: .purple),
+            .submitUserResponse: .init(icon: Image(systemName: "text.bubble"), text: "Input Submitted", color: .blue),
             .askRerun: .init(icon: Image(systemName: "arrow.clockwise"), text: "Rerun Requested", color: .yellow),
             .serverCrash: .init(icon: Image(systemName: "exclamationmark.triangle"), text: "Server Error", color: .red),
             .executedSuccessfully: .init(icon: Image(systemName: "checkmark.circle"), text: "Executed Successfully", color: .green),
