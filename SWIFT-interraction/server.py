@@ -4,10 +4,7 @@ import json
 import pickle
 from StatusCodes import StatusCode
 from Communicator import Communicator
-from execution_handler import ExecutionHandler
-
-from response_container import LLMResponse
-from response_parser import ResponseParser
+from async_database import AsyncDatabase
 
 
 ### TODO: rewrite
@@ -16,6 +13,10 @@ def is_valid_status_code(code: int):
 
 
 async def echo(websocket, path):
+    db = AsyncDatabase("postgres", "postgres", "postgres")
+    await db.connect()
+    await db.create_table()
+
     async for message in websocket:
         data = json.loads(message)
         print("Received: ", data)
@@ -44,27 +45,6 @@ async def echo(websocket, path):
                         }
             await websocket.send(json.dumps(response))
             asyncio.create_task(process_user_input(data, websocket, llm_message, statusCode))
-
-            # response_container = LLMResponse()
-            # response_container.set_func_name("message_by_contact_name")
-            # response_container.set_func_args(json.dumps({"name": "Anastasiia 🌸",
-            #                                              "body": "I love you to the moon and back!"}))
-            #
-            # data = {**data,
-            #         **{
-            #             "llmResponse": f"{response_container}",
-            #             "statusCode": StatusCode.SENT_FOR_EXECUTION,
-            #         }
-            #         }
-            # print("Sending: ", data)
-            # await websocket.send(json.dumps(data))
-            # print("SENT")
-            # asyncio.create_task(
-            #     ExecutionHandler.execute_code_asynchronously(
-            #         ResponseParser.get_func_class(response_container.func_name),
-            #         response_container.get_formatted_args(), data, websocket
-            #     )
-            # )
 
 
 async def process_user_input(data, websocket, llm_message=None, specified_status=None):

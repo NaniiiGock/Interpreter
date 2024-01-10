@@ -2,9 +2,10 @@ import asyncpg
 import asyncio
 import uuid
 
+
 class AsyncDatabase:
 
-    def __init__(self, dbname, user, password, host='localhost', port=5433):
+    def __init__(self, dbname, user, password, host='localhost', port=5432):
         self.dbname = dbname
         self.user = user
         self.password = password
@@ -12,10 +13,9 @@ class AsyncDatabase:
         self.port = port
 
     async def connect(self):
-        
-        self.conn = await asyncpg.connect(user=self.user, password=self.password, 
+        self.conn = await asyncpg.connect(user=self.user, password=self.password,
                                           database=self.dbname, host=self.host, port=self.port)
-    
+
     async def create_table(self):
         await self.conn.execute('''
             CREATE TABLE IF NOT EXISTS data (
@@ -31,7 +31,7 @@ class AsyncDatabase:
 
     async def get_rows(self):
         return await self.conn.fetch('SELECT * FROM data')
-    
+
     async def get_saved_rows(self):
         return await self.conn.fetch('SELECT * FROM data WHERE is_saved = TRUE')
 
@@ -56,14 +56,12 @@ class AsyncDatabase:
 
     async def delete_unsaved_rows(self):
         await self.conn.execute('DELETE FROM data WHERE is_saved = FALSE')
-    
+
     async def delete_all_rows(self):
         await self.conn.execute('DELETE FROM data')
 
     async def close(self):
         await self.conn.close()
-
-
 
 
 async def test_database_operations():
@@ -79,30 +77,26 @@ async def test_database_operations():
     # await db.add_row("Test input 2", 404, is_saved=False, llm_response="Response 2")
     # print("Rows added.")
 
-
     # rows = await db.get_rows()
     # print("All rows:")
     # for row in rows:
     #     print(row)
 
-
     saved_rows = await db.get_saved_rows()
     print("\nSaved rows:")
     for row in saved_rows:
         print(row)
-
 
     # await db.delete_unsaved_rows()
     await db.delete_all_rows()
-    
+
     saved_rows = await db.get_saved_rows()
     print("\nSaved rows:")
     for row in saved_rows:
         print(row)
-        
-        
+
     await db.close()
     print("Unsaved rows deleted and database connection closed.")
 
-
-asyncio.run(test_database_operations())
+if  __name__ == '__main__':
+    asyncio.run(test_database_operations())
