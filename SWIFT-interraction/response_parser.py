@@ -1,7 +1,7 @@
 from REPL.functional.functional_utils import parse_markdown_code_blocks, check_language, available_functions
 from REPL.functional.BaseClassFunction import RedFunction
-from .StatusCodes import StatusCode
-from .response_container import LLMResponse
+from StatusCodes import StatusCode
+from response_container import LLMResponse
 import json
 
 

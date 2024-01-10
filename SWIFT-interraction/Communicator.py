@@ -1,25 +1,29 @@
-from .response_parser import ResponseParser
-from .StatusCodes import StatusCode
+from response_parser import ResponseParser
+from StatusCodes import StatusCode
 from llm_model.LiteLLMClient import LiteLLMClient
-from .execution_handler import ExecutionHandler
+from execution_handler import ExecutionHandler
 import asyncio
+import pickle
 
 
 class Communicator:
     @staticmethod
-    async def async_swift_input(data, websocket):
+    async def async_swift_input(data, websocket, llm_message=None, specified_status=None):
         """
         Function that will be called from swift to send user input to the LLM
         :param data:
         :param websocket:
+        :param llm_message:
+        :param specified_status:
         :return:
         """
         uuid = data['UUID']
         user_input = data['userInput']
-
-        llm_client = LiteLLMClient("gpt-3.5-turbo")
-        llm_message = llm_client.get_response(user_input)
+        if llm_message is None:
+            llm_client = LiteLLMClient("gpt-3.5-turbo")
+            llm_message = llm_client.get_response(user_input)
         response, status_code = ResponseParser.parse_response_object(llm_message)
+        status_code = specified_status if specified_status is not None else status_code
 
         # <<<Placeholder for writing response into DB>>> #
 

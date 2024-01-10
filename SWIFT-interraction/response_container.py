@@ -29,3 +29,4 @@ class LLMResponse:
 
     def set_func_args(self, func_args):
         self.func_args = func_args
+        print("Name: ", self.func_name, "ARGS: ", self.func_args)

@@ -1,5 +1,5 @@
 import json
-from .StatusCodes import StatusCode
+from StatusCodes import StatusCode
 
 
 class ExecutionHandler:
@@ -7,6 +7,8 @@ class ExecutionHandler:
     async def execute_code_asynchronously(function_class, func_params, data, websocket):
         # Directly call the asynchronous method of the class
         # Assuming the method name is 'run_async' and it is a static method
+        print("Executing: ", function_class, func_params)
+
         result = await function_class.run_async(**func_params)
         if result['returncode'] == 0:
             response = {**data,
@@ -18,7 +20,6 @@ class ExecutionHandler:
                         }
             print("Successful exec : Sending: ", response)
             await websocket.send(json.dumps(response))
-            print("SENT")
         else:
             response = {**data,
                         **{
