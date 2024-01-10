@@ -11,6 +11,11 @@
 
 # Interpreter
 
+## Developer Docs
+
+To review the Swift project structure, one can view 
+[index.html](AppDocumentation%2Fdocumentation%2Fmactell%2Findex.html) file.
+It shows the used classes, enums, structs and the respective methods. 
 
 ## Built-in Functionality of MacTell 🚀
 
@@ -40,10 +45,23 @@ Operations that can significantly alter system state or require careful executio
 Enjoy the convenience of interacting with your macOS with ease and efficiency! 🖱💡
 
 
+## Installation and Execution Guide
 
+1. **Python Library Installation**:
 
-## Developer Docs
+   To install all Python-specific libraries, refer to [requirements.txt](requirements.txt):
+   ```shell
+   $ pip install -r requirements.txt
+   ```
 
-To review the Swift project structure, one can view 
-[index.html](AppDocumentation%2Fdocumentation%2Fmactell%2Findex.html) file.
-It shows the used classes, enums, structs and the respective methods. 
+2. **Server Initialization**:
+
+   Start the server by running [server.py](SWIFT-interraction%2Fserver.py):
+   ```shell
+   $ python3 ./SWIFT-interraction/server.py
+   ```
+
+3. **Swift App Building and Execution**:
+
+   Build your Swift app located in `./MacTell` and execute [MacTellApp.swift](MacTell%2FMacTell%2FMacTellApp.swift).
+
