@@ -29,6 +29,12 @@ To review the Swift project structure, one can view
 It shows the used classes, enums, structs and the respective methods.
 
 
+# System Structure:
+
+![Media1](media/media2.png)
+
+![Media2](media/media1.png)
+
 ## Built-in Functionality of MacTell 🚀
 
 MacTell is equipped with a variety of built-in functions to streamline your macOS experience. Here's what you can do directly from the app:
