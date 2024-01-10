@@ -19,7 +19,7 @@ This application, developed in Swift for macOS, interfaces with a Large Language
 - **User Interaction Logging:** Implements an interaction logging mechanism for personalized command processing.
 - **Swift-based GUI:** Provides an intuitive graphical user interface, enhancing user experience on macOS systems.
 - **New Window:** Temporarily stores active session data.
-- **Saved Window:** Permanently archives selected user interactions for saving and re-executing LLM-generated commands or responses.
+- **Saved Window:** Archives saved user interactions for re-running previous LLM-generated commands or responses.
 
 
 ## Developer Docs
@@ -28,6 +28,17 @@ To review the Swift project structure, one can view
 [index.html](AppDocumentation%2Fdocumentation%2Fmactell%2Findex.html) file.
 It shows the used classes, enums, structs and the respective methods.
 
+
+# System Structure:
+
+- User is sending request, which goes to server.
+- Next step is logging user input to DB + resending this input to LLM API
+- After getting responce from LLM, if resulting program is "red", we ask user for permission to execute it.
+- Last step: executing the program and sending result to chat with user.
+
+![Media1](media/media2.png)
+
+![Media2](media/media1.png)
 
 ## Built-in Functionality of MacTell ðŸš€
 
@@ -60,9 +71,24 @@ Enjoy the convenience of interacting with your macOS with ease and efficiency! ð
 
 [//]: # (  <img src="./media/imessages.png" width="100" height="100"/>)
 
-[//]: # (  <img src="./media/mail.png" width="100" />)
 
-[//]: # (  <img src="./media/music.png" width="100" />)
+## Installation and Execution Guide
 
-[//]: # (  <img src="./media/notes.png" width="100" />)
-</p>
+1. **Python Library Installation**:
+
+   To install all Python-specific libraries, refer to [requirements.txt](requirements.txt):
+   ```shell
+   $ pip install -r requirements.txt
+   ```
+
+2. **Server Initialization**:
+
+   Start the server by running [server.py](SWIFT-interraction%2Fserver.py):
+   ```shell
+   $ python ./SWIFT-interraction/server.py
+   ```
+
+3. **Swift App Building and Execution**:
+
+   Build your Swift app located in `./MacTell` and execute [MacTellApp.swift](MacTell%2FMacTell%2FMacTellApp.swift).
+
