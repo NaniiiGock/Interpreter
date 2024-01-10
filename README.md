@@ -9,7 +9,17 @@
     \__|     \__|\_______|\_______\__|\_______\__\__|
 
 
-# Interpreter
+# MacTell: an LLM-Based Code Interpreter
+
+
+## Overview
+This application, developed in Swift for macOS, interfaces with a Large Language Model (LLM) backend to translate natural language user inputs into executable CLI commands to streamline user interactions with command line.
+
+- **Natural Language Processing:** Translates user inputs into executable CLI commands.
+- **User Interaction Logging:** Implements an interaction logging mechanism for personalized command processing.
+- **Swift-based GUI:** Provides an intuitive graphical user interface, enhancing user experience on macOS systems.
+- **New Window:** Temporarily stores active session data.
+- **Saved Window:** Permanently archives selected user interactions for saving and re-executing LLM-generated commands or responses.
 
 
 ## Built-in Functionality of MacTell 🚀
