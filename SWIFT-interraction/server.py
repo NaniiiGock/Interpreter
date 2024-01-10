@@ -11,12 +11,10 @@ from async_database import AsyncDatabase
 def is_valid_status_code(code: int):
     return code in [0, 1, 2, 3, 4, 7, 8, 10, 11, 15, 16, 17, 18, 19]
 
-
 async def echo(websocket, path):
     db = AsyncDatabase("postgres", "postgres", "postgres")
     await db.connect()
     await db.create_table()
-
     async for message in websocket:
         data = json.loads(message)
         print("Received: ", data)
@@ -31,7 +29,8 @@ async def echo(websocket, path):
                         }
                         }
             await websocket.send(json.dumps(response))
-            asyncio.create_task(process_user_input(data, websocket))
+            await db.add_row(data["userInput"], StatusCode.REQUEST_SENT_TO_API)
+            asyncio.create_task(process_user_input(data, websocket, db))
 
         if statusCode == StatusCode.EXECUTION_CONFIRMED:
             # await llm_response = DBHandler.get_llm_response(data["UUID"])
@@ -44,13 +43,13 @@ async def echo(websocket, path):
                         }
                         }
             await websocket.send(json.dumps(response))
-            asyncio.create_task(process_user_input(data, websocket, llm_message, statusCode))
+            asyncio.create_task(process_user_input(data, websocket, db, llm_message, statusCode))
 
 
-async def process_user_input(data, websocket, llm_message=None, specified_status=None):
+async def process_user_input(data, websocket, db, llm_message=None, specified_status=None):
     # Call the communicator's method to send input to LLM and get a response
     response_uuid, llm_response, response_status_code = await Communicator.async_swift_input(
-        data, websocket, llm_message, specified_status)
+        data, websocket, db, llm_message, specified_status)
 
     # Send the LLM response back to the client asynchronously
     response = {**data,
@@ -62,6 +61,8 @@ async def process_user_input(data, websocket, llm_message=None, specified_status
                 }
     print("Sending: ", response)
     await websocket.send(json.dumps(response))
+    await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
+
 
 
 async def main():

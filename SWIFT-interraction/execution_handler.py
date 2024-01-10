@@ -4,7 +4,7 @@ from StatusCodes import StatusCode
 
 class ExecutionHandler:
     @staticmethod
-    async def execute_code_asynchronously(function_class, func_params, data, websocket):
+    async def execute_code_asynchronously(function_class, func_params, db, data, websocket):
         # Directly call the asynchronous method of the class
         # Assuming the method name is 'run_async' and it is a static method
         print("Executing: ", function_class, func_params)
@@ -20,6 +20,7 @@ class ExecutionHandler:
                         }
             print("Successful exec : Sending: ", response)
             await websocket.send(json.dumps(response))
+            await db.update_stdout_stderr(data["UUID"], result['stdout'], result['stderr'])
         else:
             response = {**data,
                         **{
@@ -30,6 +31,7 @@ class ExecutionHandler:
                         }
             print("Failed exec : Sending: ", response)
             await websocket.send(json.dumps(response))
+            await db.update_stdout_stderr(data["UUID"], result['stdout'], result['stderr'])
 
         # Return the result
         return result

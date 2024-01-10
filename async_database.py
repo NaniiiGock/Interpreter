@@ -41,7 +41,10 @@ class AsyncDatabase:
     async def update_status_code(self, uuid, status_code):
         await self.conn.execute('UPDATE data SET StatusCode = $1 WHERE UUID = $2', status_code, uuid)
 
-    async def update_stdout_stderr(self, uuid, stdout, stderr):
+    async def update_llm_response_and_status_code(self, uuid, llm_response, status_code):
+        await self.conn.execute('UPDATE data SET StatusCode = $1, "LLM Response" = $2 WHERE UUID = $3', status_code, llm_response, uuid)
+
+    async def update_stdout_stderr(self, uuid, stdout, stderr, status_code):
         await self.conn.execute('UPDATE data SET StdOut = $1, StdErr = $2 WHERE UUID = $3', stdout, stderr, uuid)
 
     async def add_row(self, user_input, status_code, is_saved=False, llm_response=None):
