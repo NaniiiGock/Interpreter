@@ -6,6 +6,7 @@ from StatusCodes import StatusCode
 from Communicator import Communicator
 from async_database import AsyncDatabase
 
+
 ### TODO: rewrite
 def is_valid_status_code(code: int):
     return code in [0, 1, 2, 3, 4, 7, 8, 10, 11, 15, 16, 17, 18, 19]
@@ -36,7 +37,7 @@ class StatusCodesMapper:
         }
         print(llm_message)
         await websocket.send(json.dumps(response))
-        asyncio.create_task(process_user_input(data, websocket, llm_message, statusCode))
+        asyncio.create_task(process_user_input(data, websocket, db, llm_message, statusCode))
 
 
 async def echo(websocket, path):
@@ -74,8 +75,9 @@ async def process_user_input(data, websocket, db, llm_message=None, specified_st
                 }
                 }
     print("Sending: ", response)
-    await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
     await websocket.send(json.dumps(response))
+    await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
+
 
 
 

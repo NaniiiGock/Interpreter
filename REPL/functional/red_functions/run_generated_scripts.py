@@ -66,7 +66,15 @@ def run_script(script_content: str, command: str, script_extension: str):
     p = Popen([command, script_path], stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     clear_file(script_path)
-    return p.returncode, stdout, stderr
+
+    # Decode stdout and stderr to string if needed
+    stdout_str = stdout.decode('utf-8') if stdout else ''
+    stderr_str = stderr.decode('utf-8') if stderr else ''
+    return {
+            'returncode': p.returncode,
+            'stdout': stdout_str,
+            'stderr': stderr_str
+        }
 
 
 def check_language(language):

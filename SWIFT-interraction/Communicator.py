@@ -25,12 +25,14 @@ class Communicator:
             llm_message = llm_client.get_response(user_input)
         response, status_code = ResponseParser.parse_response_object(llm_message)
 
+
         status_code = specified_status if specified_status is not None else status_code
+
 
         # <<<Placeholder for writing response into DB>>> #
 
         if status_code == StatusCode.RAW_TEXT:
-            return uuid, response.content, status_code
+            return uuid, response.content, response.content, status_code
 
         elif status_code == StatusCode.SENT_FOR_EXECUTION:
             asyncio.create_task(
