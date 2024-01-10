@@ -76,7 +76,7 @@ Enjoy the convenience of interacting with your macOS with ease and efficiency! ð
 
    Start the server by running [server.py](SWIFT-interraction%2Fserver.py):
    ```shell
-   $ python3 ./SWIFT-interraction/server.py
+   $ python ./SWIFT-interraction/server.py
    ```
 
 3. **Swift App Building and Execution**:
