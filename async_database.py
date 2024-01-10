@@ -28,7 +28,6 @@ class AsyncDatabase:
 
     async def create_table(self):
         await self.conn.execute('''
-            ; DROP TABLE IF EXISTS data;
             CREATE TABLE IF NOT EXISTS data (
                 UUID UUID PRIMARY KEY,
                 "User Input" TEXT,
