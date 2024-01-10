@@ -13,7 +13,7 @@
 
 
 ## Overview
-This application, developed in Swift for macOS, interfaces with a Large Language Model (LLM) backend to translate natural language user inputs into executable CLI commands to streamline user interactions with command line.
+This application, developed in Swift for macOS, interfaces with a Large Language Model (LLM) backend to translate natural language user inputs into executable CLI commands to streamline user interactions.
 
 - **Natural Language Processing:** Translates user inputs into executable CLI commands.
 - **User Interaction Logging:** Implements an interaction logging mechanism for personalized command processing.
