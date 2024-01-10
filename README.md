@@ -12,6 +12,13 @@
 # Interpreter
 
 
+## Developer Docs
+
+To review the Swift project structure, one can view
+[index.html](AppDocumentation%2Fdocumentation%2Fmactell%2Findex.html) file.
+It shows the used classes, enums, structs and the respective methods.
+
+
 ## Built-in Functionality of MacTell 🚀
 
 MacTell is equipped with a variety of built-in functions to streamline your macOS experience. Here's what you can do directly from the app:
@@ -38,12 +45,3 @@ Operations that can significantly alter system state or require careful executio
 - **💬 Write a Message Using Phone Number**: Sends a message to a phone number via the Messages app.
 
 Enjoy the convenience of interacting with your macOS with ease and efficiency! 🖱💡
-
-
-
-
-## Developer Docs
-
-To review the Swift project structure, one can view 
-[index.html](AppDocumentation%2Fdocumentation%2Fmactell%2Findex.html) file.
-It shows the used classes, enums, structs and the respective methods. 
