@@ -3,6 +3,7 @@ import asyncio
 import uuid
 import pickle
 import base64
+import datetime
 
 
 def json_to_bin(json_message):
@@ -61,14 +62,15 @@ class AsyncDatabase:
         async with self.lock:
             await self.conn.execute('UPDATE data SET StdOut = $1, StdErr = $2 WHERE UUID = $3', stdout, stderr, uuid)
 
-    async def add_row(self, user_input, status_code, new_uuid, is_saved=False, llm_response=None):
+    async def add_row(self, user_input, status_code, new_uuid, is_saved=False, llm_response=None, date=None):
+        current_date = datetime.datetime.now() if date is None else datetime.datetime.strptime(date, '%d.%m.%Y, %H:%M')
         if llm_response:
             llm_response = json_to_bin(llm_response)
         async with self.lock:
             await self.conn.execute('''
-                INSERT INTO data (UUID, "User Input", StatusCode, is_saved, "LLM Response")
-                VALUES ($1, $2, $3, $4, $5)
-            ''', str(new_uuid), user_input, status_code, is_saved, llm_response)
+                INSERT INTO data (UUID, "User Input", StatusCode, is_saved, "LLM Response", date)
+                VALUES ($1, $2, $3, $4, $5, $6)
+            ''', str(new_uuid), user_input, status_code, is_saved, llm_response, current_date)
 
     async def update_is_saved(self, uuid, is_saved):
         async with self.lock:

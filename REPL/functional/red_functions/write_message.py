@@ -84,6 +84,7 @@ class MessageByContactName(RedFunction):
         tell application "Contacts"
             set thePerson to first person whose name is "{name}"
             set phoneNumber to value of first phone of thePerson
+            quit
         end tell
         
         tell application "Messages"

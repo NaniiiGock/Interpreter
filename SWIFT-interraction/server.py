@@ -19,7 +19,7 @@ class StatusCodesMapper:
             }
         }
         await websocket.send(json.dumps(response))
-        await db.add_row(response["userInput"], StatusCode.REQUEST_SENT_TO_API, new_uuid=response["UUID"])
+        await db.add_row(response["userInput"], StatusCode.REQUEST_SENT_TO_API, new_uuid=response["UUID"], date=response["Date"])
         asyncio.create_task(process_user_input(response, websocket, db))
 
     @staticmethod
