@@ -36,7 +36,7 @@ class AsyncDatabase:
                 StdErr TEXT,
                 StatusCode INTEGER,
                 is_saved BOOLEAN,
-                "LLM Response" TEXT
+                "LLM Response" BYTEA
             )
         ''')
 
@@ -60,9 +60,10 @@ class AsyncDatabase:
         async with self.lock:
             await self.conn.execute('UPDATE data SET StdOut = $1, StdErr = $2 WHERE UUID = $3', stdout, stderr, uuid)
 
-    async def add_row(self, user_input, status_code, is_saved=False, llm_response=None):
+    async def add_row(self, user_input, status_code, new_uuid, is_saved=False, llm_response=None):
+        if llm_response:
+            llm_response = json_to_bin(llm_response)
         async with self.lock:
-            new_uuid = uuid.uuid4()
             await self.conn.execute('''
                 INSERT INTO data (UUID, "User Input", StatusCode, is_saved, "LLM Response")
                 VALUES ($1, $2, $3, $4, $5)
@@ -93,48 +94,48 @@ class AsyncDatabase:
 
 
 async def test_database_operations():
-    db = AsyncDatabase(dbname='postgres', user='postgres', password='postgre_pass', host='localhost', port=5433)
+    db = AsyncDatabase(dbname='postgres', user='postgres', password='postgres', host='localhost', port=5432)
 
     await db.connect()
     print("Connected")
 
     await db.create_table()
     print("Table created.")
-
-    await db.add_row("Test input 1", 200, is_saved=True, llm_response="Response 1")
-    await db.add_row("Test input 2", 404, is_saved=False, llm_response="Response 2")
-    print("Rows added.")
-
-
-    rows = await db.get_rows()
-    print("All rows:")
-    for row in rows:
-        print(row)
-        
-    
-    new_llm_response = json_to_bin("llm response")
-    
-    await db.update_llm_response_and_status_code("23760804-d81c-4459-bdcb-65588b993109", new_llm_response, 300)
-
-    
-    saved_rows = await db.get_saved_rows()
-    print("\nsaved rows:")
-    for row in saved_rows:
-        print(row)
-
-
-    await db.delete_unsaved_rows()
-    # await db.delete_all_rows()
-    
-    saved_rows = await db.get_saved_rows()
-    print("\nSaved rows:")
-    for row in saved_rows:
-        print(row)
-        
-    rows = await db.get_rows()
-    print("All rows:")
-    for row in rows:
-        print(row)
+    #
+    # await db.add_row("Test input 1", 200, is_saved=True, llm_response="Response 1")
+    # await db.add_row("Test input 2", 404, is_saved=False, llm_response="Response 2")
+    # print("Rows added.")
+    #
+    #
+    # rows = await db.get_rows()
+    # print("All rows:")
+    # for row in rows:
+    #     print(row)
+    #
+    #
+    # new_llm_response = json_to_bin("llm response")
+    #
+    # await db.update_llm_response_and_status_code("23760804-d81c-4459-bdcb-65588b993109", new_llm_response, 300)
+    #
+    #
+    # saved_rows = await db.get_saved_rows()
+    # print("\nsaved rows:")
+    # for row in saved_rows:
+    #     print(row)
+    #
+    #
+    # await db.delete_unsaved_rows()
+    # # await db.delete_all_rows()
+    #
+    # saved_rows = await db.get_saved_rows()
+    # print("\nSaved rows:")
+    # for row in saved_rows:
+    #     print(row)
+    #
+    # rows = await db.get_rows()
+    # print("All rows:")
+    # for row in rows:
+    #     print(row)
         
     await db.delete_all_rows()
     
@@ -144,8 +145,10 @@ async def test_database_operations():
         print(row)
         
         
-    await db.close()
-    print("Unsaved rows deleted and database connection closed.")
+    # await db.close()
+    # print("Unsaved rows deleted and database connection closed.")
 
 
-asyncio.run(test_database_operations())
+if __name__=="__main__":
+    asyncio.run(test_database_operations())
+    pass

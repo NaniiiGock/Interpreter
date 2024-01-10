@@ -69,7 +69,7 @@ class StatusCodesMapper:
 
 
 async def echo(websocket, path):
-    db = AsyncDatabase("postgres", "postgres", "postgres")
+    db = AsyncDatabase("postgres", "postgres", "postgres", port=5432)
     await db.connect()
     await db.create_table()
     func_mapping = {
@@ -107,7 +107,6 @@ async def process_user_input(data, websocket, db, llm_message=None, specified_st
     print("Sending: ", response)
     await websocket.send(json.dumps(response))
     await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
-
 
 
 
