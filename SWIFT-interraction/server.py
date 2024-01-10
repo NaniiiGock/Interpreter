@@ -8,12 +8,6 @@ from async_database import AsyncDatabase
 import base64
 
 
-
-### TODO: rewrite
-def is_valid_status_code(code: int):
-    return code in [0, 1, 2, 3, 4, 7, 8, 10, 11, 15, 16, 17, 18, 19]
-
-
 class StatusCodesMapper:
     @staticmethod
     async def submit_user_response(data, db, websocket):
@@ -50,6 +44,10 @@ class StatusCodesMapper:
         await db.update_is_saved(data["UUID"], is_saved=False)
 
     @staticmethod
+    async def delete_user_message(data, db, websocket):
+        await db.remove_row_by_uuid(data["UUID"])
+
+    @staticmethod
     async def asked_all_saved(data, db, websocket):
         await db.delete_unsaved_rows()
         rows = await db.get_saved_rows()
@@ -82,6 +80,7 @@ async def echo(websocket, path):
         StatusCode.SAVE_TO_BOOKMARKS: StatusCodesMapper.saved_to_bookmarks,
         StatusCode.REMOVE_FROM_BOOKMARKS: StatusCodesMapper.remove_from_bookmarks,
         StatusCode.ASK_ALL_SAVED: StatusCodesMapper.asked_all_saved,
+        StatusCode.DELETE_USER_MESSAGE: StatusCodesMapper.delete_user_message,
     }
 
     async for message in websocket:
@@ -89,7 +88,7 @@ async def echo(websocket, path):
         print("Received: ", data)
 
         statusCode = int(data["statusCode"])
-        assert is_valid_status_code(statusCode), "Wrong StatusCode... :/"
+        assert statusCode in func_mapping.keys(), "Wrong StatusCode... :/"
 
         submit_func = func_mapping[statusCode]
         await submit_func(data, db, websocket)
