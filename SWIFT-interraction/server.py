@@ -5,7 +5,7 @@ import pickle
 from StatusCodes import StatusCode
 from Communicator import Communicator
 from async_database import AsyncDatabase
-from django.core.serializers.json import DjangoJSONEncoder
+import base64
 
 
 
@@ -54,20 +54,21 @@ class StatusCodesMapper:
         await db.delete_unsaved_rows()
         rows = await db.get_saved_rows()
         new_rows = []
-
         for row in rows:
+            llm_response = base64.b64encode(row["LLM Response"]).decode('utf-8')
             new_row = {
                 **data,
-                "UUID": row["uuid"],
+                "UUID": str(row["uuid"]),
                 "statusCode": row["statuscode"],
                 "userInput": row["User Input"],
-                "StdErr": row["stderr"],
-                "StdOut": row["stdout"],
-                "llmResponse": row["LLM Response"]
+                "StdErr": row["stderr"] if row["stderr"] else "",
+                "StdOut": row["stdout"] if row["stdout"] else "",
+                # "llmResponse": llm_response
+                "llmResponse": "llmResponse"
             }
-            new_rows.append(new_row)
-
-        await websocket.send(json.dumps(new_rows, cls=DjangoJSONEncoder))
+            new_rows.append(json.dumps(new_row))
+        print(new_rows)
+        await websocket.send(new_rows)
 
 
 async def echo(websocket, path):
