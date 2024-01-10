@@ -5,7 +5,7 @@ import pickle
 from StatusCodes import StatusCode
 from Communicator import Communicator
 from async_database import AsyncDatabase
-from django.core.serializers.json import DjangoJSONEncoder
+# from django.core.serializers.json import DjangoJSONEncoder
 
 
 
@@ -52,22 +52,22 @@ class StatusCodesMapper:
     @staticmethod
     async def asked_all_saved(data, db, websocket):
         await db.delete_unsaved_rows()
-        rows = await db.get_saved_rows()
-        new_rows = []
-
-        for row in rows:
-            new_row = {
-                **data,
-                "UUID": row["uuid"],
-                "statusCode": row["statuscode"],
-                "userInput": row["User Input"],
-                "StdErr": row["stderr"],
-                "StdOut": row["stdout"],
-                "llmResponse": row["LLM Response"]
-            }
-            new_rows.append(new_row)
-
-        await websocket.send(json.dumps(new_rows, cls=DjangoJSONEncoder))
+        # rows = await db.get_saved_rows()
+        # new_rows = []
+        #
+        # for row in rows:
+        #     new_row = {
+        #         **data,
+        #         "UUID": row["uuid"],
+        #         "statusCode": row["statuscode"],
+        #         "userInput": row["User Input"],
+        #         "StdErr": row["stderr"],
+        #         "StdOut": row["stdout"],
+        #         "llmResponse": row["LLM Response"]
+        #     }
+        #     new_rows.append(new_row)
+        #
+        # await websocket.send(json.dumps(new_rows, cls=DjangoJSONEncoder))
 
 
 async def echo(websocket, path):
