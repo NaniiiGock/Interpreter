@@ -75,7 +75,7 @@ async def echo(websocket, path):
     func_mapping = {
         StatusCode.SUBMIT_USER_RESPONSE: StatusCodesMapper.submit_user_response,
         StatusCode.EXECUTION_CONFIRMED: StatusCodesMapper.send_for_execution,
-        StatusCode.ASK_RERUN:  StatusCodesMapper.send_for_execution,
+        StatusCode.ASK_RERUN: StatusCodesMapper.send_for_execution,
         StatusCode.SAVE_TO_BOOKMARKS: StatusCodesMapper.saved_to_bookmarks,
         StatusCode.REMOVE_FROM_BOOKMARKS: StatusCodesMapper.remove_from_bookmarks,
         StatusCode.ASK_ALL_SAVED: StatusCodesMapper.asked_all_saved,
@@ -106,8 +106,8 @@ async def process_user_input(data, websocket, db, llm_message=None, specified_st
                 }
     print("Sending: ", response)
     await websocket.send(json.dumps(response))
-    await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
 
+    await db.update_llm_response_and_status_code(response_uuid, llm_response, response_status_code)
 
 
 async def main():

@@ -23,7 +23,8 @@ class ComposeEmail(GreenFunction):
         set recipientAddress to "{recipient_address}"
         set theSubject to "{subject}"
         set theContent to "{body}"
-        tell application "Mail"	
+        tell application "Mail"
+            activate	
             set theMessage to make new outgoing message with properties {{subject:theSubject, content:theContent, visible:true}}
             tell theMessage
                 make new to recipient with properties {{name:recipientName, address:recipientAddress}}

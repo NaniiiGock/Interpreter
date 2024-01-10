@@ -21,7 +21,7 @@ available_functions = {
     "turn_music": TurnMusic,
     "tell_current_datetime": TellCurrentDatetime,
     "open_app": OpenApp,
-    "email_writer": ComposeEmail,
+    "compose_email": ComposeEmail,
     "tell_number_unread_messages": TellNumberUnreadMessages,
     "search_google": SearchGoogle,
     "make_note": MakeNote,
