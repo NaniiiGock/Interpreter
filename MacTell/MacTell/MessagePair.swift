@@ -105,10 +105,24 @@ struct MessageView: View {
         ZStack(alignment: .topTrailing) {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(self.messagePair.userInput)
-                    Text(self.messagePair.llmResponse)
-                        .foregroundColor(.purple)
                     
+                    
+                    
+                    HStack {
+                        Image(systemName: "person.fill")
+                            .imageScale(.medium)
+                            .foregroundColor(.blue)
+                        Text(self.messagePair.userInput)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "cpu")
+                            .imageScale(.small)
+                            .foregroundColor(.purple)
+
+                        Text(self.messagePair.llmResponse)
+                    }
+                        
 
                     
                     Spacer()
@@ -125,7 +139,7 @@ struct MessageView: View {
                         }
 
                         Button(action: { self.messagePair.statusCode == StatusCode.askConfirmation ? self.messagePair.confirmExecution() : self.messagePair.rerunMe() }) {
-                            Image(systemName: self.messagePair.statusCode == StatusCode.askConfirmation ? "checkmark" : "arrow.clockwise")
+                            Image(systemName: self.messagePair.statusCode == StatusCode.askConfirmation ? "checkmark" : "play")
                         }
                     }
 
@@ -206,7 +220,7 @@ struct OutputPopoverView: View {
 
 struct MessageView_Previews: PreviewProvider {
     struct PreviewWrapper: View {
-        @State var sampleMessagePair = MessagePair(userInput: "Sample input", llmResponse: "Some LLM Response")
+        @State var sampleMessagePair = MessagePair(userInput: "Sample input", llmResponse: "Some LLM Response", statusCode: .executedSuccessfully, stdOut: "Nice",  stdErr: "WOWWWWW")
 
         var body: some View {
             MessageView(messagePair: self.sampleMessagePair)
