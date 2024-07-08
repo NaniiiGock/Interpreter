@@ -13,7 +13,7 @@ import SwiftUI
 class MessagePair: Identifiable, ObservableObject {
     let id: UUID
     let userInput: String
-    @Published var llmResponse: LocalizedStringKey
+    @Published var llmResponse: String
     @Published var isSaved: Bool
     @Published var statusCode: StatusCode
     let date: String
@@ -23,7 +23,7 @@ class MessagePair: Identifiable, ObservableObject {
 
     init(id: UUID = UUID(),
          userInput: String = "",
-         llmResponse: LocalizedStringKey = "",
+         llmResponse: String = "",
          isSaved: Bool = false,
          statusCode: StatusCode = .noActionTaken,
          date: String = getFormattedDate(date: Date()),
@@ -79,7 +79,7 @@ class MessagePair: Identifiable, ObservableObject {
 
         switch userServerInteractionData.statusCode {
         case .sentForExecution, .askConfirmation, .rawText:
-            self.llmResponse = LocalizedStringKey(userServerInteractionData.llmResponse)
+            self.llmResponse = userServerInteractionData.llmResponse
         case .requestSentToAPI, .serverCrash:
             return
         case .executedSuccessfully, .executionError:
@@ -108,14 +108,14 @@ struct MessageView: View {
                     
                     
                     
-                    HStack {
+                    HStack(alignment: .top) {
                         Image(systemName: "person.fill")
                             .imageScale(.medium)
                             .foregroundColor(.blue)
                         Text(self.messagePair.userInput)
                     }
                 
-                    HStack {
+                    HStack(alignment: .top) {
                         Image(systemName: "cpu")
                             .imageScale(.small)
                             .foregroundColor(.purple)

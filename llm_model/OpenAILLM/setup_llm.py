@@ -339,10 +339,8 @@ def get_tools():
 
 
 def support_func_calls(model_name):
-    if model_name in {"gpt-4", "gpt-4-1106-preview", "gpt-4-0613", "gpt-3.5-turbo",
-                      "gpt-3.5-turbo-1106", "gpt-3.5-turbo-0613"}:
-        return True
-    return False
+    return model_name in ["gpt-4", "gpt-4-1106-preview", "gpt-4-0613", "gpt-3.5-turbo",
+                      "gpt-3.5-turbo-1106", "gpt-3.5-turbo-0613"]
 
 
 def get_llm_response(prompt):
@@ -357,7 +355,9 @@ def get_llm_response(prompt):
     # Prepare messages for LiteLLM
     messages = prepare_messages_for_litellm(prompt)
 
+    model_name = "gpt-4"
     model_name = "gpt-3.5-turbo"
+
     params = {}
     if support_func_calls(model_name):
         params = {
@@ -365,7 +365,7 @@ def get_llm_response(prompt):
             "messages": messages,
             "tools": get_tools(),
             "tool_choice": "auto",
-            "max_tokens": 250,
+            "max_tokens": 1000,
             "temperature": 0.8,
             # Add any other optional parameters as needed
         }
@@ -373,7 +373,7 @@ def get_llm_response(prompt):
         params = {
             "model": model_name,  # or another suitable model
             "messages": messages,
-            "max_tokens": 250,
+            "max_tokens": 500,
             "temperature": 0.8,
             # Add any other optional parameters as needed
         }

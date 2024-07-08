@@ -97,7 +97,7 @@ struct ContentView: View {
 
     private func replaceSavedMessages(USIDArr: [UserServerInteractionData]) {
         savedConversation = USIDArr.map { USID in
-            MessagePair(id: UUID(uuidString: USID.UUID)!, userInput: USID.userInput, llmResponse: LocalizedStringKey(USID.llmResponse), isSaved: true, statusCode: USID.statusCode, date: USID.Date, stdOut: USID.StdOut, stdErr: USID.StdErr)
+            MessagePair(id: UUID(uuidString: USID.UUID)!, userInput: USID.userInput, llmResponse: USID.llmResponse, isSaved: true, statusCode: USID.statusCode, date: USID.Date, stdOut: USID.StdOut, stdErr: USID.StdErr)
         }
     }
     
